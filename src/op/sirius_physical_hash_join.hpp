@@ -29,6 +29,7 @@
 #include "expression/ast/node.hpp"  // complete sirius::ast::node for join_condition's destructor
 #include "expression/join_condition.hpp"
 #include "op/aggregate/join_map_sum.hpp"
+#include "op/bounded_join_output.hpp"
 #include "op/dynamic_filter/dynamic_filter_publish_plan.hpp"
 #include "op/dynamic_filter/dynamic_filter_publisher.hpp"
 #include "op/dynamic_filter/dynamic_filter_stats.hpp"
@@ -190,6 +191,19 @@ class sirius_physical_hash_join : public sirius_physical_partition_consumer_oper
 
   join_map_consumer
     matched_pair_consumer;  // Optional experimental consumer; default materializes rows.
+  using tile_consumer =
+    std::function<std::unique_ptr<operator_data>(std::unique_ptr<operator_data>)>;
+  // Returns nullptr for shapes outside this experiment. No global setting is changed.
+  std::unique_ptr<operator_data> execute_bounded(const operator_data& input,
+                                                 ::cuda::stream_ref stream,
+                                                 tile_consumer const& consumer,
+                                                 uint64_t tile_bytes,
+                                                 bool full_output_control);
+  std::unique_ptr<operator_data> execute_impl(const operator_data& input,
+                                              ::cuda::stream_ref stream,
+                                              tile_consumer const* consumer,
+                                              uint64_t tile_bytes,
+                                              bool full_output_control);
   duckdb::vector<sirius::join_condition> conditions;
   //! The types of the join keys
   duckdb::vector<sirius::logical_type> condition_types;
@@ -462,6 +476,7 @@ class sirius_physical_hash_join : public sirius_physical_partition_consumer_oper
   struct per_partition_build_state {
     std::atomic<BUILD_HASH_TABLE_STATE> build_state{BUILD_HASH_TABLE_STATE::NOT_BUILT};
     std::unique_ptr<cudf::hash_join> hash_table;  // general path (INNER/LEFT/OUTER)
+    std::shared_ptr<bounded_join_index> range_index;
     std::unique_ptr<cudf::distinct_hash_join>
       distinct_hash_table;  // used instead of hash_table when build keys are proven unique
     std::unique_ptr<cudf::filtered_join>

@@ -1,0 +1,12 @@
+data/
+bin/
+profiles/
+__pycache__/
+results/*/logs/
+
+# Raw process files are consolidated into outcomes.json and process_evidence.json.gz.
+results/final_*/
+results/pilot_*/
+results/*/config.yaml
+results/capacity_*/
+results/profile_*/

@@ -1,0 +1,116 @@
+[
+  {
+    "consumer_records": [],
+    "environment": {
+      "budget_mib": 32.0,
+      "case": "one_hot_4b",
+      "compression": false,
+      "enable_duckdb_fallback": false,
+      "expression_strategy": "ast_interpret",
+      "fraction": 0.08,
+      "gpu_execution": true,
+      "kvikio_compat_mode": "ON",
+      "library_sha256": "a90bbd2b857e1c08184341f409ef50c2c5900dd5cf2cc2d5bd1ff871c785ae30",
+      "mode": "native",
+      "name": "capacity_native",
+      "pinned": true,
+      "pipeline_threads": 1,
+      "repetitions": 1,
+      "warmups": 0,
+      "width": 2
+    },
+    "measurement": {
+      "error": "Sirius GPU execution failed: GPU pipeline task exceeded maximum retry limit (100) for original task 6: OOM at operator HASH_JOIN (index 0)",
+      "error_type": "Error",
+      "matches_reference": false,
+      "milliseconds": [],
+      "status": "error"
+    },
+    "mode": "native",
+    "oom_log_mentions": 204,
+    "status": "error",
+    "tracked_process_peak_bytes": 1329374167
+  },
+  {
+    "consumer_records": [],
+    "environment": {
+      "budget_mib": 32.0,
+      "case": "one_hot_4b",
+      "compression": false,
+      "enable_duckdb_fallback": false,
+      "expression_strategy": "ast_interpret",
+      "fraction": 0.08,
+      "gpu_execution": true,
+      "kvikio_compat_mode": "ON",
+      "library_sha256": "a90bbd2b857e1c08184341f409ef50c2c5900dd5cf2cc2d5bd1ff871c785ae30",
+      "mode": "range_full",
+      "name": "capacity_range_full",
+      "pinned": true,
+      "pipeline_threads": 1,
+      "repetitions": 1,
+      "warmups": 0,
+      "width": 2
+    },
+    "measurement": {
+      "error": "Sirius GPU execution failed: range-full control exceeds cuDF row limit",
+      "error_type": "Error",
+      "matches_reference": false,
+      "milliseconds": [],
+      "status": "error"
+    },
+    "mode": "range_full",
+    "oom_log_mentions": 0,
+    "status": "error",
+    "tracked_process_peak_bytes": 12779520
+  },
+  {
+    "consumer_records": [
+      {
+        "build_rows": 65536,
+        "bytes_per_row": 44,
+        "full_control": "false",
+        "max_tile_rows": 762600,
+        "pairs": 4294967296,
+        "probe_rows": 65536,
+        "tile_budget": 33554432,
+        "tiles": 5633
+      }
+    ],
+    "environment": {
+      "budget_mib": 32.0,
+      "case": "one_hot_4b",
+      "compression": false,
+      "enable_duckdb_fallback": false,
+      "expression_strategy": "ast_interpret",
+      "fraction": 0.08,
+      "gpu_execution": true,
+      "kvikio_compat_mode": "ON",
+      "library_sha256": "a90bbd2b857e1c08184341f409ef50c2c5900dd5cf2cc2d5bd1ff871c785ae30",
+      "mode": "bounded",
+      "name": "capacity_bounded",
+      "pinned": true,
+      "pipeline_threads": 1,
+      "repetitions": 1,
+      "warmups": 0,
+      "width": 2
+    },
+    "measurement": {
+      "matches_reference": true,
+      "milliseconds": [
+        5135.184268001467
+      ],
+      "result": [
+        [
+          390705,
+          -8772,
+          4294967296
+        ]
+      ],
+      "status": "passed"
+    },
+    "mode": "bounded",
+    "oom_log_mentions": 0,
+    "status": "passed",
+    "tracked_process_peak_bytes": 55838208
+  }
+]

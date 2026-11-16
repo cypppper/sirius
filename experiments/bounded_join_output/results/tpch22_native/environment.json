@@ -1,0 +1,7 @@
+{
+  "compression": false,
+  "enable_duckdb_fallback": false,
+  "gpu_execution": true,
+  "library_sha256": "a90bbd2b857e1c08184341f409ef50c2c5900dd5cf2cc2d5bd1ff871c785ae30",
+  "mode": "native"
+}

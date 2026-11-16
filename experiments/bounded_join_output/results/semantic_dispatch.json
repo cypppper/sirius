@@ -1,0 +1,230 @@
+{
+  "bounded": {
+    "all_null": [
+      {
+        "build_rows": 1,
+        "bytes_per_row": 26,
+        "full_control": "false",
+        "max_tile_rows": 1,
+        "pairs": 1,
+        "probe_rows": 1,
+        "tile_budget": 4096,
+        "tiles": 1
+      }
+    ],
+    "avg_min_max": [
+      {
+        "build_rows": 6,
+        "bytes_per_row": 26,
+        "full_control": "false",
+        "max_tile_rows": 6,
+        "pairs": 6,
+        "probe_rows": 6,
+        "tile_budget": 4096,
+        "tiles": 1
+      }
+    ],
+    "case_decimal": [
+      {
+        "build_rows": 6,
+        "bytes_per_row": 44,
+        "full_control": "false",
+        "max_tile_rows": 6,
+        "pairs": 6,
+        "probe_rows": 6,
+        "tile_budget": 4096,
+        "tiles": 1
+      }
+    ],
+    "distinct_declined": [],
+    "duplicates_nulls": [
+      {
+        "build_rows": 6,
+        "bytes_per_row": 44,
+        "full_control": "false",
+        "max_tile_rows": 6,
+        "pairs": 6,
+        "probe_rows": 6,
+        "tile_budget": 4096,
+        "tiles": 1
+      }
+    ],
+    "empty": [
+      {
+        "build_rows": 0,
+        "bytes_per_row": 26,
+        "full_control": "false",
+        "max_tile_rows": 0,
+        "pairs": 0,
+        "probe_rows": 0,
+        "tile_budget": 4096,
+        "tiles": 1
+      }
+    ],
+    "grouped_declined": [],
+    "multi_key_declined": [],
+    "null_safe": [
+      {
+        "build_rows": 6,
+        "bytes_per_row": 26,
+        "full_control": "false",
+        "max_tile_rows": 7,
+        "pairs": 7,
+        "probe_rows": 6,
+        "tile_budget": 4096,
+        "tiles": 1
+      }
+    ],
+    "one_row_decimal": [
+      {
+        "build_rows": 5000,
+        "bytes_per_row": 26,
+        "full_control": "false",
+        "max_tile_rows": 157,
+        "pairs": 5000,
+        "probe_rows": 1,
+        "tile_budget": 4096,
+        "tiles": 32
+      }
+    ],
+    "one_row_resume": [
+      {
+        "build_rows": 5000,
+        "bytes_per_row": 26,
+        "full_control": "false",
+        "max_tile_rows": 157,
+        "pairs": 5000,
+        "probe_rows": 1,
+        "tile_budget": 4096,
+        "tiles": 32
+      }
+    ],
+    "residual_declined": [],
+    "reversed": [
+      {
+        "build_rows": 6,
+        "bytes_per_row": 26,
+        "full_control": "false",
+        "max_tile_rows": 6,
+        "pairs": 6,
+        "probe_rows": 6,
+        "tile_budget": 4096,
+        "tiles": 1
+      }
+    ]
+  },
+  "range_full": {
+    "all_null": [
+      {
+        "build_rows": 1,
+        "bytes_per_row": 26,
+        "full_control": "true",
+        "max_tile_rows": 1,
+        "pairs": 1,
+        "probe_rows": 1,
+        "tile_budget": 4096,
+        "tiles": 1
+      }
+    ],
+    "avg_min_max": [
+      {
+        "build_rows": 6,
+        "bytes_per_row": 26,
+        "full_control": "true",
+        "max_tile_rows": 6,
+        "pairs": 6,
+        "probe_rows": 6,
+        "tile_budget": 4096,
+        "tiles": 1
+      }
+    ],
+    "case_decimal": [
+      {
+        "build_rows": 6,
+        "bytes_per_row": 44,
+        "full_control": "true",
+        "max_tile_rows": 6,
+        "pairs": 6,
+        "probe_rows": 6,
+        "tile_budget": 4096,
+        "tiles": 1
+      }
+    ],
+    "distinct_declined": [],
+    "duplicates_nulls": [
+      {
+        "build_rows": 6,
+        "bytes_per_row": 44,
+        "full_control": "true",
+        "max_tile_rows": 6,
+        "pairs": 6,
+        "probe_rows": 6,
+        "tile_budget": 4096,
+        "tiles": 1
+      }
+    ],
+    "empty": [
+      {
+        "build_rows": 0,
+        "bytes_per_row": 26,
+        "full_control": "true",
+        "max_tile_rows": 0,
+        "pairs": 0,
+        "probe_rows": 0,
+        "tile_budget": 4096,
+        "tiles": 1
+      }
+    ],
+    "grouped_declined": [],
+    "multi_key_declined": [],
+    "null_safe": [
+      {
+        "build_rows": 6,
+        "bytes_per_row": 26,
+        "full_control": "true",
+        "max_tile_rows": 7,
+        "pairs": 7,
+        "probe_rows": 6,
+        "tile_budget": 4096,
+        "tiles": 1
+      }
+    ],
+    "one_row_decimal": [
+      {
+        "build_rows": 5000,
+        "bytes_per_row": 26,
+        "full_control": "true",
+        "max_tile_rows": 5000,
+        "pairs": 5000,
+        "probe_rows": 1,
+        "tile_budget": 4096,
+        "tiles": 1
+      }
+    ],
+    "one_row_resume": [
+      {
+        "build_rows": 5000,
+        "bytes_per_row": 26,
+        "full_control": "true",
+        "max_tile_rows": 5000,
+        "pairs": 5000,
+        "probe_rows": 1,
+        "tile_budget": 4096,
+        "tiles": 1
+      }
+    ],
+    "residual_declined": [],
+    "reversed": [
+      {
+        "build_rows": 6,
+        "bytes_per_row": 26,
+        "full_control": "true",
+        "max_tile_rows": 6,
+        "pairs": 6,
+        "probe_rows": 6,
+        "tile_budget": 4096,
+        "tiles": 1
+      }
+    ]
+  }
+}

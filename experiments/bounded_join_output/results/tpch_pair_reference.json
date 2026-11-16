@@ -1,0 +1,10 @@
+{
+  "cpu_seconds": 4.821808784006862,
+  "result": [
+    [
+      186086431,
+      "1499890800.00"
+    ]
+  ],
+  "sql": "SELECT count(*), sum(CASE WHEN a.l_orderkey < b.l_orderkey\nTHEN abs(a.l_quantity-b.l_quantity) ELSE 0 END)\nFROM lineitem a JOIN lineitem b ON a.l_partkey=b.l_partkey"
+}

@@ -5,6 +5,7 @@ target_sources(
           dense_count_join_impl.cu
           fused_join_aggregate_impl.cu
           join_map_sum.cu
+          bounded_join_output.cu
           sorted_keys.cu
           low_cardinality_groupby.cu
           device_copy_batch.cpp

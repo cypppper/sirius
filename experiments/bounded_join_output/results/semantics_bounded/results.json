@@ -1,0 +1,145 @@
+{
+  "all_null": {
+    "passed": true,
+    "result": [
+      [
+        null,
+        null,
+        0,
+        1
+      ]
+    ],
+    "sql": "SELECT sum(a.v),avg(a.v),count(a.v),count(*) FROM a JOIN b ON a.k=b.k WHERE a.k=2"
+  },
+  "avg_min_max": {
+    "passed": true,
+    "result": [
+      [
+        0.0,
+        -5,
+        4
+      ]
+    ],
+    "sql": "SELECT avg(a.v*b.v),min(a.v+b.v),max(a.v-b.v) FROM a JOIN b ON a.k=b.k"
+  },
+  "case_decimal": {
+    "passed": true,
+    "result": [
+      [
+        "3.1875"
+      ]
+    ],
+    "sql": "SELECT sum(CASE WHEN a.v < b.v THEN a.d*b.d ELSE 0 END) FROM a JOIN b ON a.k=b.k"
+  },
+  "distinct_declined": {
+    "passed": true,
+    "result": [
+      [
+        3,
+        0
+      ]
+    ],
+    "sql": "SELECT count(DISTINCT a.v),sum(a.v*b.v) FROM a JOIN b ON a.k=b.k"
+  },
+  "duplicates_nulls": {
+    "passed": true,
+    "result": [
+      [
+        0,
+        "6.3125",
+        6
+      ]
+    ],
+    "sql": "SELECT sum(a.v*b.v),sum(a.d*b.d),count(*) FROM a JOIN b ON a.k=b.k"
+  },
+  "empty": {
+    "passed": true,
+    "result": [
+      [
+        null,
+        0
+      ]
+    ],
+    "sql": "SELECT sum(a.v*b.v),count(*) FROM a JOIN b ON a.k=b.k WHERE a.k=123"
+  },
+  "grouped_declined": {
+    "passed": true,
+    "result": [
+      [
+        1,
+        -2
+      ],
+      [
+        2,
+        null
+      ],
+      [
+        9223372036854775807,
+        2
+      ]
+    ],
+    "sql": "SELECT a.k,sum(a.v*b.v) FROM a JOIN b ON a.k=b.k GROUP BY a.k ORDER BY a.k"
+  },
+  "multi_key_declined": {
+    "passed": true,
+    "result": [
+      [
+        null,
+        0
+      ]
+    ],
+    "sql": "SELECT sum(a.v*b.v),count(*) FROM a JOIN b ON a.k=b.k AND a.v=b.v"
+  },
+  "null_safe": {
+    "passed": true,
+    "result": [
+      [
+        63,
+        7
+      ]
+    ],
+    "sql": "SELECT sum(a.v*b.v),count(*) FROM a JOIN b ON a.k IS NOT DISTINCT FROM b.k"
+  },
+  "one_row_decimal": {
+    "passed": true,
+    "result": [
+      [
+        "10414582.5000"
+      ]
+    ],
+    "sql": "SELECT sum(CASE WHEN y.v%3=0 THEN CAST(x.v*y.v AS DECIMAL(18,2))*1.25 ELSE 0 END) FROM x JOIN y ON x.k=y.k"
+  },
+  "one_row_resume": {
+    "passed": true,
+    "result": [
+      [
+        24995000,
+        4999.0,
+        0,
+        9998,
+        5000
+      ]
+    ],
+    "sql": "SELECT sum(x.v*y.v),avg(x.v*y.v),min(x.v*y.v),max(x.v*y.v),count(*) FROM x JOIN y ON x.k=y.k"
+  },
+  "residual_declined": {
+    "passed": true,
+    "result": [
+      [
+        4,
+        4
+      ]
+    ],
+    "sql": "SELECT sum(a.v*b.v),count(*) FROM a JOIN b ON a.k=b.k AND a.v<b.v"
+  },
+  "reversed": {
+    "passed": true,
+    "result": [
+      [
+        0,
+        6
+      ]
+    ],
+    "sql": "SELECT sum(a.v*b.v),count(*) FROM b JOIN a ON a.k=b.k"
+  }
+}

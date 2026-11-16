@@ -1,0 +1,122 @@
+{
+  "runs": [
+    {
+      "cuda_launch_kernel_calls": 296,
+      "cuda_stream_synchronize_calls": 328,
+      "environment": {
+        "budget_mib": 32,
+        "case": "uniform_2048",
+        "compression": false,
+        "enable_duckdb_fallback": false,
+        "expression_strategy": "ast_interpret",
+        "fraction": 0.75,
+        "gpu_execution": true,
+        "kvikio_compat_mode": "ON",
+        "library_sha256": "a90bbd2b857e1c08184341f409ef50c2c5900dd5cf2cc2d5bd1ff871c785ae30",
+        "mode": "native",
+        "name": "profile_native",
+        "pinned": true,
+        "pipeline_threads": 1,
+        "repetitions": 1,
+        "warmups": 1,
+        "width": 2
+      },
+      "kernel_launches": 296,
+      "measurement": {
+        "matches_reference": true,
+        "milliseconds": [
+          32.189436999033205
+        ],
+        "result": [
+          [
+            -7557,
+            1086,
+            33554432
+          ]
+        ],
+        "status": "passed"
+      },
+      "mode": "native",
+      "summed_kernel_ms": 40.989078
+    },
+    {
+      "cuda_launch_kernel_calls": 330,
+      "cuda_stream_synchronize_calls": 324,
+      "environment": {
+        "budget_mib": 32,
+        "case": "uniform_2048",
+        "compression": false,
+        "enable_duckdb_fallback": false,
+        "expression_strategy": "ast_interpret",
+        "fraction": 0.75,
+        "gpu_execution": true,
+        "kvikio_compat_mode": "ON",
+        "library_sha256": "a90bbd2b857e1c08184341f409ef50c2c5900dd5cf2cc2d5bd1ff871c785ae30",
+        "mode": "range_full",
+        "name": "profile_range_full",
+        "pinned": true,
+        "pipeline_threads": 1,
+        "repetitions": 1,
+        "warmups": 1,
+        "width": 2
+      },
+      "kernel_launches": 330,
+      "measurement": {
+        "matches_reference": true,
+        "milliseconds": [
+          34.3437539995648
+        ],
+        "result": [
+          [
+            -7557,
+            1086,
+            33554432
+          ]
+        ],
+        "status": "passed"
+      },
+      "mode": "range_full",
+      "summed_kernel_ms": 42.617622
+    },
+    {
+      "cuda_launch_kernel_calls": 1752,
+      "cuda_stream_synchronize_calls": 2382,
+      "environment": {
+        "budget_mib": 32,
+        "case": "uniform_2048",
+        "compression": false,
+        "enable_duckdb_fallback": false,
+        "expression_strategy": "ast_interpret",
+        "fraction": 0.75,
+        "gpu_execution": true,
+        "kvikio_compat_mode": "ON",
+        "library_sha256": "a90bbd2b857e1c08184341f409ef50c2c5900dd5cf2cc2d5bd1ff871c785ae30",
+        "mode": "bounded",
+        "name": "profile_bounded",
+        "pinned": true,
+        "pipeline_threads": 1,
+        "repetitions": 1,
+        "warmups": 1,
+        "width": 2
+      },
+      "kernel_launches": 1752,
+      "measurement": {
+        "matches_reference": true,
+        "milliseconds": [
+          75.49968600505963
+        ],
+        "result": [
+          [
+            -7557,
+            1086,
+            33554432
+          ]
+        ],
+        "status": "passed"
+      },
+      "mode": "bounded",
+      "summed_kernel_ms": 40.87234
+    }
+  ],
+  "scope": "Whole process, including pinning, one warmup and one measured SQL execution. Instrumented timings excluded from primary statistics."
+}

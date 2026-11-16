@@ -1,0 +1,112 @@
+{
+  "q1": {
+    "matches_cpu": true,
+    "milliseconds": 369.2237610084703,
+    "rows": 4
+  },
+  "q10": {
+    "matches_cpu": true,
+    "milliseconds": 222.14538999833167,
+    "rows": 20
+  },
+  "q11": {
+    "matches_cpu": true,
+    "milliseconds": 125.3423290036153,
+    "rows": 1048
+  },
+  "q12": {
+    "matches_cpu": true,
+    "milliseconds": 78.88506300514564,
+    "rows": 2
+  },
+  "q13": {
+    "matches_cpu": true,
+    "milliseconds": 116.92080200009514,
+    "rows": 42
+  },
+  "q14": {
+    "matches_cpu": true,
+    "milliseconds": 82.98411399300676,
+    "rows": 1
+  },
+  "q15": {
+    "matches_cpu": true,
+    "milliseconds": 93.7777119979728,
+    "rows": 1
+  },
+  "q16": {
+    "matches_cpu": true,
+    "milliseconds": 168.55809799744748,
+    "rows": 18368
+  },
+  "q17": {
+    "matches_cpu": true,
+    "milliseconds": 94.20497399696615,
+    "rows": 1
+  },
+  "q18": {
+    "matches_cpu": true,
+    "milliseconds": 148.64786100224592,
+    "rows": 57
+  },
+  "q19": {
+    "matches_cpu": true,
+    "milliseconds": 109.0312149899546,
+    "rows": 1
+  },
+  "q2": {
+    "matches_cpu": true,
+    "milliseconds": 132.47086299816146,
+    "rows": 100
+  },
+  "q20": {
+    "matches_cpu": true,
+    "milliseconds": 156.51735999563243,
+    "rows": 181
+  },
+  "q21": {
+    "matches_cpu": true,
+    "milliseconds": 155.96215400728397,
+    "rows": 100
+  },
+  "q22": {
+    "matches_cpu": true,
+    "milliseconds": 129.09411700093187,
+    "rows": 7
+  },
+  "q3": {
+    "matches_cpu": true,
+    "milliseconds": 122.42198399326298,
+    "rows": 10
+  },
+  "q4": {
+    "matches_cpu": true,
+    "milliseconds": 98.19196700118482,
+    "rows": 5
+  },
+  "q5": {
+    "matches_cpu": true,
+    "milliseconds": 140.31187100044917,
+    "rows": 5
+  },
+  "q6": {
+    "matches_cpu": true,
+    "milliseconds": 75.62767200579401,
+    "rows": 1
+  },
+  "q7": {
+    "matches_cpu": true,
+    "milliseconds": 133.73824399604928,
+    "rows": 4
+  },
+  "q8": {
+    "matches_cpu": true,
+    "milliseconds": 182.68481000268366,
+    "rows": 2
+  },
+  "q9": {
+    "matches_cpu": true,
+    "milliseconds": 202.477288999944,
+    "rows": 175
+  }
+}

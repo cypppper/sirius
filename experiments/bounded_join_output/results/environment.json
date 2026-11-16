@@ -1,0 +1,39 @@
+{
+  "base_commit": "81a8d940edc0bc14ace68da20575374ff3c89650",
+  "cucascade_base": "3db0c56a0c045cdb81b73fa99ab195f07b032ad3",
+  "duckdb_version": "2.0.0",
+  "gpu_snapshot": "NVIDIA GeForce RTX 5060 Ti, 595.99.02, 16311 MiB, 42, 180 MHz",
+  "packages": [
+    {
+      "build": "cuda12_261020221108_2cd6c6c0",
+      "name": "libcudf",
+      "version": "26.10.02"
+    },
+    {
+      "build": "cuda12_261007164415_5ab04250",
+      "name": "librmm",
+      "version": "26.10.00"
+    },
+    {
+      "build": "hcdd1206_6",
+      "name": "cuda-nvcc",
+      "version": "12.9.86"
+    },
+    {
+      "build": "h85509e4_2",
+      "name": "cuda-nvcc-impl",
+      "version": "12.9.86"
+    },
+    {
+      "build": "he91c749_2",
+      "name": "cuda-nvcc-dev_linux-64",
+      "version": "12.9.86"
+    },
+    {
+      "build": "he02047a_2",
+      "name": "cuda-nvcc-tools",
+      "version": "12.9.86"
+    }
+  ],
+  "snapshot_phase": "after measurements; GPU clocks were not locked"
+}

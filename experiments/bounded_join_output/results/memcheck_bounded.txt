@@ -1,0 +1,15 @@
+========= COMPUTE-SANITIZER
+duplicates_nulls [(0, Decimal('6.3125'), 6)] passed
+case_decimal [(Decimal('3.1875'),)] passed
+null_safe [(63, 7)] passed
+empty [(None, 0)] passed
+all_null [(None, None, 0, 1)] passed
+avg_min_max [(0.0, -5, 4)] passed
+reversed [(0, 6)] passed
+distinct_declined [(3, 0)] passed
+residual_declined [(4, 4)] passed
+multi_key_declined [(None, 0)] passed
+grouped_declined [(1, -2), (2, None), (9223372036854775807, 2)] passed
+one_row_resume [(24995000, 4999.0, 0, 9998, 5000)] passed
+one_row_decimal [(Decimal('10414582.5000'),)] passed
+========= ERROR SUMMARY: 0 errors

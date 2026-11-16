@@ -18,6 +18,7 @@
 
 #include "cuda/device_health.hpp"
 #include "cudf/cudf_utils.hpp"
+#include "expression/ast/aggregate.hpp"
 #include "helper/cuda_launch_error.hpp"
 #include "late_mat/port_materialize.hpp"
 #include "log/logging.hpp"
@@ -25,6 +26,8 @@
 #include "memory/size_arithmetic.hpp"
 #include "op/scan/sirius_gpu_scan_operator.hpp"
 #include "op/scan/sirius_gpu_scan_operator_data.hpp"
+#include "op/sirius_physical_hash_join.hpp"
+#include "op/sirius_physical_ungrouped_aggregate.hpp"
 #include "pipeline/oom_reschedule_exception.hpp"
 #include "telemetry-bridge/gen/quent.hpp"
 #include "telemetry/nvtx.hpp"
@@ -41,6 +44,7 @@
 
 #include <algorithm>
 #include <cstdint>
+#include <cstdlib>
 #include <format>
 #include <limits>
 #include <memory>
@@ -262,11 +266,12 @@ std::unique_ptr<op::operator_data> run_one_operator(
   op::sirius_physical_operator& op,
   const op::operator_data& operator_input_data,
   ::cuda::stream_ref stream,
-  const sirius_pipeline* pipeline,
+  sirius_pipeline* pipeline,
   uint64_t task_id,
   size_t num_operators,
   cucascade::memory::reservation_aware_resource_adaptor* allocator,
-  cucascade::memory::memory_space const* host_staging_space)
+  cucascade::memory::memory_space const* host_staging_space,
+  size_t* last_completed_index = nullptr)
 {
   log_operator_data(op, operator_input_data, pipeline, task_id, "executing on");
 
@@ -278,10 +283,68 @@ std::unique_ptr<op::operator_data> run_one_operator(
   // operator reads when this is the far end of a deferral.
   std::unique_ptr<op::operator_data> materialized;
   std::unique_ptr<op::operator_data> operator_output_data;
+  auto const* output_contract = &op;
   try {
     materialized = materialize_deferred_input(op, operator_input_data, stream, host_staging_space);
     auto const& effective_input = materialized ? *materialized : operator_input_data;
-    operator_output_data        = op.execute(effective_input, stream);
+    auto const* gate            = std::getenv("SIRIUS_EXP_JOIN_OUTPUT");
+    if (last_completed_index && gate &&
+        (std::string_view(gate) == "bounded" || std::string_view(gate) == "range_full") &&
+        op.type == op::SiriusPhysicalOperatorType::HASH_JOIN) {
+      auto suffix = pipeline->get_operators();
+      bool eligible =
+        *last_completed_index + 1 < suffix.size() &&
+        suffix.back().get().type == op::SiriusPhysicalOperatorType::UNGROUPED_AGGREGATE;
+      for (size_t j = *last_completed_index + 1; eligible && j + 1 < suffix.size(); ++j) {
+        auto type = suffix[j].get().type;
+        eligible  = type == op::SiriusPhysicalOperatorType::PROJECTION ||
+                   type == op::SiriusPhysicalOperatorType::FILTER;
+      }
+      if (eligible) {
+        auto const& aggregates =
+          suffix.back().get().Cast<op::sirius_physical_ungrouped_aggregate>().aggregates;
+        for (auto const& root : aggregates) {
+          if (!root->holds<ast::aggregate>()) {
+            eligible = false;
+            break;
+          }
+          auto const& a = root->get<ast::aggregate>();
+          auto f        = a.function();
+          if (a.distinct() ||
+              (f != aggregate_id::sum && f != aggregate_id::sum_no_overflow &&
+               f != aggregate_id::count && f != aggregate_id::count_star &&
+               f != aggregate_id::min && f != aggregate_id::max && f != aggregate_id::avg))
+            eligible = false;
+        }
+      }
+      if (eligible) {
+        uint64_t budget = 32 * 1024 * 1024;
+        if (auto* b = std::getenv("SIRIUS_EXP_JOIN_TILE_BYTES")) budget = std::stoull(b);
+        if (budget < 4096)
+          throw std::runtime_error("experimental join tile budget must be >=4096 bytes");
+        auto first    = *last_completed_index + 1;
+        auto consumer = [&](std::unique_ptr<op::operator_data> data) {
+          for (size_t j = first; j < suffix.size(); ++j) {
+            data = run_one_operator(suffix[j].get(),
+                                    *data,
+                                    stream,
+                                    pipeline,
+                                    task_id,
+                                    num_operators,
+                                    allocator,
+                                    host_staging_space);
+          }
+          return data;
+        };
+        operator_output_data = op.Cast<op::sirius_physical_hash_join>().execute_bounded(
+          effective_input, stream, consumer, budget, std::string_view(gate) == "range_full");
+        if (operator_output_data) {
+          *last_completed_index = suffix.size() - 1;
+          output_contract       = &suffix.back().get();
+        }
+      }
+    }
+    if (!operator_output_data) operator_output_data = op.execute(effective_input, stream);
   } catch (const std::exception& ex) {
     // Both the original input and any restored deferred input are still alive here. Quiesce the
     // stream before rethrowing lets their owners unwind only after their last GPU reader finishes.
@@ -351,7 +414,7 @@ std::unique_ptr<op::operator_data> run_one_operator(
     static_cast<double>(peak_bytes) / (1024.0 * 1024.0));
   log_operator_data(op, *operator_output_data, pipeline, task_id, "produced", extra_info);
 
-  validate_operator_output_types(operator_output_data.get(), op);
+  validate_operator_output_types(operator_output_data.get(), *output_contract);
   return operator_output_data;
 }
 
@@ -528,7 +591,8 @@ std::unique_ptr<op::operator_data> gpu_pipeline_task::compute_task(::cuda::strea
         _task_id,
         operators.size(),
         _allocator,
-        _global_state->cast<gpu_pipeline_task_global_state>().get_host_staging_space());
+        _global_state->cast<gpu_pipeline_task_global_state>().get_host_staging_space(),
+        &i);
     } catch (const rmm::out_of_memory& oom) {
       auto peak_bytes = _allocator ? _allocator->get_peak_allocated_bytes(stream) : 0;
       // Subtract the peak allocated bytes to the input data to get the peak allocated bytes for the

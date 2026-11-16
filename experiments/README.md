@@ -6,6 +6,11 @@ results, Python plotting scripts, figures, raw timing tables, build metadata,
 semantic checks and compact execution evidence. Experimental engine paths are
 disabled by default.
 
+The [bounded-output study](bounded_join_output/REPORT.md) tests incremental match
+production with ordinary batch evaluation, including output expansion, constrained
+memory, a 64-bit capacity check and Nsight Systems traces. Its raw process folders
+are ignored; consolidated outcomes, compact evidence and plotting inputs are retained.
+
 ## Retained evidence and cleanup
 
 Repeated SQL and CPU reference files are stored once by content in each study's

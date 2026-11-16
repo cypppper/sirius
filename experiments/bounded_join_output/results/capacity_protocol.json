@@ -1,0 +1,17 @@
+{
+  "budget_mib": 32,
+  "case": "one_hot_4b",
+  "expected_pairs": 4294967296,
+  "fraction": 0.08,
+  "goal": "Validate 64-bit match position continuation beyond the cuDF table row limit; not a repeated performance claim.",
+  "input_rows_per_side": 65536,
+  "modes": [
+    "native",
+    "range_full",
+    "bounded"
+  ],
+  "repetitions": 1,
+  "section": "exploratory_capacity",
+  "timeout_seconds": 120,
+  "warmups": 0
+}

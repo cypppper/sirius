@@ -1,0 +1,21 @@
+{
+  "capacity_matches": 4294967296,
+  "library_sha256": "a90bbd2b857e1c08184341f409ef50c2c5900dd5cf2cc2d5bd1ff871c785ae30",
+  "pressure_failed_with_oom": 6,
+  "pressure_passed": 3,
+  "pressure_processes": 9,
+  "primary_processes": 90,
+  "primary_timings": 270,
+  "primary_warmups": 90,
+  "profiling_processes": 3,
+  "sanitizer_errors": 0,
+  "semantic_checks": 26,
+  "source_sha256": {
+    "src/cuda/bounded_join_output.cu": "0cb03d80b6359d2a7675d7f8b8e4355bcd1036d59fb1936f3da714f39a90d11a",
+    "src/op/bounded_join_output.hpp": "4b141c1f22b560e5fff9fcb4da19e865d5c472f146782760e752947c8d3d6e19",
+    "src/op/sirius_physical_hash_join.cpp": "8a9f438068e6ddfd52b494fd8a56316cc5262094d1a2120d9b7219cfa3803ac7",
+    "src/op/sirius_physical_hash_join.hpp": "9f29a599c8caf97b6d03b820951065497e3a623d5719b4081d8f8c1b849307bc",
+    "src/pipeline/gpu_pipeline_task.cpp": "56929b5c8653c89031275f4b5f1a38bfa5e9b2b05cb8436689a6473b01e201a5"
+  },
+  "tpch_comparisons": 44
+}

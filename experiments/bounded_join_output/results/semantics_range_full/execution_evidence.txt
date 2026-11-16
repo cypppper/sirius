@@ -1,0 +1,9 @@
+[2026-11-16 04:06:48.306] [info] [sirius_physical_hash_join.cpp:1797] [BOUNDED_JOIN] pairs=6 tiles=1 max_tile_rows=6 bytes_per_row=44 tile_budget=4096 full_control=true build_rows=6 probe_rows=6
+[2026-11-16 04:06:48.542] [info] [sirius_physical_hash_join.cpp:1797] [BOUNDED_JOIN] pairs=6 tiles=1 max_tile_rows=6 bytes_per_row=44 tile_budget=4096 full_control=true build_rows=6 probe_rows=6
+[2026-11-16 04:06:48.713] [info] [sirius_physical_hash_join.cpp:1797] [BOUNDED_JOIN] pairs=7 tiles=1 max_tile_rows=7 bytes_per_row=26 tile_budget=4096 full_control=true build_rows=6 probe_rows=6
+[2026-11-16 04:06:48.917] [info] [sirius_physical_hash_join.cpp:1797] [BOUNDED_JOIN] pairs=0 tiles=1 max_tile_rows=0 bytes_per_row=26 tile_budget=4096 full_control=true build_rows=0 probe_rows=0
+[2026-11-16 04:06:49.154] [info] [sirius_physical_hash_join.cpp:1797] [BOUNDED_JOIN] pairs=1 tiles=1 max_tile_rows=1 bytes_per_row=26 tile_budget=4096 full_control=true build_rows=1 probe_rows=1
+[2026-11-16 04:06:49.460] [info] [sirius_physical_hash_join.cpp:1797] [BOUNDED_JOIN] pairs=6 tiles=1 max_tile_rows=6 bytes_per_row=26 tile_budget=4096 full_control=true build_rows=6 probe_rows=6
+[2026-11-16 04:06:49.653] [info] [sirius_physical_hash_join.cpp:1797] [BOUNDED_JOIN] pairs=6 tiles=1 max_tile_rows=6 bytes_per_row=26 tile_budget=4096 full_control=true build_rows=6 probe_rows=6
+[2026-11-16 04:06:51.049] [info] [sirius_physical_hash_join.cpp:1797] [BOUNDED_JOIN] pairs=5000 tiles=1 max_tile_rows=5000 bytes_per_row=26 tile_budget=4096 full_control=true build_rows=5000 probe_rows=1
+[2026-11-16 04:06:51.395] [info] [sirius_physical_hash_join.cpp:1797] [BOUNDED_JOIN] pairs=5000 tiles=1 max_tile_rows=5000 bytes_per_row=26 tile_budget=4096 full_control=true build_rows=5000 probe_rows=1
