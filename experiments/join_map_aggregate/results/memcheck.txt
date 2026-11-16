@@ -1,0 +1,8 @@
+========= COMPUTE-SANITIZER
+duplicates_nulls_negative [(-2, Decimal('2.50'), 6)] passed
+integer_expression [(2,)] passed
+all_null [(None, None)] passed
+empty_join [(None,)] passed
+reversed_sides [(-2, Decimal('2.50'), 6)] passed
+decimal_arithmetic_fallback [(Decimal('15.6250'),)] passed
+========= ERROR SUMMARY: 0 errors

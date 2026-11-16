@@ -1,0 +1,2005 @@
+Q1: first recorded physical pipeline plan
+=== Pipeline Overview ===
+Pipeline #0: GPU_SCAN (id=0) -> PROJECTION (id=1) -> PROJECTION (id=2) -> HASH_GROUP_BY (id=3)
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #1: PARTITION (id=4)
+  Input: <- Pipeline #0 [on: PARTITION (id=4), port: default, barrier: FULL]
+  Dependencies: Pipeline #0
+  Output: -> MERGE_GROUP_BY [port: default, barrier: FULL]
+Pipeline #2: MERGE_GROUP_BY (id=5) -> PROJECTION (id=6) -> ORDER_BY (id=7)
+  Input: <- Pipeline #1 [on: MERGE_GROUP_BY (id=5), port: default, barrier: FULL]
+  Dependencies: Pipeline #1
+  Output: -> SORT_SAMPLE [port: default, barrier: PIPELINE]
+Pipeline #3: SORT_SAMPLE (id=8) -> SORT_PARTITION (id=9)
+  Input: <- Pipeline #2 [on: SORT_SAMPLE (id=8), port: default, barrier: PIPELINE]
+  Dependencies: Pipeline #2
+  Output: -> MERGE_SORT [port: default, barrier: FULL]
+Pipeline #4: MERGE_SORT (id=10)
+  Input: <- Pipeline #3 [on: MERGE_SORT (id=10), port: default, barrier: FULL]
+  Dependencies: Pipeline #3
+  Output: -> RESULT_COLLECTOR [port: default, barrier: FULL]
+Pipeline #5: RESULT_COLLECTOR (id=11)
+  Input: <- Pipeline #4 [on: RESULT_COLLECTOR (id=11), port: default, barrier: FULL]
+  Dependencies: Pipeline #4
+
+Q2: first recorded physical pipeline plan
+=== Pipeline Overview ===
+Pipeline #0: GPU_SCAN (id=0)
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #1: PARTITION (id=1)
+  Input: <- Pipeline #0 [on: PARTITION (id=1), port: default, barrier: FULL]
+  Dependencies: Pipeline #0
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #2: CONCAT (id=2)
+  Input: <- Pipeline #1 [on: CONCAT (id=2), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #1
+  Output: -> HASH_JOIN [port: build, barrier: PARTIAL]
+Pipeline #3: GPU_SCAN (id=3)
+  Output: -> PARTITION [port: default, barrier: PARTIAL]
+Pipeline #4: PARTITION (id=4)
+  Input: <- Pipeline #3 [on: PARTITION (id=4), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #3
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #5: CONCAT (id=5)
+  Input: <- Pipeline #4 [on: CONCAT (id=5), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #4
+  Output: -> HASH_JOIN [port: default, barrier: PARTIAL]
+Pipeline #6: HASH_JOIN (id=6)
+  Input: <- Pipeline #2 [on: HASH_JOIN (id=6), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #5 [on: HASH_JOIN (id=6), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #2, Pipeline #5
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #7: PARTITION (id=7)
+  Input: <- Pipeline #6 [on: PARTITION (id=7), port: default, barrier: FULL]
+  Dependencies: Pipeline #6
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #8: CONCAT (id=8)
+  Input: <- Pipeline #7 [on: CONCAT (id=8), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #7
+  Output: -> HASH_JOIN [port: build, barrier: PARTIAL]
+Pipeline #9: GPU_SCAN (id=9)
+  Output: -> PARTITION [port: default, barrier: PARTIAL]
+Pipeline #10: PARTITION (id=10)
+  Input: <- Pipeline #9 [on: PARTITION (id=10), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #9
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #11: CONCAT (id=11)
+  Input: <- Pipeline #10 [on: CONCAT (id=11), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #10
+  Output: -> HASH_JOIN [port: default, barrier: PARTIAL]
+Pipeline #12: HASH_JOIN (id=12)
+  Input: <- Pipeline #8 [on: HASH_JOIN (id=12), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #11 [on: HASH_JOIN (id=12), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #8, Pipeline #11
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #13: PARTITION (id=13)
+  Input: <- Pipeline #12 [on: PARTITION (id=13), port: default, barrier: FULL]
+  Dependencies: Pipeline #12
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #14: CONCAT (id=14)
+  Input: <- Pipeline #13 [on: CONCAT (id=14), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #13
+  Output: -> HASH_JOIN [port: build, barrier: PARTIAL]
+Pipeline #15: GPU_SCAN (id=15)
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #16: PARTITION (id=16)
+  Input: <- Pipeline #15 [on: PARTITION (id=16), port: default, barrier: FULL]
+  Dependencies: Pipeline #15
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #17: CONCAT (id=17)
+  Input: <- Pipeline #16 [on: CONCAT (id=17), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #16
+  Output: -> HASH_JOIN [port: build, barrier: PARTIAL]
+Pipeline #18: GPU_SCAN (id=18)
+  Output: -> PARTITION [port: default, barrier: PARTIAL]
+Pipeline #19: PARTITION (id=19)
+  Input: <- Pipeline #18 [on: PARTITION (id=19), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #18
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #20: CONCAT (id=20)
+  Input: <- Pipeline #19 [on: CONCAT (id=20), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #19
+  Output: -> HASH_JOIN [port: default, barrier: PARTIAL]
+Pipeline #21: HASH_JOIN (id=21)
+  Input: <- Pipeline #17 [on: HASH_JOIN (id=21), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #20 [on: HASH_JOIN (id=21), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #17, Pipeline #20
+  Output: -> PARTITION [port: default, barrier: PARTIAL]
+Pipeline #22: PARTITION (id=22)
+  Input: <- Pipeline #21 [on: PARTITION (id=22), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #21
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #23: CONCAT (id=23)
+  Input: <- Pipeline #22 [on: CONCAT (id=23), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #22
+  Output: -> HASH_JOIN [port: default, barrier: PARTIAL]
+Pipeline #24: HASH_JOIN (id=24) -> PROJECTION (id=25) -> CTE (id=26)
+  Input: <- Pipeline #14 [on: HASH_JOIN (id=24), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #23 [on: HASH_JOIN (id=24), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #14, Pipeline #23
+  Output: -> PROJECTION [port: default, barrier: FULL]
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #25: PARTITION (id=27)
+  Input: <- Pipeline #24 [on: PARTITION (id=27), port: default, barrier: FULL]
+  Dependencies: Pipeline #24
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #26: CONCAT (id=28)
+  Input: <- Pipeline #25 [on: CONCAT (id=28), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #25
+  Output: -> HASH_JOIN [port: build, barrier: PARTIAL]
+Pipeline #27: PROJECTION (id=29) -> HASH_GROUP_BY (id=30)
+  Input: <- Pipeline #24 [on: PROJECTION (id=29), port: default, barrier: FULL]
+  Dependencies: Pipeline #24
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #28: PARTITION (id=31)
+  Input: <- Pipeline #27 [on: PARTITION (id=31), port: default, barrier: FULL]
+  Dependencies: Pipeline #27
+  Output: -> MERGE_GROUP_BY [port: default, barrier: FULL]
+Pipeline #29: MERGE_GROUP_BY (id=32)
+  Input: <- Pipeline #28 [on: MERGE_GROUP_BY (id=32), port: default, barrier: FULL]
+  Dependencies: Pipeline #28
+  Output: -> PARTITION [port: default, barrier: PARTIAL]
+Pipeline #30: PARTITION (id=33)
+  Input: <- Pipeline #29 [on: PARTITION (id=33), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #29
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #31: CONCAT (id=34)
+  Input: <- Pipeline #30 [on: CONCAT (id=34), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #30
+  Output: -> HASH_JOIN [port: default, barrier: PARTIAL]
+Pipeline #32: HASH_JOIN (id=35) -> PROJECTION (id=36) -> PROJECTION (id=37) -> TOP_N (id=38)
+  Input: <- Pipeline #26 [on: HASH_JOIN (id=35), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #31 [on: HASH_JOIN (id=35), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #26, Pipeline #31
+  Output: -> MERGE_TOP_N [port: default, barrier: FULL]
+Pipeline #33: MERGE_TOP_N (id=39) -> RESULT_COLLECTOR (id=40)
+  Input: <- Pipeline #32 [on: MERGE_TOP_N (id=39), port: default, barrier: FULL]
+  Dependencies: Pipeline #32
+
+Q3: first recorded physical pipeline plan
+=== Pipeline Overview ===
+Pipeline #0: GPU_SCAN (id=0) -> FILTER (id=1)
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #1: PARTITION (id=2)
+  Input: <- Pipeline #0 [on: PARTITION (id=2), port: default, barrier: FULL]
+  Dependencies: Pipeline #0
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #2: CONCAT (id=3)
+  Input: <- Pipeline #1 [on: CONCAT (id=3), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #1
+  Output: -> HASH_JOIN [port: build, barrier: PARTIAL]
+Pipeline #3: GPU_SCAN (id=4)
+  Output: -> PARTITION [port: default, barrier: PARTIAL]
+Pipeline #4: PARTITION (id=5)
+  Input: <- Pipeline #3 [on: PARTITION (id=5), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #3
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #5: CONCAT (id=6)
+  Input: <- Pipeline #4 [on: CONCAT (id=6), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #4
+  Output: -> HASH_JOIN [port: default, barrier: PARTIAL]
+Pipeline #6: HASH_JOIN (id=7)
+  Input: <- Pipeline #2 [on: HASH_JOIN (id=7), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #5 [on: HASH_JOIN (id=7), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #2, Pipeline #5
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #7: PARTITION (id=8)
+  Input: <- Pipeline #6 [on: PARTITION (id=8), port: default, barrier: FULL]
+  Dependencies: Pipeline #6
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #8: CONCAT (id=9)
+  Input: <- Pipeline #7 [on: CONCAT (id=9), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #7
+  Output: -> HASH_JOIN [port: build, barrier: PARTIAL]
+Pipeline #9: GPU_SCAN (id=10)
+  Output: -> PARTITION [port: default, barrier: PARTIAL]
+Pipeline #10: PARTITION (id=11)
+  Input: <- Pipeline #9 [on: PARTITION (id=11), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #9
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #11: CONCAT (id=12)
+  Input: <- Pipeline #10 [on: CONCAT (id=12), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #10
+  Output: -> HASH_JOIN [port: default, barrier: PARTIAL]
+Pipeline #12: HASH_JOIN (id=13) -> PROJECTION (id=14) -> HASH_GROUP_BY (id=15)
+  Input: <- Pipeline #8 [on: HASH_JOIN (id=13), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #11 [on: HASH_JOIN (id=13), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #8, Pipeline #11
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #13: PARTITION (id=16)
+  Input: <- Pipeline #12 [on: PARTITION (id=16), port: default, barrier: FULL]
+  Dependencies: Pipeline #12
+  Output: -> MERGE_GROUP_BY [port: default, barrier: FULL]
+Pipeline #14: MERGE_GROUP_BY (id=17) -> PROJECTION (id=18) -> TOP_N (id=19)
+  Input: <- Pipeline #13 [on: MERGE_GROUP_BY (id=17), port: default, barrier: FULL]
+  Dependencies: Pipeline #13
+  Output: -> MERGE_TOP_N [port: default, barrier: FULL]
+Pipeline #15: MERGE_TOP_N (id=20) -> RESULT_COLLECTOR (id=21)
+  Input: <- Pipeline #14 [on: MERGE_TOP_N (id=20), port: default, barrier: FULL]
+  Dependencies: Pipeline #14
+
+Q4: first recorded physical pipeline plan
+=== Pipeline Overview ===
+Pipeline #0: GPU_SCAN (id=0)
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #1: PARTITION (id=1)
+  Input: <- Pipeline #0 [on: PARTITION (id=1), port: default, barrier: FULL]
+  Dependencies: Pipeline #0
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #2: CONCAT (id=2)
+  Input: <- Pipeline #1 [on: CONCAT (id=2), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #1
+  Output: -> HASH_JOIN [port: build, barrier: PARTIAL]
+Pipeline #3: GPU_SCAN (id=3) -> FILTER (id=4)
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #4: PARTITION (id=5)
+  Input: <- Pipeline #3 [on: PARTITION (id=5), port: default, barrier: FULL]
+  Dependencies: Pipeline #3
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #5: CONCAT (id=6)
+  Input: <- Pipeline #4 [on: CONCAT (id=6), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #4
+  Output: -> HASH_JOIN [port: default, barrier: PARTIAL]
+Pipeline #6: HASH_JOIN (id=7) -> HASH_GROUP_BY (id=8)
+  Input: <- Pipeline #2 [on: HASH_JOIN (id=7), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #5 [on: HASH_JOIN (id=7), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #2, Pipeline #5
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #7: PARTITION (id=9)
+  Input: <- Pipeline #6 [on: PARTITION (id=9), port: default, barrier: FULL]
+  Dependencies: Pipeline #6
+  Output: -> MERGE_GROUP_BY [port: default, barrier: FULL]
+Pipeline #8: MERGE_GROUP_BY (id=10) -> ORDER_BY (id=11)
+  Input: <- Pipeline #7 [on: MERGE_GROUP_BY (id=10), port: default, barrier: FULL]
+  Dependencies: Pipeline #7
+  Output: -> SORT_SAMPLE [port: default, barrier: PIPELINE]
+Pipeline #9: SORT_SAMPLE (id=12) -> SORT_PARTITION (id=13)
+  Input: <- Pipeline #8 [on: SORT_SAMPLE (id=12), port: default, barrier: PIPELINE]
+  Dependencies: Pipeline #8
+  Output: -> MERGE_SORT [port: default, barrier: FULL]
+Pipeline #10: MERGE_SORT (id=14)
+  Input: <- Pipeline #9 [on: MERGE_SORT (id=14), port: default, barrier: FULL]
+  Dependencies: Pipeline #9
+  Output: -> RESULT_COLLECTOR [port: default, barrier: FULL]
+Pipeline #11: RESULT_COLLECTOR (id=15)
+  Input: <- Pipeline #10 [on: RESULT_COLLECTOR (id=15), port: default, barrier: FULL]
+  Dependencies: Pipeline #10
+
+Q5: first recorded physical pipeline plan
+=== Pipeline Overview ===
+Pipeline #0: GPU_SCAN (id=0)
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #1: PARTITION (id=1)
+  Input: <- Pipeline #0 [on: PARTITION (id=1), port: default, barrier: FULL]
+  Dependencies: Pipeline #0
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #2: CONCAT (id=2)
+  Input: <- Pipeline #1 [on: CONCAT (id=2), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #1
+  Output: -> HASH_JOIN [port: build, barrier: PARTIAL]
+Pipeline #3: GPU_SCAN (id=3)
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #4: PARTITION (id=4)
+  Input: <- Pipeline #3 [on: PARTITION (id=4), port: default, barrier: FULL]
+  Dependencies: Pipeline #3
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #5: CONCAT (id=5)
+  Input: <- Pipeline #4 [on: CONCAT (id=5), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #4
+  Output: -> HASH_JOIN [port: build, barrier: PARTIAL]
+Pipeline #6: GPU_SCAN (id=6)
+  Output: -> PARTITION [port: default, barrier: PARTIAL]
+Pipeline #7: PARTITION (id=7)
+  Input: <- Pipeline #6 [on: PARTITION (id=7), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #6
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #8: CONCAT (id=8)
+  Input: <- Pipeline #7 [on: CONCAT (id=8), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #7
+  Output: -> HASH_JOIN [port: default, barrier: PARTIAL]
+Pipeline #9: HASH_JOIN (id=9)
+  Input: <- Pipeline #5 [on: HASH_JOIN (id=9), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #8 [on: HASH_JOIN (id=9), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #5, Pipeline #8
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #10: PARTITION (id=10)
+  Input: <- Pipeline #9 [on: PARTITION (id=10), port: default, barrier: FULL]
+  Dependencies: Pipeline #9
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #11: CONCAT (id=11)
+  Input: <- Pipeline #10 [on: CONCAT (id=11), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #10
+  Output: -> HASH_JOIN [port: build, barrier: PARTIAL]
+Pipeline #12: GPU_SCAN (id=12)
+  Output: -> PARTITION [port: default, barrier: PARTIAL]
+Pipeline #13: PARTITION (id=13)
+  Input: <- Pipeline #12 [on: PARTITION (id=13), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #12
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #14: CONCAT (id=14)
+  Input: <- Pipeline #13 [on: CONCAT (id=14), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #13
+  Output: -> HASH_JOIN [port: default, barrier: PARTIAL]
+Pipeline #15: HASH_JOIN (id=15)
+  Input: <- Pipeline #11 [on: HASH_JOIN (id=15), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #14 [on: HASH_JOIN (id=15), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #11, Pipeline #14
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #16: PARTITION (id=16)
+  Input: <- Pipeline #15 [on: PARTITION (id=16), port: default, barrier: FULL]
+  Dependencies: Pipeline #15
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #17: CONCAT (id=17)
+  Input: <- Pipeline #16 [on: CONCAT (id=17), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #16
+  Output: -> HASH_JOIN [port: build, barrier: PARTIAL]
+Pipeline #18: GPU_SCAN (id=18)
+  Output: -> PARTITION [port: default, barrier: PARTIAL]
+Pipeline #19: PARTITION (id=19)
+  Input: <- Pipeline #18 [on: PARTITION (id=19), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #18
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #20: CONCAT (id=20)
+  Input: <- Pipeline #19 [on: CONCAT (id=20), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #19
+  Output: -> HASH_JOIN [port: default, barrier: PARTIAL]
+Pipeline #21: HASH_JOIN (id=21)
+  Input: <- Pipeline #17 [on: HASH_JOIN (id=21), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #20 [on: HASH_JOIN (id=21), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #17, Pipeline #20
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #22: PARTITION (id=22)
+  Input: <- Pipeline #21 [on: PARTITION (id=22), port: default, barrier: FULL]
+  Dependencies: Pipeline #21
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #23: CONCAT (id=23)
+  Input: <- Pipeline #22 [on: CONCAT (id=23), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #22
+  Output: -> HASH_JOIN [port: build, barrier: PARTIAL]
+Pipeline #24: GPU_SCAN (id=24)
+  Output: -> PARTITION [port: default, barrier: PARTIAL]
+Pipeline #25: PARTITION (id=25)
+  Input: <- Pipeline #24 [on: PARTITION (id=25), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #24
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #26: CONCAT (id=26)
+  Input: <- Pipeline #25 [on: CONCAT (id=26), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #25
+  Output: -> HASH_JOIN [port: default, barrier: PARTIAL]
+Pipeline #27: HASH_JOIN (id=27)
+  Input: <- Pipeline #23 [on: HASH_JOIN (id=27), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #26 [on: HASH_JOIN (id=27), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #23, Pipeline #26
+  Output: -> PARTITION [port: default, barrier: PARTIAL]
+Pipeline #28: PARTITION (id=28)
+  Input: <- Pipeline #27 [on: PARTITION (id=28), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #27
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #29: CONCAT (id=29)
+  Input: <- Pipeline #28 [on: CONCAT (id=29), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #28
+  Output: -> HASH_JOIN [port: default, barrier: PARTIAL]
+Pipeline #30: HASH_JOIN (id=30) -> PROJECTION (id=31) -> HASH_GROUP_BY (id=32)
+  Input: <- Pipeline #2 [on: HASH_JOIN (id=30), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #29 [on: HASH_JOIN (id=30), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #2, Pipeline #29
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #31: PARTITION (id=33)
+  Input: <- Pipeline #30 [on: PARTITION (id=33), port: default, barrier: FULL]
+  Dependencies: Pipeline #30
+  Output: -> MERGE_GROUP_BY [port: default, barrier: FULL]
+Pipeline #32: MERGE_GROUP_BY (id=34) -> ORDER_BY (id=35)
+  Input: <- Pipeline #31 [on: MERGE_GROUP_BY (id=34), port: default, barrier: FULL]
+  Dependencies: Pipeline #31
+  Output: -> SORT_SAMPLE [port: default, barrier: PIPELINE]
+Pipeline #33: SORT_SAMPLE (id=36) -> SORT_PARTITION (id=37)
+  Input: <- Pipeline #32 [on: SORT_SAMPLE (id=36), port: default, barrier: PIPELINE]
+  Dependencies: Pipeline #32
+  Output: -> MERGE_SORT [port: default, barrier: FULL]
+Pipeline #34: MERGE_SORT (id=38)
+  Input: <- Pipeline #33 [on: MERGE_SORT (id=38), port: default, barrier: FULL]
+  Dependencies: Pipeline #33
+  Output: -> RESULT_COLLECTOR [port: default, barrier: FULL]
+Pipeline #35: RESULT_COLLECTOR (id=39)
+  Input: <- Pipeline #34 [on: RESULT_COLLECTOR (id=39), port: default, barrier: FULL]
+  Dependencies: Pipeline #34
+
+Q6: first recorded physical pipeline plan
+=== Pipeline Overview ===
+Pipeline #0: GPU_SCAN (id=0) -> PROJECTION (id=1) -> UNGROUPED_AGGREGATE (id=2)
+  Output: -> MERGE_AGGREGATE [port: default, barrier: FULL]
+Pipeline #1: MERGE_AGGREGATE (id=3)
+  Input: <- Pipeline #0 [on: MERGE_AGGREGATE (id=3), port: default, barrier: FULL]
+  Dependencies: Pipeline #0
+  Output: -> RESULT_COLLECTOR [port: default, barrier: FULL]
+Pipeline #2: RESULT_COLLECTOR (id=4)
+  Input: <- Pipeline #1 [on: RESULT_COLLECTOR (id=4), port: default, barrier: FULL]
+  Dependencies: Pipeline #1
+
+Q7: first recorded physical pipeline plan
+=== Pipeline Overview ===
+Pipeline #0: GPU_SCAN (id=0) -> FILTER (id=1)
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #1: PARTITION (id=2)
+  Input: <- Pipeline #0 [on: PARTITION (id=2), port: default, barrier: FULL]
+  Dependencies: Pipeline #0
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #2: CONCAT (id=3)
+  Input: <- Pipeline #1 [on: CONCAT (id=3), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #1
+  Output: -> HASH_JOIN [port: build, barrier: PARTIAL]
+Pipeline #3: GPU_SCAN (id=4)
+  Output: -> PARTITION [port: default, barrier: PARTIAL]
+Pipeline #4: PARTITION (id=5)
+  Input: <- Pipeline #3 [on: PARTITION (id=5), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #3
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #5: CONCAT (id=6)
+  Input: <- Pipeline #4 [on: CONCAT (id=6), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #4
+  Output: -> HASH_JOIN [port: default, barrier: PARTIAL]
+Pipeline #6: HASH_JOIN (id=7)
+  Input: <- Pipeline #2 [on: HASH_JOIN (id=7), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #5 [on: HASH_JOIN (id=7), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #2, Pipeline #5
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #7: PARTITION (id=8)
+  Input: <- Pipeline #6 [on: PARTITION (id=8), port: default, barrier: FULL]
+  Dependencies: Pipeline #6
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #8: CONCAT (id=9)
+  Input: <- Pipeline #7 [on: CONCAT (id=9), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #7
+  Output: -> HASH_JOIN [port: build, barrier: PARTIAL]
+Pipeline #9: GPU_SCAN (id=10) -> FILTER (id=11)
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #10: PARTITION (id=12)
+  Input: <- Pipeline #9 [on: PARTITION (id=12), port: default, barrier: FULL]
+  Dependencies: Pipeline #9
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #11: CONCAT (id=13)
+  Input: <- Pipeline #10 [on: CONCAT (id=13), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #10
+  Output: -> HASH_JOIN [port: build, barrier: PARTIAL]
+Pipeline #12: GPU_SCAN (id=14)
+  Output: -> PARTITION [port: default, barrier: PARTIAL]
+Pipeline #13: PARTITION (id=15)
+  Input: <- Pipeline #12 [on: PARTITION (id=15), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #12
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #14: CONCAT (id=16)
+  Input: <- Pipeline #13 [on: CONCAT (id=16), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #13
+  Output: -> HASH_JOIN [port: default, barrier: PARTIAL]
+Pipeline #15: HASH_JOIN (id=17)
+  Input: <- Pipeline #11 [on: HASH_JOIN (id=17), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #14 [on: HASH_JOIN (id=17), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #11, Pipeline #14
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #16: PARTITION (id=18)
+  Input: <- Pipeline #15 [on: PARTITION (id=18), port: default, barrier: FULL]
+  Dependencies: Pipeline #15
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #17: CONCAT (id=19)
+  Input: <- Pipeline #16 [on: CONCAT (id=19), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #16
+  Output: -> HASH_JOIN [port: build, barrier: PARTIAL]
+Pipeline #18: GPU_SCAN (id=20)
+  Output: -> PARTITION [port: default, barrier: PARTIAL]
+Pipeline #19: PARTITION (id=21)
+  Input: <- Pipeline #18 [on: PARTITION (id=21), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #18
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #20: CONCAT (id=22)
+  Input: <- Pipeline #19 [on: CONCAT (id=22), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #19
+  Output: -> HASH_JOIN [port: default, barrier: PARTIAL]
+Pipeline #21: HASH_JOIN (id=23)
+  Input: <- Pipeline #17 [on: HASH_JOIN (id=23), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #20 [on: HASH_JOIN (id=23), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #17, Pipeline #20
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #22: PARTITION (id=24)
+  Input: <- Pipeline #21 [on: PARTITION (id=24), port: default, barrier: FULL]
+  Dependencies: Pipeline #21
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #23: CONCAT (id=25)
+  Input: <- Pipeline #22 [on: CONCAT (id=25), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #22
+  Output: -> HASH_JOIN [port: build, barrier: PARTIAL]
+Pipeline #24: GPU_SCAN (id=26)
+  Output: -> PARTITION [port: default, barrier: PARTIAL]
+Pipeline #25: PARTITION (id=27)
+  Input: <- Pipeline #24 [on: PARTITION (id=27), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #24
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #26: CONCAT (id=28)
+  Input: <- Pipeline #25 [on: CONCAT (id=28), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #25
+  Output: -> HASH_JOIN [port: default, barrier: PARTIAL]
+Pipeline #27: HASH_JOIN (id=29)
+  Input: <- Pipeline #23 [on: HASH_JOIN (id=29), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #26 [on: HASH_JOIN (id=29), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #23, Pipeline #26
+  Output: -> PARTITION [port: default, barrier: PARTIAL]
+Pipeline #28: PARTITION (id=30)
+  Input: <- Pipeline #27 [on: PARTITION (id=30), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #27
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #29: CONCAT (id=31)
+  Input: <- Pipeline #28 [on: CONCAT (id=31), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #28
+  Output: -> HASH_JOIN [port: default, barrier: PARTIAL]
+Pipeline #30: HASH_JOIN (id=32) -> FILTER (id=33) -> PROJECTION (id=34) -> HASH_GROUP_BY (id=35)
+  Input: <- Pipeline #8 [on: HASH_JOIN (id=32), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #29 [on: HASH_JOIN (id=32), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #8, Pipeline #29
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #31: PARTITION (id=36)
+  Input: <- Pipeline #30 [on: PARTITION (id=36), port: default, barrier: FULL]
+  Dependencies: Pipeline #30
+  Output: -> MERGE_GROUP_BY [port: default, barrier: FULL]
+Pipeline #32: MERGE_GROUP_BY (id=37) -> ORDER_BY (id=38)
+  Input: <- Pipeline #31 [on: MERGE_GROUP_BY (id=37), port: default, barrier: FULL]
+  Dependencies: Pipeline #31
+  Output: -> SORT_SAMPLE [port: default, barrier: PIPELINE]
+Pipeline #33: SORT_SAMPLE (id=39) -> SORT_PARTITION (id=40)
+  Input: <- Pipeline #32 [on: SORT_SAMPLE (id=39), port: default, barrier: PIPELINE]
+  Dependencies: Pipeline #32
+  Output: -> MERGE_SORT [port: default, barrier: FULL]
+Pipeline #34: MERGE_SORT (id=41)
+  Input: <- Pipeline #33 [on: MERGE_SORT (id=41), port: default, barrier: FULL]
+  Dependencies: Pipeline #33
+  Output: -> RESULT_COLLECTOR [port: default, barrier: FULL]
+Pipeline #35: RESULT_COLLECTOR (id=42)
+  Input: <- Pipeline #34 [on: RESULT_COLLECTOR (id=42), port: default, barrier: FULL]
+  Dependencies: Pipeline #34
+
+Q8: first recorded physical pipeline plan
+=== Pipeline Overview ===
+Pipeline #0: GPU_SCAN (id=0)
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #1: PARTITION (id=1)
+  Input: <- Pipeline #0 [on: PARTITION (id=1), port: default, barrier: FULL]
+  Dependencies: Pipeline #0
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #2: CONCAT (id=2)
+  Input: <- Pipeline #1 [on: CONCAT (id=2), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #1
+  Output: -> HASH_JOIN [port: build, barrier: PARTIAL]
+Pipeline #3: GPU_SCAN (id=3)
+  Output: -> PARTITION [port: default, barrier: PARTIAL]
+Pipeline #4: PARTITION (id=4)
+  Input: <- Pipeline #3 [on: PARTITION (id=4), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #3
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #5: CONCAT (id=5)
+  Input: <- Pipeline #4 [on: CONCAT (id=5), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #4
+  Output: -> HASH_JOIN [port: default, barrier: PARTIAL]
+Pipeline #6: HASH_JOIN (id=6)
+  Input: <- Pipeline #2 [on: HASH_JOIN (id=6), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #5 [on: HASH_JOIN (id=6), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #2, Pipeline #5
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #7: PARTITION (id=7)
+  Input: <- Pipeline #6 [on: PARTITION (id=7), port: default, barrier: FULL]
+  Dependencies: Pipeline #6
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #8: CONCAT (id=8)
+  Input: <- Pipeline #7 [on: CONCAT (id=8), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #7
+  Output: -> HASH_JOIN [port: build, barrier: PARTIAL]
+Pipeline #9: GPU_SCAN (id=9)
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #10: PARTITION (id=10)
+  Input: <- Pipeline #9 [on: PARTITION (id=10), port: default, barrier: FULL]
+  Dependencies: Pipeline #9
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #11: CONCAT (id=11)
+  Input: <- Pipeline #10 [on: CONCAT (id=11), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #10
+  Output: -> HASH_JOIN [port: build, barrier: PARTIAL]
+Pipeline #12: GPU_SCAN (id=12)
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #13: PARTITION (id=13)
+  Input: <- Pipeline #12 [on: PARTITION (id=13), port: default, barrier: FULL]
+  Dependencies: Pipeline #12
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #14: CONCAT (id=14)
+  Input: <- Pipeline #13 [on: CONCAT (id=14), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #13
+  Output: -> HASH_JOIN [port: build, barrier: PARTIAL]
+Pipeline #15: GPU_SCAN (id=15)
+  Output: -> PARTITION [port: default, barrier: PARTIAL]
+Pipeline #16: PARTITION (id=16)
+  Input: <- Pipeline #15 [on: PARTITION (id=16), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #15
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #17: CONCAT (id=17)
+  Input: <- Pipeline #16 [on: CONCAT (id=17), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #16
+  Output: -> HASH_JOIN [port: default, barrier: PARTIAL]
+Pipeline #18: HASH_JOIN (id=18)
+  Input: <- Pipeline #14 [on: HASH_JOIN (id=18), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #17 [on: HASH_JOIN (id=18), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #14, Pipeline #17
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #19: PARTITION (id=19)
+  Input: <- Pipeline #18 [on: PARTITION (id=19), port: default, barrier: FULL]
+  Dependencies: Pipeline #18
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #20: CONCAT (id=20)
+  Input: <- Pipeline #19 [on: CONCAT (id=20), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #19
+  Output: -> HASH_JOIN [port: build, barrier: PARTIAL]
+Pipeline #21: GPU_SCAN (id=21)
+  Output: -> PARTITION [port: default, barrier: PARTIAL]
+Pipeline #22: PARTITION (id=22)
+  Input: <- Pipeline #21 [on: PARTITION (id=22), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #21
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #23: CONCAT (id=23)
+  Input: <- Pipeline #22 [on: CONCAT (id=23), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #22
+  Output: -> HASH_JOIN [port: default, barrier: PARTIAL]
+Pipeline #24: HASH_JOIN (id=24)
+  Input: <- Pipeline #20 [on: HASH_JOIN (id=24), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #23 [on: HASH_JOIN (id=24), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #20, Pipeline #23
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #25: PARTITION (id=25)
+  Input: <- Pipeline #24 [on: PARTITION (id=25), port: default, barrier: FULL]
+  Dependencies: Pipeline #24
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #26: CONCAT (id=26)
+  Input: <- Pipeline #25 [on: CONCAT (id=26), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #25
+  Output: -> HASH_JOIN [port: build, barrier: PARTIAL]
+Pipeline #27: GPU_SCAN (id=27)
+  Output: -> PARTITION [port: default, barrier: PARTIAL]
+Pipeline #28: PARTITION (id=28)
+  Input: <- Pipeline #27 [on: PARTITION (id=28), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #27
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #29: CONCAT (id=29)
+  Input: <- Pipeline #28 [on: CONCAT (id=29), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #28
+  Output: -> HASH_JOIN [port: default, barrier: PARTIAL]
+Pipeline #30: HASH_JOIN (id=30)
+  Input: <- Pipeline #26 [on: HASH_JOIN (id=30), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #29 [on: HASH_JOIN (id=30), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #26, Pipeline #29
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #31: PARTITION (id=31)
+  Input: <- Pipeline #30 [on: PARTITION (id=31), port: default, barrier: FULL]
+  Dependencies: Pipeline #30
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #32: CONCAT (id=32)
+  Input: <- Pipeline #31 [on: CONCAT (id=32), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #31
+  Output: -> HASH_JOIN [port: build, barrier: PARTIAL]
+Pipeline #33: GPU_SCAN (id=33)
+  Output: -> PARTITION [port: default, barrier: PARTIAL]
+Pipeline #34: PARTITION (id=34)
+  Input: <- Pipeline #33 [on: PARTITION (id=34), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #33
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #35: CONCAT (id=35)
+  Input: <- Pipeline #34 [on: CONCAT (id=35), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #34
+  Output: -> HASH_JOIN [port: default, barrier: PARTIAL]
+Pipeline #36: HASH_JOIN (id=36)
+  Input: <- Pipeline #32 [on: HASH_JOIN (id=36), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #35 [on: HASH_JOIN (id=36), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #32, Pipeline #35
+  Output: -> PARTITION [port: default, barrier: PARTIAL]
+Pipeline #37: PARTITION (id=37)
+  Input: <- Pipeline #36 [on: PARTITION (id=37), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #36
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #38: CONCAT (id=38)
+  Input: <- Pipeline #37 [on: CONCAT (id=38), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #37
+  Output: -> HASH_JOIN [port: default, barrier: PARTIAL]
+Pipeline #39: HASH_JOIN (id=39)
+  Input: <- Pipeline #11 [on: HASH_JOIN (id=39), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #38 [on: HASH_JOIN (id=39), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #11, Pipeline #38
+  Output: -> PARTITION [port: default, barrier: PARTIAL]
+Pipeline #40: PARTITION (id=40)
+  Input: <- Pipeline #39 [on: PARTITION (id=40), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #39
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #41: CONCAT (id=41)
+  Input: <- Pipeline #40 [on: CONCAT (id=41), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #40
+  Output: -> HASH_JOIN [port: default, barrier: PARTIAL]
+Pipeline #42: HASH_JOIN (id=42) -> PROJECTION (id=43) -> PROJECTION (id=44) -> HASH_GROUP_BY (id=45)
+  Input: <- Pipeline #8 [on: HASH_JOIN (id=42), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #41 [on: HASH_JOIN (id=42), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #8, Pipeline #41
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #43: PARTITION (id=46)
+  Input: <- Pipeline #42 [on: PARTITION (id=46), port: default, barrier: FULL]
+  Dependencies: Pipeline #42
+  Output: -> MERGE_GROUP_BY [port: default, barrier: FULL]
+Pipeline #44: MERGE_GROUP_BY (id=47) -> PROJECTION (id=48) -> ORDER_BY (id=49)
+  Input: <- Pipeline #43 [on: MERGE_GROUP_BY (id=47), port: default, barrier: FULL]
+  Dependencies: Pipeline #43
+  Output: -> SORT_SAMPLE [port: default, barrier: PIPELINE]
+Pipeline #45: SORT_SAMPLE (id=50) -> SORT_PARTITION (id=51)
+  Input: <- Pipeline #44 [on: SORT_SAMPLE (id=50), port: default, barrier: PIPELINE]
+  Dependencies: Pipeline #44
+  Output: -> MERGE_SORT [port: default, barrier: FULL]
+Pipeline #46: MERGE_SORT (id=52)
+  Input: <- Pipeline #45 [on: MERGE_SORT (id=52), port: default, barrier: FULL]
+  Dependencies: Pipeline #45
+  Output: -> RESULT_COLLECTOR [port: default, barrier: FULL]
+Pipeline #47: RESULT_COLLECTOR (id=53)
+  Input: <- Pipeline #46 [on: RESULT_COLLECTOR (id=53), port: default, barrier: FULL]
+  Dependencies: Pipeline #46
+
+Q9: first recorded physical pipeline plan
+=== Pipeline Overview ===
+Pipeline #0: GPU_SCAN (id=0)
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #1: PARTITION (id=1)
+  Input: <- Pipeline #0 [on: PARTITION (id=1), port: default, barrier: FULL]
+  Dependencies: Pipeline #0
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #2: CONCAT (id=2)
+  Input: <- Pipeline #1 [on: CONCAT (id=2), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #1
+  Output: -> HASH_JOIN [port: build, barrier: PARTIAL]
+Pipeline #3: GPU_SCAN (id=3)
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #4: PARTITION (id=4)
+  Input: <- Pipeline #3 [on: PARTITION (id=4), port: default, barrier: FULL]
+  Dependencies: Pipeline #3
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #5: CONCAT (id=5)
+  Input: <- Pipeline #4 [on: CONCAT (id=5), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #4
+  Output: -> HASH_JOIN [port: build, barrier: PARTIAL]
+Pipeline #6: GPU_SCAN (id=6)
+  Output: -> PARTITION [port: default, barrier: PARTIAL]
+Pipeline #7: PARTITION (id=7)
+  Input: <- Pipeline #6 [on: PARTITION (id=7), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #6
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #8: CONCAT (id=8)
+  Input: <- Pipeline #7 [on: CONCAT (id=8), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #7
+  Output: -> HASH_JOIN [port: default, barrier: PARTIAL]
+Pipeline #9: HASH_JOIN (id=9)
+  Input: <- Pipeline #5 [on: HASH_JOIN (id=9), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #8 [on: HASH_JOIN (id=9), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #5, Pipeline #8
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #10: PARTITION (id=10)
+  Input: <- Pipeline #9 [on: PARTITION (id=10), port: default, barrier: FULL]
+  Dependencies: Pipeline #9
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #11: CONCAT (id=11)
+  Input: <- Pipeline #10 [on: CONCAT (id=11), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #10
+  Output: -> HASH_JOIN [port: build, barrier: PARTIAL]
+Pipeline #12: GPU_SCAN (id=12)
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #13: PARTITION (id=13)
+  Input: <- Pipeline #12 [on: PARTITION (id=13), port: default, barrier: FULL]
+  Dependencies: Pipeline #12
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #14: CONCAT (id=14)
+  Input: <- Pipeline #13 [on: CONCAT (id=14), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #13
+  Output: -> HASH_JOIN [port: build, barrier: PARTIAL]
+Pipeline #15: GPU_SCAN (id=15)
+  Output: -> PARTITION [port: default, barrier: PARTIAL]
+Pipeline #16: PARTITION (id=16)
+  Input: <- Pipeline #15 [on: PARTITION (id=16), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #15
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #17: CONCAT (id=17)
+  Input: <- Pipeline #16 [on: CONCAT (id=17), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #16
+  Output: -> HASH_JOIN [port: default, barrier: PARTIAL]
+Pipeline #18: HASH_JOIN (id=18)
+  Input: <- Pipeline #14 [on: HASH_JOIN (id=18), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #17 [on: HASH_JOIN (id=18), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #14, Pipeline #17
+  Output: -> PARTITION [port: default, barrier: PARTIAL]
+Pipeline #19: PARTITION (id=19)
+  Input: <- Pipeline #18 [on: PARTITION (id=19), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #18
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #20: CONCAT (id=20)
+  Input: <- Pipeline #19 [on: CONCAT (id=20), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #19
+  Output: -> HASH_JOIN [port: default, barrier: PARTIAL]
+Pipeline #21: HASH_JOIN (id=21)
+  Input: <- Pipeline #11 [on: HASH_JOIN (id=21), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #20 [on: HASH_JOIN (id=21), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #11, Pipeline #20
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #22: PARTITION (id=22)
+  Input: <- Pipeline #21 [on: PARTITION (id=22), port: default, barrier: FULL]
+  Dependencies: Pipeline #21
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #23: CONCAT (id=23)
+  Input: <- Pipeline #22 [on: CONCAT (id=23), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #22
+  Output: -> HASH_JOIN [port: build, barrier: PARTIAL]
+Pipeline #24: GPU_SCAN (id=24)
+  Output: -> PARTITION [port: default, barrier: PARTIAL]
+Pipeline #25: PARTITION (id=25)
+  Input: <- Pipeline #24 [on: PARTITION (id=25), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #24
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #26: CONCAT (id=26)
+  Input: <- Pipeline #25 [on: CONCAT (id=26), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #25
+  Output: -> HASH_JOIN [port: default, barrier: PARTIAL]
+Pipeline #27: HASH_JOIN (id=27)
+  Input: <- Pipeline #23 [on: HASH_JOIN (id=27), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #26 [on: HASH_JOIN (id=27), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #23, Pipeline #26
+  Output: -> PARTITION [port: default, barrier: PARTIAL]
+Pipeline #28: PARTITION (id=28)
+  Input: <- Pipeline #27 [on: PARTITION (id=28), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #27
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #29: CONCAT (id=29)
+  Input: <- Pipeline #28 [on: CONCAT (id=29), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #28
+  Output: -> HASH_JOIN [port: default, barrier: PARTIAL]
+Pipeline #30: HASH_JOIN (id=30) -> PROJECTION (id=31) -> HASH_GROUP_BY (id=32)
+  Input: <- Pipeline #2 [on: HASH_JOIN (id=30), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #29 [on: HASH_JOIN (id=30), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #2, Pipeline #29
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #31: PARTITION (id=33)
+  Input: <- Pipeline #30 [on: PARTITION (id=33), port: default, barrier: FULL]
+  Dependencies: Pipeline #30
+  Output: -> MERGE_GROUP_BY [port: default, barrier: FULL]
+Pipeline #32: MERGE_GROUP_BY (id=34) -> ORDER_BY (id=35)
+  Input: <- Pipeline #31 [on: MERGE_GROUP_BY (id=34), port: default, barrier: FULL]
+  Dependencies: Pipeline #31
+  Output: -> SORT_SAMPLE [port: default, barrier: PIPELINE]
+Pipeline #33: SORT_SAMPLE (id=36) -> SORT_PARTITION (id=37)
+  Input: <- Pipeline #32 [on: SORT_SAMPLE (id=36), port: default, barrier: PIPELINE]
+  Dependencies: Pipeline #32
+  Output: -> MERGE_SORT [port: default, barrier: FULL]
+Pipeline #34: MERGE_SORT (id=38)
+  Input: <- Pipeline #33 [on: MERGE_SORT (id=38), port: default, barrier: FULL]
+  Dependencies: Pipeline #33
+  Output: -> RESULT_COLLECTOR [port: default, barrier: FULL]
+Pipeline #35: RESULT_COLLECTOR (id=39)
+  Input: <- Pipeline #34 [on: RESULT_COLLECTOR (id=39), port: default, barrier: FULL]
+  Dependencies: Pipeline #34
+
+Q10: first recorded physical pipeline plan
+=== Pipeline Overview ===
+Pipeline #0: GPU_SCAN (id=0)
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #1: PARTITION (id=1)
+  Input: <- Pipeline #0 [on: PARTITION (id=1), port: default, barrier: FULL]
+  Dependencies: Pipeline #0
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #2: CONCAT (id=2)
+  Input: <- Pipeline #1 [on: CONCAT (id=2), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #1
+  Output: -> HASH_JOIN [port: build, barrier: PARTIAL]
+Pipeline #3: GPU_SCAN (id=3)
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #4: PARTITION (id=4)
+  Input: <- Pipeline #3 [on: PARTITION (id=4), port: default, barrier: FULL]
+  Dependencies: Pipeline #3
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #5: CONCAT (id=5)
+  Input: <- Pipeline #4 [on: CONCAT (id=5), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #4
+  Output: -> HASH_JOIN [port: build, barrier: PARTIAL]
+Pipeline #6: GPU_SCAN (id=6)
+  Output: -> PARTITION [port: default, barrier: PARTIAL]
+Pipeline #7: PARTITION (id=7)
+  Input: <- Pipeline #6 [on: PARTITION (id=7), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #6
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #8: CONCAT (id=8)
+  Input: <- Pipeline #7 [on: CONCAT (id=8), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #7
+  Output: -> HASH_JOIN [port: default, barrier: PARTIAL]
+Pipeline #9: HASH_JOIN (id=9)
+  Input: <- Pipeline #5 [on: HASH_JOIN (id=9), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #8 [on: HASH_JOIN (id=9), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #5, Pipeline #8
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #10: PARTITION (id=10)
+  Input: <- Pipeline #9 [on: PARTITION (id=10), port: default, barrier: FULL]
+  Dependencies: Pipeline #9
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #11: CONCAT (id=11)
+  Input: <- Pipeline #10 [on: CONCAT (id=11), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #10
+  Output: -> HASH_JOIN [port: build, barrier: PARTIAL]
+Pipeline #12: GPU_SCAN (id=12)
+  Output: -> PARTITION [port: default, barrier: PARTIAL]
+Pipeline #13: PARTITION (id=13)
+  Input: <- Pipeline #12 [on: PARTITION (id=13), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #12
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #14: CONCAT (id=14)
+  Input: <- Pipeline #13 [on: CONCAT (id=14), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #13
+  Output: -> HASH_JOIN [port: default, barrier: PARTIAL]
+Pipeline #15: HASH_JOIN (id=15)
+  Input: <- Pipeline #11 [on: HASH_JOIN (id=15), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #14 [on: HASH_JOIN (id=15), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #11, Pipeline #14
+  Output: -> PARTITION [port: default, barrier: PARTIAL]
+Pipeline #16: PARTITION (id=16)
+  Input: <- Pipeline #15 [on: PARTITION (id=16), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #15
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #17: CONCAT (id=17)
+  Input: <- Pipeline #16 [on: CONCAT (id=17), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #16
+  Output: -> HASH_JOIN [port: default, barrier: PARTIAL]
+Pipeline #18: HASH_JOIN (id=18) -> PROJECTION (id=19) -> HASH_GROUP_BY (id=20)
+  Input: <- Pipeline #2 [on: HASH_JOIN (id=18), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #17 [on: HASH_JOIN (id=18), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #2, Pipeline #17
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #19: PARTITION (id=21)
+  Input: <- Pipeline #18 [on: PARTITION (id=21), port: default, barrier: FULL]
+  Dependencies: Pipeline #18
+  Output: -> MERGE_GROUP_BY [port: default, barrier: FULL]
+Pipeline #20: MERGE_GROUP_BY (id=22) -> PROJECTION (id=23) -> TOP_N (id=24)
+  Input: <- Pipeline #19 [on: MERGE_GROUP_BY (id=22), port: default, barrier: FULL]
+  Dependencies: Pipeline #19
+  Output: -> MERGE_TOP_N [port: default, barrier: FULL]
+Pipeline #21: MERGE_TOP_N (id=25) -> RESULT_COLLECTOR (id=26)
+  Input: <- Pipeline #20 [on: MERGE_TOP_N (id=25), port: default, barrier: FULL]
+  Dependencies: Pipeline #20
+
+Q11: first recorded physical pipeline plan
+=== Pipeline Overview ===
+Pipeline #0: GPU_SCAN (id=0)
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #1: PARTITION (id=1)
+  Input: <- Pipeline #0 [on: PARTITION (id=1), port: default, barrier: FULL]
+  Dependencies: Pipeline #0
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #2: CONCAT (id=2)
+  Input: <- Pipeline #1 [on: CONCAT (id=2), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #1
+  Output: -> HASH_JOIN [port: build, barrier: PARTIAL]
+Pipeline #3: GPU_SCAN (id=3)
+  Output: -> PARTITION [port: default, barrier: PARTIAL]
+Pipeline #4: PARTITION (id=4)
+  Input: <- Pipeline #3 [on: PARTITION (id=4), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #3
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #5: CONCAT (id=5)
+  Input: <- Pipeline #4 [on: CONCAT (id=5), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #4
+  Output: -> HASH_JOIN [port: default, barrier: PARTIAL]
+Pipeline #6: HASH_JOIN (id=6)
+  Input: <- Pipeline #2 [on: HASH_JOIN (id=6), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #5 [on: HASH_JOIN (id=6), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #2, Pipeline #5
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #7: PARTITION (id=7)
+  Input: <- Pipeline #6 [on: PARTITION (id=7), port: default, barrier: FULL]
+  Dependencies: Pipeline #6
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #8: CONCAT (id=8)
+  Input: <- Pipeline #7 [on: CONCAT (id=8), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #7
+  Output: -> HASH_JOIN [port: build, barrier: PARTIAL]
+Pipeline #9: GPU_SCAN (id=9)
+  Output: -> PARTITION [port: default, barrier: PARTIAL]
+Pipeline #10: PARTITION (id=10)
+  Input: <- Pipeline #9 [on: PARTITION (id=10), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #9
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #11: CONCAT (id=11)
+  Input: <- Pipeline #10 [on: CONCAT (id=11), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #10
+  Output: -> HASH_JOIN [port: default, barrier: PARTIAL]
+Pipeline #12: HASH_JOIN (id=12) -> PROJECTION (id=13) -> UNGROUPED_AGGREGATE (id=14)
+  Input: <- Pipeline #8 [on: HASH_JOIN (id=12), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #11 [on: HASH_JOIN (id=12), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #8, Pipeline #11
+  Output: -> MERGE_AGGREGATE [port: default, barrier: FULL]
+Pipeline #13: MERGE_AGGREGATE (id=15)
+  Input: <- Pipeline #12 [on: MERGE_AGGREGATE (id=15), port: default, barrier: FULL]
+  Dependencies: Pipeline #12
+  Output: -> PROJECTION [port: default, barrier: FULL]
+Pipeline #14: PROJECTION (id=16)
+  Input: <- Pipeline #13 [on: PROJECTION (id=16), port: default, barrier: FULL]
+  Dependencies: Pipeline #13
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #15: PARTITION (id=17)
+  Input: <- Pipeline #14 [on: PARTITION (id=17), port: default, barrier: FULL]
+  Dependencies: Pipeline #14
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #16: CONCAT (id=18)
+  Input: <- Pipeline #15 [on: CONCAT (id=18), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #15
+  Output: -> NESTED_LOOP_JOIN [port: build, barrier: PARTIAL]
+Pipeline #17: GPU_SCAN (id=19)
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #18: PARTITION (id=20)
+  Input: <- Pipeline #17 [on: PARTITION (id=20), port: default, barrier: FULL]
+  Dependencies: Pipeline #17
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #19: CONCAT (id=21)
+  Input: <- Pipeline #18 [on: CONCAT (id=21), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #18
+  Output: -> HASH_JOIN [port: build, barrier: PARTIAL]
+Pipeline #20: GPU_SCAN (id=22)
+  Output: -> PARTITION [port: default, barrier: PARTIAL]
+Pipeline #21: PARTITION (id=23)
+  Input: <- Pipeline #20 [on: PARTITION (id=23), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #20
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #22: CONCAT (id=24)
+  Input: <- Pipeline #21 [on: CONCAT (id=24), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #21
+  Output: -> HASH_JOIN [port: default, barrier: PARTIAL]
+Pipeline #23: HASH_JOIN (id=25)
+  Input: <- Pipeline #19 [on: HASH_JOIN (id=25), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #22 [on: HASH_JOIN (id=25), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #19, Pipeline #22
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #24: PARTITION (id=26)
+  Input: <- Pipeline #23 [on: PARTITION (id=26), port: default, barrier: FULL]
+  Dependencies: Pipeline #23
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #25: CONCAT (id=27)
+  Input: <- Pipeline #24 [on: CONCAT (id=27), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #24
+  Output: -> HASH_JOIN [port: build, barrier: PARTIAL]
+Pipeline #26: GPU_SCAN (id=28)
+  Output: -> PARTITION [port: default, barrier: PARTIAL]
+Pipeline #27: PARTITION (id=29)
+  Input: <- Pipeline #26 [on: PARTITION (id=29), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #26
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #28: CONCAT (id=30)
+  Input: <- Pipeline #27 [on: CONCAT (id=30), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #27
+  Output: -> HASH_JOIN [port: default, barrier: PARTIAL]
+Pipeline #29: HASH_JOIN (id=31) -> PROJECTION (id=32) -> HASH_GROUP_BY (id=33)
+  Input: <- Pipeline #25 [on: HASH_JOIN (id=31), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #28 [on: HASH_JOIN (id=31), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #25, Pipeline #28
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #30: PARTITION (id=34)
+  Input: <- Pipeline #29 [on: PARTITION (id=34), port: default, barrier: FULL]
+  Dependencies: Pipeline #29
+  Output: -> MERGE_GROUP_BY [port: default, barrier: FULL]
+Pipeline #31: MERGE_GROUP_BY (id=35) -> PROJECTION (id=36)
+  Input: <- Pipeline #30 [on: MERGE_GROUP_BY (id=35), port: default, barrier: FULL]
+  Dependencies: Pipeline #30
+  Output: -> PARTITION [port: default, barrier: PARTIAL]
+Pipeline #32: PARTITION (id=37)
+  Input: <- Pipeline #31 [on: PARTITION (id=37), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #31
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #33: CONCAT (id=38)
+  Input: <- Pipeline #32 [on: CONCAT (id=38), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #32
+  Output: -> NESTED_LOOP_JOIN [port: default, barrier: PARTIAL]
+Pipeline #34: NESTED_LOOP_JOIN (id=39) -> PROJECTION (id=40) -> ORDER_BY (id=41)
+  Input: <- Pipeline #16 [on: NESTED_LOOP_JOIN (id=39), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #33 [on: NESTED_LOOP_JOIN (id=39), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #16, Pipeline #33
+  Output: -> SORT_SAMPLE [port: default, barrier: PIPELINE]
+Pipeline #35: SORT_SAMPLE (id=42) -> SORT_PARTITION (id=43)
+  Input: <- Pipeline #34 [on: SORT_SAMPLE (id=42), port: default, barrier: PIPELINE]
+  Dependencies: Pipeline #34
+  Output: -> MERGE_SORT [port: default, barrier: FULL]
+Pipeline #36: MERGE_SORT (id=44)
+  Input: <- Pipeline #35 [on: MERGE_SORT (id=44), port: default, barrier: FULL]
+  Dependencies: Pipeline #35
+  Output: -> RESULT_COLLECTOR [port: default, barrier: FULL]
+Pipeline #37: RESULT_COLLECTOR (id=45)
+  Input: <- Pipeline #36 [on: RESULT_COLLECTOR (id=45), port: default, barrier: FULL]
+  Dependencies: Pipeline #36
+
+Q12: first recorded physical pipeline plan
+=== Pipeline Overview ===
+Pipeline #0: GPU_SCAN (id=0) -> FILTER (id=1)
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #1: PARTITION (id=2)
+  Input: <- Pipeline #0 [on: PARTITION (id=2), port: default, barrier: FULL]
+  Dependencies: Pipeline #0
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #2: CONCAT (id=3)
+  Input: <- Pipeline #1 [on: CONCAT (id=3), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #1
+  Output: -> HASH_JOIN [port: build, barrier: PARTIAL]
+Pipeline #3: GPU_SCAN (id=4)
+  Output: -> PARTITION [port: default, barrier: PARTIAL]
+Pipeline #4: PARTITION (id=5)
+  Input: <- Pipeline #3 [on: PARTITION (id=5), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #3
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #5: CONCAT (id=6)
+  Input: <- Pipeline #4 [on: CONCAT (id=6), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #4
+  Output: -> HASH_JOIN [port: default, barrier: PARTIAL]
+Pipeline #6: HASH_JOIN (id=7) -> PROJECTION (id=8) -> HASH_GROUP_BY (id=9)
+  Input: <- Pipeline #2 [on: HASH_JOIN (id=7), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #5 [on: HASH_JOIN (id=7), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #2, Pipeline #5
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #7: PARTITION (id=10)
+  Input: <- Pipeline #6 [on: PARTITION (id=10), port: default, barrier: FULL]
+  Dependencies: Pipeline #6
+  Output: -> MERGE_GROUP_BY [port: default, barrier: FULL]
+Pipeline #8: MERGE_GROUP_BY (id=11) -> ORDER_BY (id=12)
+  Input: <- Pipeline #7 [on: MERGE_GROUP_BY (id=11), port: default, barrier: FULL]
+  Dependencies: Pipeline #7
+  Output: -> SORT_SAMPLE [port: default, barrier: PIPELINE]
+Pipeline #9: SORT_SAMPLE (id=13) -> SORT_PARTITION (id=14)
+  Input: <- Pipeline #8 [on: SORT_SAMPLE (id=13), port: default, barrier: PIPELINE]
+  Dependencies: Pipeline #8
+  Output: -> MERGE_SORT [port: default, barrier: FULL]
+Pipeline #10: MERGE_SORT (id=15)
+  Input: <- Pipeline #9 [on: MERGE_SORT (id=15), port: default, barrier: FULL]
+  Dependencies: Pipeline #9
+  Output: -> RESULT_COLLECTOR [port: default, barrier: FULL]
+Pipeline #11: RESULT_COLLECTOR (id=16)
+  Input: <- Pipeline #10 [on: RESULT_COLLECTOR (id=16), port: default, barrier: FULL]
+  Dependencies: Pipeline #10
+
+Q13: first recorded physical pipeline plan
+=== Pipeline Overview ===
+Pipeline #0: GPU_SCAN (id=0)
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #1: PARTITION (id=1)
+  Input: <- Pipeline #0 [on: PARTITION (id=1), port: default, barrier: FULL]
+  Dependencies: Pipeline #0
+  Output: -> DENSE_COUNT_JOIN [port: preserved, barrier: FULL]
+Pipeline #2: GPU_SCAN (id=2)
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #3: PARTITION (id=3)
+  Input: <- Pipeline #2 [on: PARTITION (id=3), port: default, barrier: FULL]
+  Dependencies: Pipeline #2
+  Output: -> DENSE_COUNT_JOIN [port: counted, barrier: FULL]
+Pipeline #4: DENSE_COUNT_JOIN (id=4)
+  Input: <- Pipeline #3 [on: DENSE_COUNT_JOIN (id=4), port: counted, barrier: FULL]
+  Input: <- Pipeline #1 [on: DENSE_COUNT_JOIN (id=4), port: preserved, barrier: FULL]
+  Dependencies: Pipeline #1, Pipeline #3
+  Output: -> PROJECTION [port: default, barrier: FULL]
+Pipeline #5: PROJECTION (id=5) -> HASH_GROUP_BY (id=6)
+  Input: <- Pipeline #4 [on: PROJECTION (id=5), port: default, barrier: FULL]
+  Dependencies: Pipeline #4
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #6: PARTITION (id=7)
+  Input: <- Pipeline #5 [on: PARTITION (id=7), port: default, barrier: FULL]
+  Dependencies: Pipeline #5
+  Output: -> MERGE_GROUP_BY [port: default, barrier: FULL]
+Pipeline #7: MERGE_GROUP_BY (id=8) -> ORDER_BY (id=9)
+  Input: <- Pipeline #6 [on: MERGE_GROUP_BY (id=8), port: default, barrier: FULL]
+  Dependencies: Pipeline #6
+  Output: -> SORT_SAMPLE [port: default, barrier: PIPELINE]
+Pipeline #8: SORT_SAMPLE (id=10) -> SORT_PARTITION (id=11)
+  Input: <- Pipeline #7 [on: SORT_SAMPLE (id=10), port: default, barrier: PIPELINE]
+  Dependencies: Pipeline #7
+  Output: -> MERGE_SORT [port: default, barrier: FULL]
+Pipeline #9: MERGE_SORT (id=12)
+  Input: <- Pipeline #8 [on: MERGE_SORT (id=12), port: default, barrier: FULL]
+  Dependencies: Pipeline #8
+  Output: -> RESULT_COLLECTOR [port: default, barrier: FULL]
+Pipeline #10: RESULT_COLLECTOR (id=13)
+  Input: <- Pipeline #9 [on: RESULT_COLLECTOR (id=13), port: default, barrier: FULL]
+  Dependencies: Pipeline #9
+
+Q14: first recorded physical pipeline plan
+=== Pipeline Overview ===
+Pipeline #0: GPU_SCAN (id=0)
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #1: PARTITION (id=1)
+  Input: <- Pipeline #0 [on: PARTITION (id=1), port: default, barrier: FULL]
+  Dependencies: Pipeline #0
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #2: CONCAT (id=2)
+  Input: <- Pipeline #1 [on: CONCAT (id=2), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #1
+  Output: -> HASH_JOIN [port: build, barrier: PARTIAL]
+Pipeline #3: GPU_SCAN (id=3)
+  Output: -> PARTITION [port: default, barrier: PARTIAL]
+Pipeline #4: PARTITION (id=4)
+  Input: <- Pipeline #3 [on: PARTITION (id=4), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #3
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #5: CONCAT (id=5)
+  Input: <- Pipeline #4 [on: CONCAT (id=5), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #4
+  Output: -> HASH_JOIN [port: default, barrier: PARTIAL]
+Pipeline #6: HASH_JOIN (id=6) -> PROJECTION (id=7) -> UNGROUPED_AGGREGATE (id=8)
+  Input: <- Pipeline #2 [on: HASH_JOIN (id=6), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #5 [on: HASH_JOIN (id=6), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #2, Pipeline #5
+  Output: -> MERGE_AGGREGATE [port: default, barrier: FULL]
+Pipeline #7: MERGE_AGGREGATE (id=9)
+  Input: <- Pipeline #6 [on: MERGE_AGGREGATE (id=9), port: default, barrier: FULL]
+  Dependencies: Pipeline #6
+  Output: -> PROJECTION [port: default, barrier: FULL]
+Pipeline #8: PROJECTION (id=10) -> RESULT_COLLECTOR (id=11)
+  Input: <- Pipeline #7 [on: PROJECTION (id=10), port: default, barrier: FULL]
+  Dependencies: Pipeline #7
+
+Q15: first recorded physical pipeline plan
+=== Pipeline Overview ===
+Pipeline #0: GPU_SCAN (id=0) -> PROJECTION (id=1) -> HASH_GROUP_BY (id=2)
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #1: PARTITION (id=3)
+  Input: <- Pipeline #0 [on: PARTITION (id=3), port: default, barrier: FULL]
+  Dependencies: Pipeline #0
+  Output: -> MERGE_GROUP_BY [port: default, barrier: FULL]
+Pipeline #2: MERGE_GROUP_BY (id=4)
+  Input: <- Pipeline #1 [on: MERGE_GROUP_BY (id=4), port: default, barrier: FULL]
+  Dependencies: Pipeline #1
+  Output: -> CTE [port: default, barrier: FULL]
+Pipeline #3: CTE (id=5)
+  Input: <- Pipeline #2 [on: CTE (id=5), port: default, barrier: FULL]
+  Dependencies: Pipeline #2
+  Output: -> PARTITION [port: default, barrier: PARTIAL]
+  Output: -> PROJECTION [port: default, barrier: FULL]
+Pipeline #4: PROJECTION (id=6) -> UNGROUPED_AGGREGATE (id=7)
+  Input: <- Pipeline #3 [on: PROJECTION (id=6), port: default, barrier: FULL]
+  Dependencies: Pipeline #3
+  Output: -> MERGE_AGGREGATE [port: default, barrier: FULL]
+Pipeline #5: MERGE_AGGREGATE (id=8)
+  Input: <- Pipeline #4 [on: MERGE_AGGREGATE (id=8), port: default, barrier: FULL]
+  Dependencies: Pipeline #4
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #6: PARTITION (id=9)
+  Input: <- Pipeline #5 [on: PARTITION (id=9), port: default, barrier: FULL]
+  Dependencies: Pipeline #5
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #7: CONCAT (id=10)
+  Input: <- Pipeline #6 [on: CONCAT (id=10), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #6
+  Output: -> HASH_JOIN [port: build, barrier: PARTIAL]
+Pipeline #8: PARTITION (id=11)
+  Input: <- Pipeline #3 [on: PARTITION (id=11), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #3
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #9: CONCAT (id=12)
+  Input: <- Pipeline #8 [on: CONCAT (id=12), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #8
+  Output: -> HASH_JOIN [port: default, barrier: PARTIAL]
+Pipeline #10: HASH_JOIN (id=13)
+  Input: <- Pipeline #7 [on: HASH_JOIN (id=13), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #9 [on: HASH_JOIN (id=13), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #7, Pipeline #9
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #11: PARTITION (id=14)
+  Input: <- Pipeline #10 [on: PARTITION (id=14), port: default, barrier: FULL]
+  Dependencies: Pipeline #10
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #12: CONCAT (id=15)
+  Input: <- Pipeline #11 [on: CONCAT (id=15), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #11
+  Output: -> HASH_JOIN [port: build, barrier: PARTIAL]
+Pipeline #13: GPU_SCAN (id=16)
+  Output: -> PARTITION [port: default, barrier: PARTIAL]
+Pipeline #14: PARTITION (id=17)
+  Input: <- Pipeline #13 [on: PARTITION (id=17), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #13
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #15: CONCAT (id=18)
+  Input: <- Pipeline #14 [on: CONCAT (id=18), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #14
+  Output: -> HASH_JOIN [port: default, barrier: PARTIAL]
+Pipeline #16: HASH_JOIN (id=19) -> ORDER_BY (id=20)
+  Input: <- Pipeline #12 [on: HASH_JOIN (id=19), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #15 [on: HASH_JOIN (id=19), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #12, Pipeline #15
+  Output: -> SORT_SAMPLE [port: default, barrier: PIPELINE]
+Pipeline #17: SORT_SAMPLE (id=21) -> SORT_PARTITION (id=22)
+  Input: <- Pipeline #16 [on: SORT_SAMPLE (id=21), port: default, barrier: PIPELINE]
+  Dependencies: Pipeline #16
+  Output: -> MERGE_SORT [port: default, barrier: FULL]
+Pipeline #18: MERGE_SORT (id=23)
+  Input: <- Pipeline #17 [on: MERGE_SORT (id=23), port: default, barrier: FULL]
+  Dependencies: Pipeline #17
+  Output: -> RESULT_COLLECTOR [port: default, barrier: FULL]
+Pipeline #19: RESULT_COLLECTOR (id=24)
+  Input: <- Pipeline #18 [on: RESULT_COLLECTOR (id=24), port: default, barrier: FULL]
+  Dependencies: Pipeline #18
+
+Q16: first recorded physical pipeline plan
+=== Pipeline Overview ===
+Pipeline #0: GPU_SCAN (id=0)
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #1: PARTITION (id=1)
+  Input: <- Pipeline #0 [on: PARTITION (id=1), port: default, barrier: FULL]
+  Dependencies: Pipeline #0
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #2: CONCAT (id=2)
+  Input: <- Pipeline #1 [on: CONCAT (id=2), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #1
+  Output: -> HASH_JOIN [port: build, barrier: PARTIAL]
+Pipeline #3: GPU_SCAN (id=3) -> FILTER (id=4)
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #4: PARTITION (id=5)
+  Input: <- Pipeline #3 [on: PARTITION (id=5), port: default, barrier: FULL]
+  Dependencies: Pipeline #3
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #5: CONCAT (id=6)
+  Input: <- Pipeline #4 [on: CONCAT (id=6), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #4
+  Output: -> HASH_JOIN [port: build, barrier: PARTIAL]
+Pipeline #6: GPU_SCAN (id=7)
+  Output: -> PARTITION [port: default, barrier: PARTIAL]
+Pipeline #7: PARTITION (id=8)
+  Input: <- Pipeline #6 [on: PARTITION (id=8), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #6
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #8: CONCAT (id=9)
+  Input: <- Pipeline #7 [on: CONCAT (id=9), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #7
+  Output: -> HASH_JOIN [port: default, barrier: PARTIAL]
+Pipeline #9: HASH_JOIN (id=10)
+  Input: <- Pipeline #5 [on: HASH_JOIN (id=10), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #8 [on: HASH_JOIN (id=10), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #5, Pipeline #8
+  Output: -> PARTITION [port: default, barrier: PARTIAL]
+Pipeline #10: PARTITION (id=11)
+  Input: <- Pipeline #9 [on: PARTITION (id=11), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #9
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #11: CONCAT (id=12)
+  Input: <- Pipeline #10 [on: CONCAT (id=12), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #10
+  Output: -> HASH_JOIN [port: default, barrier: PARTIAL]
+Pipeline #12: HASH_JOIN (id=13) -> FILTER (id=14) -> PROJECTION (id=15) -> HASH_GROUP_BY (id=16)
+  Input: <- Pipeline #2 [on: HASH_JOIN (id=13), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #11 [on: HASH_JOIN (id=13), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #2, Pipeline #11
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #13: PARTITION (id=17)
+  Input: <- Pipeline #12 [on: PARTITION (id=17), port: default, barrier: FULL]
+  Dependencies: Pipeline #12
+  Output: -> MERGE_GROUP_BY [port: default, barrier: FULL]
+Pipeline #14: MERGE_GROUP_BY (id=18) -> ORDER_BY (id=19)
+  Input: <- Pipeline #13 [on: MERGE_GROUP_BY (id=18), port: default, barrier: FULL]
+  Dependencies: Pipeline #13
+  Output: -> SORT_SAMPLE [port: default, barrier: PIPELINE]
+Pipeline #15: SORT_SAMPLE (id=20) -> SORT_PARTITION (id=21)
+  Input: <- Pipeline #14 [on: SORT_SAMPLE (id=20), port: default, barrier: PIPELINE]
+  Dependencies: Pipeline #14
+  Output: -> MERGE_SORT [port: default, barrier: FULL]
+Pipeline #16: MERGE_SORT (id=22)
+  Input: <- Pipeline #15 [on: MERGE_SORT (id=22), port: default, barrier: FULL]
+  Dependencies: Pipeline #15
+  Output: -> RESULT_COLLECTOR [port: default, barrier: FULL]
+Pipeline #17: RESULT_COLLECTOR (id=23)
+  Input: <- Pipeline #16 [on: RESULT_COLLECTOR (id=23), port: default, barrier: FULL]
+  Dependencies: Pipeline #16
+
+Q17: first recorded physical pipeline plan
+=== Pipeline Overview ===
+Pipeline #0: GPU_SCAN (id=0)
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #1: PARTITION (id=1)
+  Input: <- Pipeline #0 [on: PARTITION (id=1), port: default, barrier: FULL]
+  Dependencies: Pipeline #0
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #2: CONCAT (id=2)
+  Input: <- Pipeline #1 [on: CONCAT (id=2), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #1
+  Output: -> HASH_JOIN [port: build, barrier: PARTIAL]
+Pipeline #3: GPU_SCAN (id=3)
+  Output: -> PARTITION [port: default, barrier: PARTIAL]
+Pipeline #4: PARTITION (id=4)
+  Input: <- Pipeline #3 [on: PARTITION (id=4), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #3
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #5: CONCAT (id=5)
+  Input: <- Pipeline #4 [on: CONCAT (id=5), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #4
+  Output: -> HASH_JOIN [port: default, barrier: PARTIAL]
+Pipeline #6: HASH_JOIN (id=6) -> PROJECTION (id=7) -> CTE (id=8)
+  Input: <- Pipeline #2 [on: HASH_JOIN (id=6), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #5 [on: HASH_JOIN (id=6), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #2, Pipeline #5
+  Output: -> PROJECTION [port: default, barrier: FULL]
+  Output: -> PROJECTION [port: default, barrier: FULL]
+Pipeline #7: PROJECTION (id=9) -> HASH_GROUP_BY (id=10)
+  Input: <- Pipeline #6 [on: PROJECTION (id=9), port: default, barrier: FULL]
+  Dependencies: Pipeline #6
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #8: PARTITION (id=11)
+  Input: <- Pipeline #7 [on: PARTITION (id=11), port: default, barrier: FULL]
+  Dependencies: Pipeline #7
+  Output: -> MERGE_GROUP_BY [port: default, barrier: FULL]
+Pipeline #9: MERGE_GROUP_BY (id=12) -> PROJECTION (id=13)
+  Input: <- Pipeline #8 [on: MERGE_GROUP_BY (id=12), port: default, barrier: FULL]
+  Dependencies: Pipeline #8
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #10: PARTITION (id=14)
+  Input: <- Pipeline #9 [on: PARTITION (id=14), port: default, barrier: FULL]
+  Dependencies: Pipeline #9
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #11: CONCAT (id=15)
+  Input: <- Pipeline #10 [on: CONCAT (id=15), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #10
+  Output: -> HASH_JOIN [port: build, barrier: PARTIAL]
+Pipeline #12: PROJECTION (id=16)
+  Input: <- Pipeline #6 [on: PROJECTION (id=16), port: default, barrier: FULL]
+  Dependencies: Pipeline #6
+  Output: -> PARTITION [port: default, barrier: PARTIAL]
+Pipeline #13: PARTITION (id=17)
+  Input: <- Pipeline #12 [on: PARTITION (id=17), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #12
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #14: CONCAT (id=18)
+  Input: <- Pipeline #13 [on: CONCAT (id=18), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #13
+  Output: -> HASH_JOIN [port: default, barrier: PARTIAL]
+Pipeline #15: HASH_JOIN (id=19) -> PROJECTION (id=20) -> UNGROUPED_AGGREGATE (id=21)
+  Input: <- Pipeline #11 [on: HASH_JOIN (id=19), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #14 [on: HASH_JOIN (id=19), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #11, Pipeline #14
+  Output: -> MERGE_AGGREGATE [port: default, barrier: FULL]
+Pipeline #16: MERGE_AGGREGATE (id=22)
+  Input: <- Pipeline #15 [on: MERGE_AGGREGATE (id=22), port: default, barrier: FULL]
+  Dependencies: Pipeline #15
+  Output: -> PROJECTION [port: default, barrier: FULL]
+Pipeline #17: PROJECTION (id=23) -> RESULT_COLLECTOR (id=24)
+  Input: <- Pipeline #16 [on: PROJECTION (id=23), port: default, barrier: FULL]
+  Dependencies: Pipeline #16
+
+Q18: first recorded physical pipeline plan
+=== Pipeline Overview ===
+Pipeline #0: GPU_SCAN (id=0)
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #1: PARTITION (id=1)
+  Input: <- Pipeline #0 [on: PARTITION (id=1), port: default, barrier: FULL]
+  Dependencies: Pipeline #0
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #2: CONCAT (id=2)
+  Input: <- Pipeline #1 [on: CONCAT (id=2), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #1
+  Output: -> HASH_JOIN [port: build, barrier: PARTIAL]
+Pipeline #3: GPU_SCAN (id=3) -> HASH_GROUP_BY (id=4)
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #4: PARTITION (id=5)
+  Input: <- Pipeline #3 [on: PARTITION (id=5), port: default, barrier: FULL]
+  Dependencies: Pipeline #3
+  Output: -> MERGE_GROUP_BY [port: default, barrier: FULL]
+Pipeline #5: MERGE_GROUP_BY (id=6) -> FILTER (id=7)
+  Input: <- Pipeline #4 [on: MERGE_GROUP_BY (id=6), port: default, barrier: FULL]
+  Dependencies: Pipeline #4
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #6: PARTITION (id=8)
+  Input: <- Pipeline #5 [on: PARTITION (id=8), port: default, barrier: FULL]
+  Dependencies: Pipeline #5
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #7: CONCAT (id=9)
+  Input: <- Pipeline #6 [on: CONCAT (id=9), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #6
+  Output: -> HASH_JOIN [port: build, barrier: PARTIAL]
+Pipeline #8: GPU_SCAN (id=10)
+  Output: -> PARTITION [port: default, barrier: PARTIAL]
+Pipeline #9: PARTITION (id=11)
+  Input: <- Pipeline #8 [on: PARTITION (id=11), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #8
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #10: CONCAT (id=12)
+  Input: <- Pipeline #9 [on: CONCAT (id=12), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #9
+  Output: -> HASH_JOIN [port: default, barrier: PARTIAL]
+Pipeline #11: HASH_JOIN (id=13)
+  Input: <- Pipeline #7 [on: HASH_JOIN (id=13), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #10 [on: HASH_JOIN (id=13), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #7, Pipeline #10
+  Output: -> PARTITION [port: default, barrier: PARTIAL]
+Pipeline #12: PARTITION (id=14)
+  Input: <- Pipeline #11 [on: PARTITION (id=14), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #11
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #13: CONCAT (id=15)
+  Input: <- Pipeline #12 [on: CONCAT (id=15), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #12
+  Output: -> HASH_JOIN [port: default, barrier: PARTIAL]
+Pipeline #14: HASH_JOIN (id=16)
+  Input: <- Pipeline #2 [on: HASH_JOIN (id=16), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #13 [on: HASH_JOIN (id=16), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #2, Pipeline #13
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #15: PARTITION (id=17)
+  Input: <- Pipeline #14 [on: PARTITION (id=17), port: default, barrier: FULL]
+  Dependencies: Pipeline #14
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #16: CONCAT (id=18)
+  Input: <- Pipeline #15 [on: CONCAT (id=18), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #15
+  Output: -> HASH_JOIN [port: build, barrier: PARTIAL]
+Pipeline #17: GPU_SCAN (id=19)
+  Output: -> PARTITION [port: default, barrier: PARTIAL]
+Pipeline #18: PARTITION (id=20)
+  Input: <- Pipeline #17 [on: PARTITION (id=20), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #17
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #19: CONCAT (id=21)
+  Input: <- Pipeline #18 [on: CONCAT (id=21), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #18
+  Output: -> HASH_JOIN [port: default, barrier: PARTIAL]
+Pipeline #20: HASH_JOIN (id=22) -> PROJECTION (id=23) -> HASH_GROUP_BY (id=24)
+  Input: <- Pipeline #16 [on: HASH_JOIN (id=22), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #19 [on: HASH_JOIN (id=22), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #16, Pipeline #19
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #21: PARTITION (id=25)
+  Input: <- Pipeline #20 [on: PARTITION (id=25), port: default, barrier: FULL]
+  Dependencies: Pipeline #20
+  Output: -> MERGE_GROUP_BY [port: default, barrier: FULL]
+Pipeline #22: MERGE_GROUP_BY (id=26) -> TOP_N (id=27)
+  Input: <- Pipeline #21 [on: MERGE_GROUP_BY (id=26), port: default, barrier: FULL]
+  Dependencies: Pipeline #21
+  Output: -> MERGE_TOP_N [port: default, barrier: FULL]
+Pipeline #23: MERGE_TOP_N (id=28) -> RESULT_COLLECTOR (id=29)
+  Input: <- Pipeline #22 [on: MERGE_TOP_N (id=28), port: default, barrier: FULL]
+  Dependencies: Pipeline #22
+
+Q19: first recorded physical pipeline plan
+=== Pipeline Overview ===
+Pipeline #0: GPU_SCAN (id=0) -> FILTER (id=1)
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #1: PARTITION (id=2)
+  Input: <- Pipeline #0 [on: PARTITION (id=2), port: default, barrier: FULL]
+  Dependencies: Pipeline #0
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #2: CONCAT (id=3)
+  Input: <- Pipeline #1 [on: CONCAT (id=3), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #1
+  Output: -> HASH_JOIN [port: build, barrier: PARTIAL]
+Pipeline #3: GPU_SCAN (id=4) -> FILTER (id=5)
+  Output: -> PARTITION [port: default, barrier: PARTIAL]
+Pipeline #4: PARTITION (id=6)
+  Input: <- Pipeline #3 [on: PARTITION (id=6), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #3
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #5: CONCAT (id=7)
+  Input: <- Pipeline #4 [on: CONCAT (id=7), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #4
+  Output: -> HASH_JOIN [port: default, barrier: PARTIAL]
+Pipeline #6: HASH_JOIN (id=8) -> FILTER (id=9) -> PROJECTION (id=10) -> UNGROUPED_AGGREGATE (id=11)
+  Input: <- Pipeline #2 [on: HASH_JOIN (id=8), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #5 [on: HASH_JOIN (id=8), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #2, Pipeline #5
+  Output: -> MERGE_AGGREGATE [port: default, barrier: FULL]
+Pipeline #7: MERGE_AGGREGATE (id=12)
+  Input: <- Pipeline #6 [on: MERGE_AGGREGATE (id=12), port: default, barrier: FULL]
+  Dependencies: Pipeline #6
+  Output: -> RESULT_COLLECTOR [port: default, barrier: FULL]
+Pipeline #8: RESULT_COLLECTOR (id=13)
+  Input: <- Pipeline #7 [on: RESULT_COLLECTOR (id=13), port: default, barrier: FULL]
+  Dependencies: Pipeline #7
+
+Q20: first recorded physical pipeline plan
+=== Pipeline Overview ===
+Pipeline #0: GPU_SCAN (id=0)
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #1: PARTITION (id=1)
+  Input: <- Pipeline #0 [on: PARTITION (id=1), port: default, barrier: FULL]
+  Dependencies: Pipeline #0
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #2: CONCAT (id=2)
+  Input: <- Pipeline #1 [on: CONCAT (id=2), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #1
+  Output: -> HASH_JOIN [port: build, barrier: PARTIAL]
+Pipeline #3: GPU_SCAN (id=3)
+  Output: -> PARTITION [port: default, barrier: PARTIAL]
+Pipeline #4: PARTITION (id=4)
+  Input: <- Pipeline #3 [on: PARTITION (id=4), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #3
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #5: CONCAT (id=5)
+  Input: <- Pipeline #4 [on: CONCAT (id=5), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #4
+  Output: -> HASH_JOIN [port: default, barrier: PARTIAL]
+Pipeline #6: HASH_JOIN (id=6)
+  Input: <- Pipeline #2 [on: HASH_JOIN (id=6), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #5 [on: HASH_JOIN (id=6), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #2, Pipeline #5
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #7: PARTITION (id=7)
+  Input: <- Pipeline #6 [on: PARTITION (id=7), port: default, barrier: FULL]
+  Dependencies: Pipeline #6
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #8: CONCAT (id=8)
+  Input: <- Pipeline #7 [on: CONCAT (id=8), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #7
+  Output: -> HASH_JOIN [port: build, barrier: PARTIAL]
+Pipeline #9: GPU_SCAN (id=9)
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #10: PARTITION (id=10)
+  Input: <- Pipeline #9 [on: PARTITION (id=10), port: default, barrier: FULL]
+  Dependencies: Pipeline #9
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #11: CONCAT (id=11)
+  Input: <- Pipeline #10 [on: CONCAT (id=11), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #10
+  Output: -> HASH_JOIN [port: build, barrier: PARTIAL]
+Pipeline #12: GPU_SCAN (id=12)
+  Output: -> PARTITION [port: default, barrier: PARTIAL]
+Pipeline #13: PARTITION (id=13)
+  Input: <- Pipeline #12 [on: PARTITION (id=13), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #12
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #14: CONCAT (id=14)
+  Input: <- Pipeline #13 [on: CONCAT (id=14), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #13
+  Output: -> HASH_JOIN [port: default, barrier: PARTIAL]
+Pipeline #15: HASH_JOIN (id=15) -> CTE (id=16)
+  Input: <- Pipeline #11 [on: HASH_JOIN (id=15), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #14 [on: HASH_JOIN (id=15), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #11, Pipeline #14
+  Output: -> PARTITION [port: default, barrier: PARTIAL]
+  Output: -> PROJECTION [port: default, barrier: FULL]
+Pipeline #16: PROJECTION (id=17) -> HASH_GROUP_BY (id=18)
+  Input: <- Pipeline #15 [on: PROJECTION (id=17), port: default, barrier: FULL]
+  Dependencies: Pipeline #15
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #17: PARTITION (id=19)
+  Input: <- Pipeline #16 [on: PARTITION (id=19), port: default, barrier: FULL]
+  Dependencies: Pipeline #16
+  Output: -> MERGE_GROUP_BY [port: default, barrier: FULL]
+Pipeline #18: MERGE_GROUP_BY (id=20)
+  Input: <- Pipeline #17 [on: MERGE_GROUP_BY (id=20), port: default, barrier: FULL]
+  Dependencies: Pipeline #17
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #19: PARTITION (id=21)
+  Input: <- Pipeline #18 [on: PARTITION (id=21), port: default, barrier: FULL]
+  Dependencies: Pipeline #18
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #20: CONCAT (id=22)
+  Input: <- Pipeline #19 [on: CONCAT (id=22), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #19
+  Output: -> HASH_JOIN [port: build, barrier: PARTIAL]
+Pipeline #21: GPU_SCAN (id=23)
+  Output: -> PARTITION [port: default, barrier: PARTIAL]
+Pipeline #22: PARTITION (id=24)
+  Input: <- Pipeline #21 [on: PARTITION (id=24), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #21
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #23: CONCAT (id=25)
+  Input: <- Pipeline #22 [on: CONCAT (id=25), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #22
+  Output: -> HASH_JOIN [port: default, barrier: PARTIAL]
+Pipeline #24: HASH_JOIN (id=26) -> PROJECTION (id=27) -> HASH_GROUP_BY (id=28)
+  Input: <- Pipeline #20 [on: HASH_JOIN (id=26), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #23 [on: HASH_JOIN (id=26), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #20, Pipeline #23
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #25: PARTITION (id=29)
+  Input: <- Pipeline #24 [on: PARTITION (id=29), port: default, barrier: FULL]
+  Dependencies: Pipeline #24
+  Output: -> MERGE_GROUP_BY [port: default, barrier: FULL]
+Pipeline #26: MERGE_GROUP_BY (id=30) -> PROJECTION (id=31)
+  Input: <- Pipeline #25 [on: MERGE_GROUP_BY (id=30), port: default, barrier: FULL]
+  Dependencies: Pipeline #25
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #27: PARTITION (id=32)
+  Input: <- Pipeline #26 [on: PARTITION (id=32), port: default, barrier: FULL]
+  Dependencies: Pipeline #26
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #28: CONCAT (id=33)
+  Input: <- Pipeline #27 [on: CONCAT (id=33), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #27
+  Output: -> HASH_JOIN [port: build, barrier: PARTIAL]
+Pipeline #29: PARTITION (id=34)
+  Input: <- Pipeline #15 [on: PARTITION (id=34), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #15
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #30: CONCAT (id=35)
+  Input: <- Pipeline #29 [on: CONCAT (id=35), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #29
+  Output: -> HASH_JOIN [port: default, barrier: PARTIAL]
+Pipeline #31: HASH_JOIN (id=36) -> FILTER (id=37)
+  Input: <- Pipeline #28 [on: HASH_JOIN (id=36), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #30 [on: HASH_JOIN (id=36), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #28, Pipeline #30
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #32: PARTITION (id=38)
+  Input: <- Pipeline #31 [on: PARTITION (id=38), port: default, barrier: FULL]
+  Dependencies: Pipeline #31
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #33: CONCAT (id=39)
+  Input: <- Pipeline #32 [on: CONCAT (id=39), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #32
+  Output: -> HASH_JOIN [port: default, barrier: PARTIAL]
+Pipeline #34: HASH_JOIN (id=40) -> ORDER_BY (id=41)
+  Input: <- Pipeline #33 [on: HASH_JOIN (id=40), port: default, barrier: PARTIAL]
+  Input: <- Pipeline #8 [on: HASH_JOIN (id=40), port: build, barrier: PARTIAL]
+  Dependencies: Pipeline #8, Pipeline #33
+  Output: -> SORT_SAMPLE [port: default, barrier: PIPELINE]
+Pipeline #35: SORT_SAMPLE (id=42) -> SORT_PARTITION (id=43)
+  Input: <- Pipeline #34 [on: SORT_SAMPLE (id=42), port: default, barrier: PIPELINE]
+  Dependencies: Pipeline #34
+  Output: -> MERGE_SORT [port: default, barrier: FULL]
+Pipeline #36: MERGE_SORT (id=44)
+  Input: <- Pipeline #35 [on: MERGE_SORT (id=44), port: default, barrier: FULL]
+  Dependencies: Pipeline #35
+  Output: -> RESULT_COLLECTOR [port: default, barrier: FULL]
+Pipeline #37: RESULT_COLLECTOR (id=45)
+  Input: <- Pipeline #36 [on: RESULT_COLLECTOR (id=45), port: default, barrier: FULL]
+  Dependencies: Pipeline #36
+
+Q21: first recorded physical pipeline plan
+=== Pipeline Overview ===
+Pipeline #0: GPU_SCAN (id=0)
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #1: PARTITION (id=1)
+  Input: <- Pipeline #0 [on: PARTITION (id=1), port: default, barrier: FULL]
+  Dependencies: Pipeline #0
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #2: CONCAT (id=2)
+  Input: <- Pipeline #1 [on: CONCAT (id=2), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #1
+  Output: -> HASH_JOIN [port: build, barrier: PARTIAL]
+Pipeline #3: GPU_SCAN (id=3)
+  Output: -> PARTITION [port: default, barrier: PARTIAL]
+Pipeline #4: PARTITION (id=4)
+  Input: <- Pipeline #3 [on: PARTITION (id=4), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #3
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #5: CONCAT (id=5)
+  Input: <- Pipeline #4 [on: CONCAT (id=5), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #4
+  Output: -> HASH_JOIN [port: default, barrier: PARTIAL]
+Pipeline #6: HASH_JOIN (id=6)
+  Input: <- Pipeline #2 [on: HASH_JOIN (id=6), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #5 [on: HASH_JOIN (id=6), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #2, Pipeline #5
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #7: PARTITION (id=7)
+  Input: <- Pipeline #6 [on: PARTITION (id=7), port: default, barrier: FULL]
+  Dependencies: Pipeline #6
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #8: CONCAT (id=8)
+  Input: <- Pipeline #7 [on: CONCAT (id=8), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #7
+  Output: -> HASH_JOIN [port: build, barrier: PARTIAL]
+Pipeline #9: GPU_SCAN (id=9)
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #10: PARTITION (id=10)
+  Input: <- Pipeline #9 [on: PARTITION (id=10), port: default, barrier: FULL]
+  Dependencies: Pipeline #9
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #11: CONCAT (id=11)
+  Input: <- Pipeline #10 [on: CONCAT (id=11), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #10
+  Output: -> HASH_JOIN [port: build, barrier: PARTIAL]
+Pipeline #12: GPU_SCAN (id=12) -> FILTER (id=13)
+  Output: -> PARTITION [port: default, barrier: PARTIAL]
+Pipeline #13: PARTITION (id=14)
+  Input: <- Pipeline #12 [on: PARTITION (id=14), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #12
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #14: CONCAT (id=15)
+  Input: <- Pipeline #13 [on: CONCAT (id=15), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #13
+  Output: -> HASH_JOIN [port: default, barrier: PARTIAL]
+Pipeline #15: HASH_JOIN (id=16)
+  Input: <- Pipeline #11 [on: HASH_JOIN (id=16), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #14 [on: HASH_JOIN (id=16), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #11, Pipeline #14
+  Output: -> PARTITION [port: default, barrier: PARTIAL]
+Pipeline #16: PARTITION (id=17)
+  Input: <- Pipeline #15 [on: PARTITION (id=17), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #15
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #17: CONCAT (id=18)
+  Input: <- Pipeline #16 [on: CONCAT (id=18), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #16
+  Output: -> HASH_JOIN [port: default, barrier: PARTIAL]
+Pipeline #18: HASH_JOIN (id=19) -> LEFT_DELIM_JOIN (id=20)
+  Input: <- Pipeline #8 [on: HASH_JOIN (id=19), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #17 [on: HASH_JOIN (id=19), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #8, Pipeline #17
+  Output: -> COLUMN_DATA_SCAN [port: default, barrier: FULL]
+  Output: -> HASH_GROUP_BY [port: default, barrier: FULL]
+Pipeline #19: HASH_GROUP_BY (id=21)
+  Input: <- Pipeline #18 [on: HASH_GROUP_BY (id=21), port: default, barrier: FULL]
+  Dependencies: Pipeline #18
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #20: PARTITION (id=22)
+  Input: <- Pipeline #19 [on: PARTITION (id=22), port: default, barrier: FULL]
+  Dependencies: Pipeline #19
+  Output: -> MERGE_GROUP_BY [port: default, barrier: FULL]
+Pipeline #21: MERGE_GROUP_BY (id=23)
+  Input: <- Pipeline #20 [on: MERGE_GROUP_BY (id=23), port: default, barrier: FULL]
+  Dependencies: Pipeline #20
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #22: PARTITION (id=24)
+  Input: <- Pipeline #21 [on: PARTITION (id=24), port: default, barrier: FULL]
+  Dependencies: Pipeline #21
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #23: CONCAT (id=25)
+  Input: <- Pipeline #22 [on: CONCAT (id=25), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #22
+  Output: -> HASH_JOIN [port: build, barrier: PARTIAL]
+Pipeline #24: GPU_SCAN (id=26)
+  Output: -> PARTITION [port: default, barrier: PARTIAL]
+Pipeline #25: PARTITION (id=27)
+  Input: <- Pipeline #24 [on: PARTITION (id=27), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #24
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #26: CONCAT (id=28)
+  Input: <- Pipeline #25 [on: CONCAT (id=28), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #25
+  Output: -> HASH_JOIN [port: default, barrier: PARTIAL]
+Pipeline #27: HASH_JOIN (id=29) -> PROJECTION (id=30) -> HASH_GROUP_BY (id=31)
+  Input: <- Pipeline #23 [on: HASH_JOIN (id=29), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #26 [on: HASH_JOIN (id=29), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #23, Pipeline #26
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #28: PARTITION (id=32)
+  Input: <- Pipeline #27 [on: PARTITION (id=32), port: default, barrier: FULL]
+  Dependencies: Pipeline #27
+  Output: -> MERGE_GROUP_BY [port: default, barrier: FULL]
+Pipeline #29: MERGE_GROUP_BY (id=33)
+  Input: <- Pipeline #28 [on: MERGE_GROUP_BY (id=33), port: default, barrier: FULL]
+  Dependencies: Pipeline #28
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #30: PARTITION (id=34)
+  Input: <- Pipeline #29 [on: PARTITION (id=34), port: default, barrier: FULL]
+  Dependencies: Pipeline #29
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #31: CONCAT (id=35)
+  Input: <- Pipeline #30 [on: CONCAT (id=35), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #30
+  Output: -> HASH_JOIN [port: build, barrier: PARTIAL]
+Pipeline #32: COLUMN_DATA_SCAN (id=36)
+  Input: <- Pipeline #18 [on: COLUMN_DATA_SCAN (id=36), port: default, barrier: FULL]
+  Dependencies: Pipeline #18
+  Output: -> PARTITION [port: default, barrier: PARTIAL]
+Pipeline #33: PARTITION (id=37)
+  Input: <- Pipeline #32 [on: PARTITION (id=37), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #32
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #34: CONCAT (id=38)
+  Input: <- Pipeline #33 [on: CONCAT (id=38), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #33
+  Output: -> HASH_JOIN [port: default, barrier: PARTIAL]
+Pipeline #35: HASH_JOIN (id=39) -> FILTER (id=40) -> HASH_GROUP_BY (id=41)
+  Input: <- Pipeline #31 [on: HASH_JOIN (id=39), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #34 [on: HASH_JOIN (id=39), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #31, Pipeline #34
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #36: PARTITION (id=42)
+  Input: <- Pipeline #35 [on: PARTITION (id=42), port: default, barrier: FULL]
+  Dependencies: Pipeline #35
+  Output: -> MERGE_GROUP_BY [port: default, barrier: FULL]
+Pipeline #37: MERGE_GROUP_BY (id=43) -> TOP_N (id=44)
+  Input: <- Pipeline #36 [on: MERGE_GROUP_BY (id=43), port: default, barrier: FULL]
+  Dependencies: Pipeline #36
+  Output: -> MERGE_TOP_N [port: default, barrier: FULL]
+Pipeline #38: MERGE_TOP_N (id=45) -> RESULT_COLLECTOR (id=46)
+  Input: <- Pipeline #37 [on: MERGE_TOP_N (id=45), port: default, barrier: FULL]
+  Dependencies: Pipeline #37
+
+Q22: first recorded physical pipeline plan
+=== Pipeline Overview ===
+Pipeline #0: GPU_SCAN (id=0) -> FILTER (id=1) -> PROJECTION (id=2) -> UNGROUPED_AGGREGATE (id=3)
+  Output: -> MERGE_AGGREGATE [port: default, barrier: FULL]
+Pipeline #1: MERGE_AGGREGATE (id=4)
+  Input: <- Pipeline #0 [on: MERGE_AGGREGATE (id=4), port: default, barrier: FULL]
+  Dependencies: Pipeline #0
+  Output: -> PROJECTION [port: default, barrier: FULL]
+Pipeline #2: PROJECTION (id=5)
+  Input: <- Pipeline #1 [on: PROJECTION (id=5), port: default, barrier: FULL]
+  Dependencies: Pipeline #1
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #3: PARTITION (id=6)
+  Input: <- Pipeline #2 [on: PARTITION (id=6), port: default, barrier: FULL]
+  Dependencies: Pipeline #2
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #4: CONCAT (id=7)
+  Input: <- Pipeline #3 [on: CONCAT (id=7), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #3
+  Output: -> NESTED_LOOP_JOIN [port: build, barrier: PARTIAL]
+Pipeline #5: GPU_SCAN (id=8) -> FILTER (id=9) -> PROJECTION (id=10)
+  Output: -> PARTITION [port: default, barrier: PARTIAL]
+Pipeline #6: PARTITION (id=11)
+  Input: <- Pipeline #5 [on: PARTITION (id=11), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #5
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #7: CONCAT (id=12)
+  Input: <- Pipeline #6 [on: CONCAT (id=12), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #6
+  Output: -> NESTED_LOOP_JOIN [port: default, barrier: PARTIAL]
+Pipeline #8: NESTED_LOOP_JOIN (id=13) -> PROJECTION (id=14) -> CTE (id=15)
+  Input: <- Pipeline #4 [on: NESTED_LOOP_JOIN (id=13), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #7 [on: NESTED_LOOP_JOIN (id=13), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #4, Pipeline #7
+  Output: -> PARTITION [port: default, barrier: PARTIAL]
+  Output: -> FILTER [port: default, barrier: FULL]
+Pipeline #9: FILTER (id=16) -> HASH_GROUP_BY (id=17)
+  Input: <- Pipeline #8 [on: FILTER (id=16), port: default, barrier: FULL]
+  Dependencies: Pipeline #8
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #10: PARTITION (id=18)
+  Input: <- Pipeline #9 [on: PARTITION (id=18), port: default, barrier: FULL]
+  Dependencies: Pipeline #9
+  Output: -> MERGE_GROUP_BY [port: default, barrier: FULL]
+Pipeline #11: MERGE_GROUP_BY (id=19)
+  Input: <- Pipeline #10 [on: MERGE_GROUP_BY (id=19), port: default, barrier: FULL]
+  Dependencies: Pipeline #10
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #12: PARTITION (id=20)
+  Input: <- Pipeline #11 [on: PARTITION (id=20), port: default, barrier: FULL]
+  Dependencies: Pipeline #11
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #13: CONCAT (id=21)
+  Input: <- Pipeline #12 [on: CONCAT (id=21), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #12
+  Output: -> HASH_JOIN [port: build, barrier: PARTIAL]
+Pipeline #14: GPU_SCAN (id=22)
+  Output: -> PARTITION [port: default, barrier: PARTIAL]
+Pipeline #15: PARTITION (id=23)
+  Input: <- Pipeline #14 [on: PARTITION (id=23), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #14
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #16: CONCAT (id=24)
+  Input: <- Pipeline #15 [on: CONCAT (id=24), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #15
+  Output: -> HASH_JOIN [port: default, barrier: PARTIAL]
+Pipeline #17: HASH_JOIN (id=25)
+  Input: <- Pipeline #13 [on: HASH_JOIN (id=25), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #16 [on: HASH_JOIN (id=25), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #13, Pipeline #16
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #18: PARTITION (id=26)
+  Input: <- Pipeline #17 [on: PARTITION (id=26), port: default, barrier: FULL]
+  Dependencies: Pipeline #17
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #19: CONCAT (id=27)
+  Input: <- Pipeline #18 [on: CONCAT (id=27), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #18
+  Output: -> HASH_JOIN [port: build, barrier: PARTIAL]
+Pipeline #20: PARTITION (id=28)
+  Input: <- Pipeline #8 [on: PARTITION (id=28), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #8
+  Output: -> CONCAT [port: default, barrier: PARTIAL]
+Pipeline #21: CONCAT (id=29)
+  Input: <- Pipeline #20 [on: CONCAT (id=29), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #20
+  Output: -> HASH_JOIN [port: default, barrier: PARTIAL]
+Pipeline #22: HASH_JOIN (id=30) -> PROJECTION (id=31) -> HASH_GROUP_BY (id=32)
+  Input: <- Pipeline #19 [on: HASH_JOIN (id=30), port: build, barrier: PARTIAL]
+  Input: <- Pipeline #21 [on: HASH_JOIN (id=30), port: default, barrier: PARTIAL]
+  Dependencies: Pipeline #19, Pipeline #21
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #23: PARTITION (id=33)
+  Input: <- Pipeline #22 [on: PARTITION (id=33), port: default, barrier: FULL]
+  Dependencies: Pipeline #22
+  Output: -> MERGE_GROUP_BY [port: default, barrier: FULL]
+Pipeline #24: MERGE_GROUP_BY (id=34) -> ORDER_BY (id=35)
+  Input: <- Pipeline #23 [on: MERGE_GROUP_BY (id=34), port: default, barrier: FULL]
+  Dependencies: Pipeline #23
+  Output: -> SORT_SAMPLE [port: default, barrier: PIPELINE]
+Pipeline #25: SORT_SAMPLE (id=36) -> SORT_PARTITION (id=37)
+  Input: <- Pipeline #24 [on: SORT_SAMPLE (id=36), port: default, barrier: PIPELINE]
+  Dependencies: Pipeline #24
+  Output: -> MERGE_SORT [port: default, barrier: FULL]
+Pipeline #26: MERGE_SORT (id=38)
+  Input: <- Pipeline #25 [on: MERGE_SORT (id=38), port: default, barrier: FULL]
+  Dependencies: Pipeline #25
+  Output: -> RESULT_COLLECTOR [port: default, barrier: FULL]
+Pipeline #27: RESULT_COLLECTOR (id=39)
+  Input: <- Pipeline #26 [on: RESULT_COLLECTOR (id=39), port: default, barrier: FULL]
+  Dependencies: Pipeline #26

@@ -1,0 +1,10 @@
+{
+  "compressed_materialization": false,
+  "enable_duckdb_fallback": false,
+  "expression_strategy": "ast_interpret",
+  "gpu_execution": true,
+  "library_sha256": "cc9da8423467af70a3fe29f157c2ab6c48aa443b253eec32c9e6a15e16d856f2",
+  "mode": "maps",
+  "pinned": false,
+  "sf": 1
+}

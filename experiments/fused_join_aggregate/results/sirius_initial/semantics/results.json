@@ -1,0 +1,58 @@
+{
+  "all_null_values": {
+    "passed": true,
+    "result": [
+      [
+        null,
+        "0.00"
+      ]
+    ],
+    "sql": "SELECT sum(p.v),sum(CASE WHEN b.flag=1 THEN p.v ELSE 0 END) FROM p JOIN b ON p.k=b.k WHERE p.k=2"
+  },
+  "duplicates_nulls_negative": {
+    "passed": true,
+    "result": [
+      [
+        "295147905179352808.25",
+        "295147905179352802.00"
+      ]
+    ],
+    "sql": "SELECT sum(p.v),sum(CASE WHEN b.flag=1 THEN p.v ELSE 0 END) FROM p JOIN b ON p.k=b.k"
+  },
+  "groups_with_unmatched_group": {
+    "passed": true,
+    "result": [
+      [
+        "a",
+        "295147905179352802.50",
+        "2.50"
+      ],
+      [
+        "b",
+        "-0.50",
+        "3.75"
+      ]
+    ],
+    "sql": "SELECT p.g,sum(CASE WHEN b.flag=1 THEN p.v ELSE 0 END),sum(CASE WHEN b.flag=0 THEN p.v ELSE 0 END) FROM p JOIN b ON p.k=b.k GROUP BY p.g ORDER BY p.g"
+  },
+  "no_matches": {
+    "passed": true,
+    "result": [
+      [
+        null,
+        null
+      ]
+    ],
+    "sql": "SELECT sum(p.v),sum(CASE WHEN b.flag=1 THEN p.v ELSE 0 END) FROM p JOIN b ON p.k=b.k WHERE p.k=5"
+  },
+  "reversed_sql_sides": {
+    "passed": true,
+    "result": [
+      [
+        "295147905179352808.25",
+        "295147905179352802.00"
+      ]
+    ],
+    "sql": "SELECT sum(p.v),sum(CASE WHEN b.flag=1 THEN p.v ELSE 0 END) FROM b JOIN p ON b.k=p.k"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "branch": "research/fused-join-aggregation",
+  "commit": "83d6c0ee01f2a98b97ce04c74141e2881f49438e",
+  "gpu": "name, driver_version, memory.total [MiB], power.limit [W], clocks.current.sm [MHz], temperature.gpu, utilization.gpu [%]\nNVIDIA GeForce RTX 5060 Ti, 595.99.02, 16311 MiB, 180.00 W, 2325 MHz, 51, 0 %",
+  "host": "Linux df4a929d3086 7.0.0-42-generic #42~24.04.1-Ubuntu SMP PREEMPT_DYNAMIC Mon Oct 19 14:43:01 UTC 2 x86_64 x86_64 x86_64 GNU/Linux",
+  "memory_instrumented": true,
+  "nvcc": "nvcc: NVIDIA (R) Cuda compiler driver\nCopyright (c) 2005-2025 NVIDIA Corporation\nBuilt on Tue_May_27_02:21:03_PDT_2025\nCuda compilation tools, release 12.9, V12.9.86\nBuild cuda_12.9.r12.9/compiler.36037853_0",
+  "packages": {
+    "cuda-nvcc-12.9.86-hcdd1206_6": "12.9.86",
+    "cuda-nvcc-dev_linux-64-12.9.86-he91c749_2": "12.9.86",
+    "cuda-nvcc-impl-12.9.86-h85509e4_2": "12.9.86",
+    "cuda-nvcc-tools-12.9.86-he02047a_2": "12.9.86",
+    "libcudf-26.10.02-cuda12_261020221108_2cd6c6c0": "26.10.02",
+    "librmm-26.10.00-cuda12_261007164415_5ab04250": "26.10.00"
+  },
+  "repetitions": 3,
+  "sha256": {
+    "bench": "f4e9d9ce1541fba4ed9e50f9234fb83697e068009954bf6fba095af2fc2123dd",
+    "bench.cu": "a85f6f8f1d3c95b5717c7b9188358cf2d5075e9d395e1e025fa24a42747ef2e5",
+    "generate.py": "5b26f6bf5950f2148cdaeb90ef6fdf1d72fc617dfda8837a4199616afe21adf7"
+  }
+}

@@ -1,0 +1,15 @@
+Capture range started in the application.
+Capture range ended in the application.
+Generating '/tmp/nsys-report-420b.qdstrm'
+
+[1/1] [0%                          ] sirius_q14_sf1_ordinary_pinned.nsys-repProcessing events...
+
+[1/1] [0%                          ] sirius_q14_sf1_ordinary_pinned.nsys-rep
+[1/1] [13%                         ] sirius_q14_sf1_ordinary_pinned.nsys-rep
+[1/1] [====27%                     ] sirius_q14_sf1_ordinary_pinned.nsys-rep
+[1/1] [==============63%           ] sirius_q14_sf1_ordinary_pinned.nsys-rep
+[1/1] [========================100%] sirius_q14_sf1_ordinary_pinned.nsys-rep
+[1/1] [========================100%] sirius_q14_sf1_ordinary_pinned.nsys-rep
+ordinary 1 q14 [35.10257699963404] validated
+Generated:
+	/workspace/sirius/experiments/fused_join_aggregate/profiles/sirius_q14_sf1_ordinary_pinned.nsys-rep

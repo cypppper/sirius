@@ -1,0 +1,20 @@
+{
+  "error": "EPERM",
+  "interpretation": "io_uring setup is denied. This probe does not test Sirius initialization or the KvikIO backend.",
+  "io_uring_disabled_sysctl": "0",
+  "io_uring_queue_init_result": -1,
+  "memlock_limit_bytes": [
+    8388608,
+    8388608
+  ],
+  "pinned_submodules": [
+    " 3db0c56a0c045cdb81b73fa99ab195f07b032ad3 cucascade (remotes/origin/release/26.04-114-g3db0c56)",
+    " d54cbbe3df17e8e5ce68312f483b4155836112aa duckdb (v2.0.0)",
+    " d54cbbe3df17e8e5ce68312f483b4155836112aa sirius-duckdb/duckdb (v2.0.0)",
+    " 922489d3c8c77140b189ad3847554de141378b04 substrait (v1.2.0-35-g922489d)"
+  ],
+  "process_restrictions": [
+    "CapBnd:\t00000000a80405fb",
+    "Seccomp:\t2"
+  ]
+}

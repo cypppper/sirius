@@ -1,0 +1,17 @@
+{
+  "build_rows": 7500000,
+  "expected": [
+    46492,
+    31091,
+    46740,
+    31048
+  ],
+  "groups": 4,
+  "kind": "tpch",
+  "matches": 155371,
+  "name": "q12_sf5",
+  "probe_rows": 155371,
+  "query": 12,
+  "reference_sql": "SELECT (l_shipmode='SHIP')::INT*2+\n        (o_orderpriority IN ('1-URGENT','2-HIGH'))::INT g, count(*)::BIGINT v\n        FROM lineitem JOIN orders ON l_orderkey=o_orderkey WHERE l_shipmode IN ('MAIL','SHIP') AND l_commitdate<l_receiptdate\n        AND l_shipdate<l_commitdate AND l_receiptdate>=DATE '1994-01-01'\n        AND l_receiptdate<DATE '1995-01-01' GROUP BY 1",
+  "sf": 5
+}

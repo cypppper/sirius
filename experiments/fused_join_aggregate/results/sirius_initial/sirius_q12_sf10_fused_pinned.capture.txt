@@ -1,0 +1,14 @@
+Capture range started in the application.
+Capture range ended in the application.
+Generating '/tmp/nsys-report-b3b9.qdstrm'
+
+[1/1] [0%                          ] sirius_q12_sf10_fused_pinned.nsys-repProcessing events...
+
+[1/1] [0%                          ] sirius_q12_sf10_fused_pinned.nsys-rep
+[1/1] [7%                          ] sirius_q12_sf10_fused_pinned.nsys-rep
+[1/1] [===========53%              ] sirius_q12_sf10_fused_pinned.nsys-rep
+[1/1] [========================100%] sirius_q12_sf10_fused_pinned.nsys-rep
+[1/1] [========================100%] sirius_q12_sf10_fused_pinned.nsys-rep
+fused 10 q12 [135.6643309991341] validated
+Generated:
+	/workspace/sirius/experiments/fused_join_aggregate/profiles/sirius_q12_sf10_fused_pinned.nsys-rep

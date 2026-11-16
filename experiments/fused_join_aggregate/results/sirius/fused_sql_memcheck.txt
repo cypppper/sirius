@@ -1,0 +1,13 @@
+========= COMPUTE-SANITIZER
+duplicates_nulls_negative [(Decimal('295147905179352808.25'), Decimal('295147905179352802.00'))] passed
+groups_with_unmatched_group [('a', Decimal('295147905179352802.50'), Decimal('2.50')), ('b', Decimal('-0.50'), Decimal('3.75'))] passed
+all_null_values [(None, Decimal('0.00'))] passed
+no_matches [(None, None)] passed
+reversed_sql_sides [(Decimal('295147905179352808.25'), Decimal('295147905179352802.00'))] passed
+probe_side_groups [('a', Decimal('295147905179352802.50'), Decimal('2.50')), ('b', Decimal('-0.50'), Decimal('3.75')), ('c', Decimal('0.00'), Decimal('0.00'))] passed
+unmatched_overflow_skipped [(51,)] passed
+case_false_overflow_skipped [(30,)] passed
+string_prefix_and_null [(Decimal('9223372036854777.00'), Decimal('9223372036854783.25'))] passed
+string_in_three_valued [(Decimal('9223372036854777.00'), Decimal('0.00'))] passed
+matched_overflow_reported passed
+========= ERROR SUMMARY: 0 errors

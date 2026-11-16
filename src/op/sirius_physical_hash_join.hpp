@@ -28,6 +28,7 @@
 #include "duckdb/planner/operator/logical_join.hpp"
 #include "expression/ast/node.hpp"  // complete sirius::ast::node for join_condition's destructor
 #include "expression/join_condition.hpp"
+#include "op/aggregate/join_map_sum.hpp"
 #include "op/dynamic_filter/dynamic_filter_publish_plan.hpp"
 #include "op/dynamic_filter/dynamic_filter_publisher.hpp"
 #include "op/dynamic_filter/dynamic_filter_stats.hpp"
@@ -187,6 +188,8 @@ class sirius_physical_hash_join : public sirius_physical_partition_consumer_oper
     uint64_t max_broadcast_join_size                = config::DEFAULT_MAX_BROADCAST_JOIN_SIZE,
     dynamic_filter_stats* dynamic_filter_stats_sink = {});
 
+  join_map_consumer
+    matched_pair_consumer;  // Optional experimental consumer; default materializes rows.
   duckdb::vector<sirius::join_condition> conditions;
   //! The types of the join keys
   duckdb::vector<sirius::logical_type> condition_types;

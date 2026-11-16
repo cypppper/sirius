@@ -1,0 +1,3 @@
+========= COMPUTE-SANITIZER
+cuDF two-table row evaluator + ordinary join maps: sum=68 valid=2 pairs=4; no gathered payload or expression-result columns
+========= ERROR SUMMARY: 0 errors

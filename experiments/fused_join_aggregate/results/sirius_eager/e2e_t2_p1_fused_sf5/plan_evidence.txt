@@ -1,0 +1,57 @@
+Q12: first recorded physical pipeline plan
+=== Pipeline Overview ===
+Pipeline #0: GPU_SCAN (id=0) -> FILTER (id=1)
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #1: PARTITION (id=2)
+  Input: <- Pipeline #0 [on: PARTITION (id=2), port: default, barrier: FULL]
+  Dependencies: Pipeline #0
+  Output: -> FUSED_JOIN_AGGREGATE [port: preserved, barrier: FULL]
+Pipeline #2: GPU_SCAN (id=3)
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #3: PARTITION (id=4)
+  Input: <- Pipeline #2 [on: PARTITION (id=4), port: default, barrier: FULL]
+  Dependencies: Pipeline #2
+  Output: -> FUSED_JOIN_AGGREGATE [port: counted, barrier: FULL]
+Pipeline #4: FUSED_JOIN_AGGREGATE (id=5)
+  Input: <- Pipeline #3 [on: FUSED_JOIN_AGGREGATE (id=5), port: counted, barrier: FULL]
+  Input: <- Pipeline #1 [on: FUSED_JOIN_AGGREGATE (id=5), port: preserved, barrier: FULL]
+  Dependencies: Pipeline #1, Pipeline #3
+  Output: -> ORDER_BY [port: default, barrier: FULL]
+Pipeline #5: ORDER_BY (id=6)
+  Input: <- Pipeline #4 [on: ORDER_BY (id=6), port: default, barrier: FULL]
+  Dependencies: Pipeline #4
+  Output: -> SORT_SAMPLE [port: default, barrier: PIPELINE]
+Pipeline #6: SORT_SAMPLE (id=7) -> SORT_PARTITION (id=8)
+  Input: <- Pipeline #5 [on: SORT_SAMPLE (id=7), port: default, barrier: PIPELINE]
+  Dependencies: Pipeline #5
+  Output: -> MERGE_SORT [port: default, barrier: FULL]
+Pipeline #7: MERGE_SORT (id=9)
+  Input: <- Pipeline #6 [on: MERGE_SORT (id=9), port: default, barrier: FULL]
+  Dependencies: Pipeline #6
+  Output: -> RESULT_COLLECTOR [port: default, barrier: FULL]
+Pipeline #8: RESULT_COLLECTOR (id=10)
+  Input: <- Pipeline #7 [on: RESULT_COLLECTOR (id=10), port: default, barrier: FULL]
+  Dependencies: Pipeline #7
+
+Q14: first recorded physical pipeline plan
+=== Pipeline Overview ===
+Pipeline #0: GPU_SCAN (id=0)
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #1: PARTITION (id=1)
+  Input: <- Pipeline #0 [on: PARTITION (id=1), port: default, barrier: FULL]
+  Dependencies: Pipeline #0
+  Output: -> FUSED_JOIN_AGGREGATE [port: preserved, barrier: FULL]
+Pipeline #2: GPU_SCAN (id=2)
+  Output: -> PARTITION [port: default, barrier: FULL]
+Pipeline #3: PARTITION (id=3)
+  Input: <- Pipeline #2 [on: PARTITION (id=3), port: default, barrier: FULL]
+  Dependencies: Pipeline #2
+  Output: -> FUSED_JOIN_AGGREGATE [port: counted, barrier: FULL]
+Pipeline #4: FUSED_JOIN_AGGREGATE (id=4)
+  Input: <- Pipeline #3 [on: FUSED_JOIN_AGGREGATE (id=4), port: counted, barrier: FULL]
+  Input: <- Pipeline #1 [on: FUSED_JOIN_AGGREGATE (id=4), port: preserved, barrier: FULL]
+  Dependencies: Pipeline #1, Pipeline #3
+  Output: -> PROJECTION [port: default, barrier: FULL]
+Pipeline #5: PROJECTION (id=5) -> RESULT_COLLECTOR (id=6)
+  Input: <- Pipeline #4 [on: PROJECTION (id=5), port: default, barrier: FULL]
+  Dependencies: Pipeline #4

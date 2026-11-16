@@ -1,0 +1,18 @@
+method,iteration,build_gpu_ms,probe_gpu_ms,build_wall_ms,probe_wall_ms,matches,logical_intermediate_bytes,peak_operator_bytes
+fused_global,0,0.097536,0.267136,0.108054,0.279605,374228,0,0
+cudf,0,0.376704,1.00784,0.391555,1.02155,374228,14969120,0
+fused,0,0.091072,0.13216,0.104308,0.144489,374228,0,0
+materialized,0,0.084288,0.118656,0.095276,0.129196,374228,4490736,0
+Collecting data...
+Generating '/tmp/nsys-report-a8b2.qdstrm'
+
+[1/1] [0%                          ] q14_sf5.nsys-rep
+[1/1] [0%                          ] q14_sf5.nsys-rep
+[1/1] [=======38%                  ] q14_sf5.nsys-rep
+[1/1] [==========49%               ] q14_sf5.nsys-rep
+[1/1] [=============60%            ] q14_sf5.nsys-rep
+[1/1] [==============61%           ] q14_sf5.nsys-rep
+[1/1] [========================100%] q14_sf5.nsys-rep
+[1/1] [========================100%] q14_sf5.nsys-rep
+Generated:
+	/workspace/sirius/experiments/fused_join_aggregate/profiles/q14_sf5.nsys-rep

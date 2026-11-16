@@ -1,0 +1,61 @@
+{
+  "all_null": {
+    "passed": true,
+    "result": [
+      [
+        null,
+        null
+      ]
+    ],
+    "sql": "SELECT sum(a.v),sum(a.x) FROM a JOIN b ON a.k=b.k WHERE a.k=2"
+  },
+  "decimal_arithmetic_fallback": {
+    "passed": true,
+    "result": [
+      [
+        "15.6250"
+      ]
+    ],
+    "sql": "SELECT sum(a.x*a.x) FROM a JOIN b ON a.k=b.k"
+  },
+  "duplicates_nulls_negative": {
+    "passed": true,
+    "result": [
+      [
+        -2,
+        "2.50",
+        6
+      ]
+    ],
+    "sql": "SELECT sum(a.v),sum(a.x),sum(b.k) FROM a JOIN b ON a.k=b.k"
+  },
+  "empty_join": {
+    "passed": true,
+    "result": [
+      [
+        null
+      ]
+    ],
+    "sql": "SELECT sum(a.v) FROM a JOIN b ON a.k=b.k WHERE a.k=9"
+  },
+  "integer_expression": {
+    "passed": true,
+    "result": [
+      [
+        2
+      ]
+    ],
+    "sql": "SELECT sum(a.v+1) FROM a JOIN b ON a.k=b.k"
+  },
+  "reversed_sides": {
+    "passed": true,
+    "result": [
+      [
+        -2,
+        "2.50",
+        6
+      ]
+    ],
+    "sql": "SELECT sum(a.v),sum(a.x),sum(b.k) FROM b JOIN a ON a.k=b.k"
+  }
+}

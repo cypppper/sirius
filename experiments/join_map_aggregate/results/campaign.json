@@ -1,0 +1,15 @@
+{
+  "library_sha256": "cc9da8423467af70a3fe29f157c2ab6c48aa443b253eec32c9e6a15e16d856f2",
+  "measured_queries": 240,
+  "note": "sum_product is a deliberately unsupported negative control",
+  "processes": 12,
+  "repetitions": 5,
+  "same_binary": true,
+  "scenarios": [
+    "SF1 Parquet",
+    "SF10 GPU-pinned"
+  ],
+  "trials": 3,
+  "warmup_checks": 96,
+  "warmups": 2
+}

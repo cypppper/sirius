@@ -1,0 +1,47 @@
+{
+  "duplicates": {
+    "matches_cpu": true,
+    "milliseconds": [
+      88.92235999519471
+    ],
+    "result": [
+      [
+        "11750291645.64"
+      ]
+    ]
+  },
+  "sum_price": {
+    "matches_cpu": true,
+    "milliseconds": [
+      82.94048700190615
+    ],
+    "result": [
+      [
+        "2937572911.41"
+      ]
+    ]
+  },
+  "sum_product": {
+    "matches_cpu": true,
+    "milliseconds": [
+      88.1245049968129
+    ],
+    "result": [
+      [
+        "145955761.5020"
+      ]
+    ]
+  },
+  "two_sums": {
+    "matches_cpu": true,
+    "milliseconds": [
+      91.32539399433881
+    ],
+    "result": [
+      [
+        "2937572911.41",
+        "3835.73"
+      ]
+    ]
+  }
+}

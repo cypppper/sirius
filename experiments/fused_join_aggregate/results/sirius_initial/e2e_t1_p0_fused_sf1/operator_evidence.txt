@@ -1,0 +1,45 @@
+[2026-11-15 17:20:33.521] [info] [sirius_scan_manager.cpp:1396] [scan_manager] local I/O backend: kvikio
+[2026-11-15 17:20:33.532] [info] [sirius_context.cpp:254] [gpu_pool] GPU:0 QueryBegin instance=0x79f8b940b6f0 connection=1 window=2 query=3 allocated=0 bytes peak=0 bytes reserved=0 bytes
+[2026-11-15 17:20:33.558] [info] [sirius_context.cpp:254] [gpu_pool] GPU:0 QueryEnd instance=0x79f8b940b6f0 connection=1 window=2 query=3 allocated=0 bytes peak=1048576 bytes reserved=0 bytes
+[2026-11-15 17:20:33.874] [info] [sirius_context.cpp:254] [gpu_pool] GPU:0 QueryBegin instance=0x79f8b940b6f0 connection=1 window=4 query=12 allocated=0 bytes peak=1048576 bytes reserved=0 bytes
+[2026-11-15 17:20:34.109] [info] [sirius_physical_fused_join_aggregate.cpp:174] [FUSED_JOIN_AGGREGATE] build_rows=1500000 probe_rows=30912 groups=2 sums=2
+[2026-11-15 17:20:34.121] [info] [sirius_context.cpp:254] [gpu_pool] GPU:0 QueryEnd instance=0x79f8b940b6f0 connection=1 window=4 query=12 allocated=0 bytes peak=1231448120 bytes reserved=0 bytes
+[2026-11-15 17:20:34.138] [info] [sirius_context.cpp:254] [gpu_pool] GPU:0 QueryBegin instance=0x79f8b940b6f0 connection=1 window=6 query=13 allocated=0 bytes peak=1231448120 bytes reserved=0 bytes
+[2026-11-15 17:20:34.208] [info] [sirius_physical_fused_join_aggregate.cpp:174] [FUSED_JOIN_AGGREGATE] build_rows=1500000 probe_rows=30912 groups=2 sums=2
+[2026-11-15 17:20:34.211] [info] [sirius_context.cpp:254] [gpu_pool] GPU:0 QueryEnd instance=0x79f8b940b6f0 connection=1 window=6 query=13 allocated=0 bytes peak=1231448120 bytes reserved=0 bytes
+[2026-11-15 17:20:34.228] [info] [sirius_context.cpp:254] [gpu_pool] GPU:0 QueryBegin instance=0x79f8b940b6f0 connection=1 window=8 query=14 allocated=0 bytes peak=1231448120 bytes reserved=0 bytes
+[2026-11-15 17:20:34.299] [info] [sirius_physical_fused_join_aggregate.cpp:174] [FUSED_JOIN_AGGREGATE] build_rows=1500000 probe_rows=30912 groups=2 sums=2
+[2026-11-15 17:20:34.303] [info] [sirius_context.cpp:254] [gpu_pool] GPU:0 QueryEnd instance=0x79f8b940b6f0 connection=1 window=8 query=14 allocated=0 bytes peak=1231448120 bytes reserved=0 bytes
+[2026-11-15 17:20:34.320] [info] [sirius_context.cpp:254] [gpu_pool] GPU:0 QueryBegin instance=0x79f8b940b6f0 connection=1 window=10 query=15 allocated=0 bytes peak=1231448120 bytes reserved=0 bytes
+[2026-11-15 17:20:34.390] [info] [sirius_physical_fused_join_aggregate.cpp:174] [FUSED_JOIN_AGGREGATE] build_rows=1500000 probe_rows=30912 groups=2 sums=2
+[2026-11-15 17:20:34.393] [info] [sirius_context.cpp:254] [gpu_pool] GPU:0 QueryEnd instance=0x79f8b940b6f0 connection=1 window=10 query=15 allocated=0 bytes peak=1231448120 bytes reserved=0 bytes
+[2026-11-15 17:20:34.410] [info] [sirius_context.cpp:254] [gpu_pool] GPU:0 QueryBegin instance=0x79f8b940b6f0 connection=1 window=12 query=16 allocated=0 bytes peak=1231448120 bytes reserved=0 bytes
+[2026-11-15 17:20:34.478] [info] [sirius_physical_fused_join_aggregate.cpp:174] [FUSED_JOIN_AGGREGATE] build_rows=1500000 probe_rows=30912 groups=2 sums=2
+[2026-11-15 17:20:34.481] [info] [sirius_context.cpp:254] [gpu_pool] GPU:0 QueryEnd instance=0x79f8b940b6f0 connection=1 window=12 query=16 allocated=0 bytes peak=1231448120 bytes reserved=0 bytes
+[2026-11-15 17:20:34.498] [info] [sirius_context.cpp:254] [gpu_pool] GPU:0 QueryBegin instance=0x79f8b940b6f0 connection=1 window=14 query=17 allocated=0 bytes peak=1231448120 bytes reserved=0 bytes
+[2026-11-15 17:20:34.567] [info] [sirius_physical_fused_join_aggregate.cpp:174] [FUSED_JOIN_AGGREGATE] build_rows=1500000 probe_rows=30912 groups=2 sums=2
+[2026-11-15 17:20:34.570] [info] [sirius_context.cpp:254] [gpu_pool] GPU:0 QueryEnd instance=0x79f8b940b6f0 connection=1 window=14 query=17 allocated=0 bytes peak=1231448120 bytes reserved=0 bytes
+[2026-11-15 17:20:34.587] [info] [sirius_context.cpp:254] [gpu_pool] GPU:0 QueryBegin instance=0x79f8b940b6f0 connection=1 window=16 query=18 allocated=0 bytes peak=1231448120 bytes reserved=0 bytes
+[2026-11-15 17:20:34.655] [info] [sirius_physical_fused_join_aggregate.cpp:174] [FUSED_JOIN_AGGREGATE] build_rows=1500000 probe_rows=30912 groups=2 sums=2
+[2026-11-15 17:20:34.658] [info] [sirius_context.cpp:254] [gpu_pool] GPU:0 QueryEnd instance=0x79f8b940b6f0 connection=1 window=16 query=18 allocated=0 bytes peak=1231448120 bytes reserved=0 bytes
+[2026-11-15 17:20:34.831] [info] [sirius_context.cpp:254] [gpu_pool] GPU:0 QueryBegin instance=0x79f8b940b6f0 connection=1 window=18 query=19 allocated=0 bytes peak=1231448120 bytes reserved=0 bytes
+[2026-11-15 17:20:34.925] [info] [sirius_physical_fused_join_aggregate.cpp:174] [FUSED_JOIN_AGGREGATE] build_rows=200000 probe_rows=77041 groups=1 sums=2
+[2026-11-15 17:20:34.927] [info] [sirius_context.cpp:254] [gpu_pool] GPU:0 QueryEnd instance=0x79f8b940b6f0 connection=1 window=18 query=19 allocated=0 bytes peak=1231448120 bytes reserved=0 bytes
+[2026-11-15 17:20:34.942] [info] [sirius_context.cpp:254] [gpu_pool] GPU:0 QueryBegin instance=0x79f8b940b6f0 connection=1 window=20 query=20 allocated=0 bytes peak=1231448120 bytes reserved=0 bytes
+[2026-11-15 17:20:35.015] [info] [sirius_physical_fused_join_aggregate.cpp:174] [FUSED_JOIN_AGGREGATE] build_rows=200000 probe_rows=77041 groups=1 sums=2
+[2026-11-15 17:20:35.017] [info] [sirius_context.cpp:254] [gpu_pool] GPU:0 QueryEnd instance=0x79f8b940b6f0 connection=1 window=20 query=20 allocated=0 bytes peak=1231448120 bytes reserved=0 bytes
+[2026-11-15 17:20:35.032] [info] [sirius_context.cpp:254] [gpu_pool] GPU:0 QueryBegin instance=0x79f8b940b6f0 connection=1 window=22 query=21 allocated=0 bytes peak=1231448120 bytes reserved=0 bytes
+[2026-11-15 17:20:35.105] [info] [sirius_physical_fused_join_aggregate.cpp:174] [FUSED_JOIN_AGGREGATE] build_rows=200000 probe_rows=77041 groups=1 sums=2
+[2026-11-15 17:20:35.107] [info] [sirius_context.cpp:254] [gpu_pool] GPU:0 QueryEnd instance=0x79f8b940b6f0 connection=1 window=22 query=21 allocated=0 bytes peak=1231448120 bytes reserved=0 bytes
+[2026-11-15 17:20:35.122] [info] [sirius_context.cpp:254] [gpu_pool] GPU:0 QueryBegin instance=0x79f8b940b6f0 connection=1 window=24 query=22 allocated=0 bytes peak=1231448120 bytes reserved=0 bytes
+[2026-11-15 17:20:35.195] [info] [sirius_physical_fused_join_aggregate.cpp:174] [FUSED_JOIN_AGGREGATE] build_rows=200000 probe_rows=77041 groups=1 sums=2
+[2026-11-15 17:20:35.196] [info] [sirius_context.cpp:254] [gpu_pool] GPU:0 QueryEnd instance=0x79f8b940b6f0 connection=1 window=24 query=22 allocated=0 bytes peak=1231448120 bytes reserved=0 bytes
+[2026-11-15 17:20:35.213] [info] [sirius_context.cpp:254] [gpu_pool] GPU:0 QueryBegin instance=0x79f8b940b6f0 connection=1 window=26 query=23 allocated=0 bytes peak=1231448120 bytes reserved=0 bytes
+[2026-11-15 17:20:35.286] [info] [sirius_physical_fused_join_aggregate.cpp:174] [FUSED_JOIN_AGGREGATE] build_rows=200000 probe_rows=77041 groups=1 sums=2
+[2026-11-15 17:20:35.287] [info] [sirius_context.cpp:254] [gpu_pool] GPU:0 QueryEnd instance=0x79f8b940b6f0 connection=1 window=26 query=23 allocated=0 bytes peak=1231448120 bytes reserved=0 bytes
+[2026-11-15 17:20:35.303] [info] [sirius_context.cpp:254] [gpu_pool] GPU:0 QueryBegin instance=0x79f8b940b6f0 connection=1 window=28 query=24 allocated=0 bytes peak=1231448120 bytes reserved=0 bytes
+[2026-11-15 17:20:35.377] [info] [sirius_physical_fused_join_aggregate.cpp:174] [FUSED_JOIN_AGGREGATE] build_rows=200000 probe_rows=77041 groups=1 sums=2
+[2026-11-15 17:20:35.378] [info] [sirius_context.cpp:254] [gpu_pool] GPU:0 QueryEnd instance=0x79f8b940b6f0 connection=1 window=28 query=24 allocated=0 bytes peak=1231448120 bytes reserved=0 bytes
+[2026-11-15 17:20:35.394] [info] [sirius_context.cpp:254] [gpu_pool] GPU:0 QueryBegin instance=0x79f8b940b6f0 connection=1 window=30 query=25 allocated=0 bytes peak=1231448120 bytes reserved=0 bytes
+[2026-11-15 17:20:35.466] [info] [sirius_physical_fused_join_aggregate.cpp:174] [FUSED_JOIN_AGGREGATE] build_rows=200000 probe_rows=77041 groups=1 sums=2
+[2026-11-15 17:20:35.468] [info] [sirius_context.cpp:254] [gpu_pool] GPU:0 QueryEnd instance=0x79f8b940b6f0 connection=1 window=30 query=25 allocated=0 bytes peak=1231448120 bytes reserved=0 bytes

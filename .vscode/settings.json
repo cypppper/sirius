@@ -1,3 +1,4 @@
 {
-  "clangd.path": "${workspaceFolder}/.pixi/envs/default/bin/clangd"
+  "clangd.path": "${workspaceFolder}/.pixi/envs/default/bin/clangd",
+  "git.ignoreLimitWarning": true
 }

@@ -73,6 +73,8 @@ repos:
     rev: v2.4.1
     hooks:
       - id: codespell
+        # Raw SQL reference values and profiler output must retain their exact text.
+        exclude: ^experiments/(fused_join_aggregate|join_map_aggregate)/results/
         args:
           [
             "--write-changes",

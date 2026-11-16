@@ -1,0 +1,25 @@
+{
+  "all22_modes": [
+    "ordinary",
+    "eager",
+    "fused"
+  ],
+  "all_primary_results_match_cpu": true,
+  "audit_disabled_for_primary_timings": true,
+  "library_sha256": "9bd1279582d68671dc8d608b98d31b164b29637e39a6158c3648984bba6bf851",
+  "measured_queries": 1200,
+  "memcheck_errors": 0,
+  "only_tpch_q12_q14_fused": true,
+  "operator_sources_sha256": {
+    "src/cuda/fused_join_aggregate_impl.cu": "701611a81423dac0c9dd2bc64829b8b777fce2f8d4c1aa61f59db704291fc272",
+    "src/op/aggregate/fused_join_aggregate_impl.hpp": "f5c87e341cd4522dec44edc403039b474487c4758b65b53e607287a0daedf1b9",
+    "src/op/aggregate/lazy_join_expression.hpp": "69b0559566e2b2dbb9040febd57ed985afbef9e84f371e6333379a8a0fc03a54",
+    "src/op/sirius_physical_fused_join_aggregate.cpp": "2dbb018be924bf1513f7e91aaa296b2051fb69e463c375bcc83cb2a01dc1dcab",
+    "src/op/sirius_physical_fused_join_aggregate.hpp": "5c6324edbc2782fa414895c4acab3effc172c5f3c0ca6dc5e1ab7f2a896fda28",
+    "src/planner/sirius_plan_fused_join_aggregate.cpp": "414d1336f4bb2064597fbb54d550792d66458506f20caaac05fc636f1249e95b"
+  },
+  "original_build_roles_preserved": true,
+  "primary_processes": 60,
+  "semantic_fixtures": 11,
+  "warmup_checks": 480
+}

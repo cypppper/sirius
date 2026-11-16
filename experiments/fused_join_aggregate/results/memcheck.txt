@@ -1,0 +1,7 @@
+========= COMPUTE-SANITIZER
+method,iteration,build_gpu_ms,probe_gpu_ms,build_wall_ms,probe_wall_ms,matches,logical_intermediate_bytes,peak_operator_bytes
+fused_global,0,0.56496,0.563744,0.600718,0.579323,208,0,0
+cudf,0,2.1439,10.7835,2.16576,10.8382,208,5824,0
+fused,0,0.547904,0.547136,0.565675,0.561321,208,0,0
+materialized,0,0.48688,0.930944,0.502968,0.94553,208,4656,0
+========= ERROR SUMMARY: 0 errors

@@ -1,0 +1,33 @@
+.pixi/
+data/
+bin/
+__pycache__/
+profiles/
+
+# Reference fixtures are deduplicated in results/reference_fixtures.json.gz.
+results/**/*.sql
+results/**/*_reference.json*
+results/**/stdout.txt
+results/**/stderr.txt
+results/*.stderr
+
+results/sirius/*/logs/
+
+# Development pilots; the frozen campaign and final all-22 validations are retained.
+results/sirius/all22_fused_fused_sf1/
+results/sirius/capacity_pin_fused_sf10/
+results/sirius/fusion_smoke_fused_sf1/
+results/sirius/fusion_smoke_v2_fused_sf1/
+results/sirius/validation_ordinary_sf1/
+
+results/sirius_initial/*/logs/
+results/sirius_initial/all22_fused_fused_sf1/
+results/sirius_initial/capacity_pin_fused_sf10/
+results/sirius_initial/fusion_smoke_fused_sf1/
+results/sirius_initial/fusion_smoke_v2_fused_sf1/
+results/sirius_initial/validation_ordinary_sf1/
+
+results/sirius_eager/*/logs/
+
+# Superseded preflight timings before decimal-carrier correction.
+results/sirius_lazy_pilot/

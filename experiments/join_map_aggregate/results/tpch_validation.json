@@ -1,0 +1,360 @@
+{
+  "off": {
+    "all_match_cpu": true,
+    "consumer_batches": 0,
+    "environment": {
+      "build_orientation": "original HASH_JOIN child 1 preserved",
+      "duckdb_version": "2.0.0",
+      "enable_duckdb_fallback": false,
+      "expression_audit": false,
+      "extension_sha256": "2e94556c8d845ad04d641246d6002704abc063867e6e4d36a4068ef8ea95d72b",
+      "gpu_execution": true,
+      "gpu_snapshot": "name, driver_version, temperature.gpu, clocks.current.sm [MHz]\nNVIDIA GeForce RTX 5060 Ti, 595.99.02, 49, 2325 MHz",
+      "kvikio_compat_mode": "ON",
+      "lazy_aggregation": false,
+      "library_sha256": "cc9da8423467af70a3fe29f157c2ab6c48aa443b253eec32c9e6a15e16d856f2",
+      "log_level": "info",
+      "mode": "ordinary",
+      "pin": false,
+      "pin_seconds": 0.0,
+      "sf": 1
+    },
+    "queries": 22,
+    "results": {
+      "q1": {
+        "matches_cpu": true,
+        "milliseconds": [
+          89.3467420100933
+        ],
+        "rows": 4
+      },
+      "q10": {
+        "matches_cpu": true,
+        "milliseconds": [
+          229.13663399231154
+        ],
+        "rows": 20
+      },
+      "q11": {
+        "matches_cpu": true,
+        "milliseconds": [
+          107.31454699998721
+        ],
+        "rows": 1048
+      },
+      "q12": {
+        "matches_cpu": true,
+        "milliseconds": [
+          101.63928000838496
+        ],
+        "rows": 2
+      },
+      "q13": {
+        "matches_cpu": true,
+        "milliseconds": [
+          126.33589700271841
+        ],
+        "rows": 42
+      },
+      "q14": {
+        "matches_cpu": true,
+        "milliseconds": [
+          103.2620079931803
+        ],
+        "rows": 1
+      },
+      "q15": {
+        "matches_cpu": true,
+        "milliseconds": [
+          102.55618099472485
+        ],
+        "rows": 1
+      },
+      "q16": {
+        "matches_cpu": true,
+        "milliseconds": [
+          118.63992401049472
+        ],
+        "rows": 18368
+      },
+      "q17": {
+        "matches_cpu": true,
+        "milliseconds": [
+          113.65824399399571
+        ],
+        "rows": 1
+      },
+      "q18": {
+        "matches_cpu": true,
+        "milliseconds": [
+          158.74216600786895
+        ],
+        "rows": 57
+      },
+      "q19": {
+        "matches_cpu": true,
+        "milliseconds": [
+          127.30898900190368
+        ],
+        "rows": 1
+      },
+      "q2": {
+        "matches_cpu": true,
+        "milliseconds": [
+          119.76599800982513
+        ],
+        "rows": 100
+      },
+      "q20": {
+        "matches_cpu": true,
+        "milliseconds": [
+          184.97385899536312
+        ],
+        "rows": 181
+      },
+      "q21": {
+        "matches_cpu": true,
+        "milliseconds": [
+          177.80648299958557
+        ],
+        "rows": 100
+      },
+      "q22": {
+        "matches_cpu": true,
+        "milliseconds": [
+          142.2524530062219
+        ],
+        "rows": 7
+      },
+      "q3": {
+        "matches_cpu": true,
+        "milliseconds": [
+          118.59878800169099
+        ],
+        "rows": 10
+      },
+      "q4": {
+        "matches_cpu": true,
+        "milliseconds": [
+          89.59524800593499
+        ],
+        "rows": 5
+      },
+      "q5": {
+        "matches_cpu": true,
+        "milliseconds": [
+          154.95458099758253
+        ],
+        "rows": 5
+      },
+      "q6": {
+        "matches_cpu": true,
+        "milliseconds": [
+          73.3732910011895
+        ],
+        "rows": 1
+      },
+      "q7": {
+        "matches_cpu": true,
+        "milliseconds": [
+          163.8221860048361
+        ],
+        "rows": 4
+      },
+      "q8": {
+        "matches_cpu": true,
+        "milliseconds": [
+          196.21362299949396
+        ],
+        "rows": 2
+      },
+      "q9": {
+        "matches_cpu": true,
+        "milliseconds": [
+          216.90704200591426
+        ],
+        "rows": 175
+      }
+    },
+    "source": "experiments/fused_join_aggregate/results/sirius/map_validation_off_ordinary_sf1"
+  },
+  "on": {
+    "all_match_cpu": true,
+    "consumer_batches": 0,
+    "environment": {
+      "build_orientation": "original HASH_JOIN child 1 preserved",
+      "duckdb_version": "2.0.0",
+      "enable_duckdb_fallback": false,
+      "expression_audit": false,
+      "extension_sha256": "2e94556c8d845ad04d641246d6002704abc063867e6e4d36a4068ef8ea95d72b",
+      "gpu_execution": true,
+      "gpu_snapshot": "name, driver_version, temperature.gpu, clocks.current.sm [MHz]\nNVIDIA GeForce RTX 5060 Ti, 595.99.02, 49, 2325 MHz",
+      "kvikio_compat_mode": "ON",
+      "lazy_aggregation": false,
+      "library_sha256": "cc9da8423467af70a3fe29f157c2ab6c48aa443b253eec32c9e6a15e16d856f2",
+      "log_level": "info",
+      "mode": "ordinary",
+      "pin": false,
+      "pin_seconds": 0.0,
+      "sf": 1
+    },
+    "queries": 22,
+    "results": {
+      "q1": {
+        "matches_cpu": true,
+        "milliseconds": [
+          79.30857098835986
+        ],
+        "rows": 4
+      },
+      "q10": {
+        "matches_cpu": true,
+        "milliseconds": [
+          232.86106198793277
+        ],
+        "rows": 20
+      },
+      "q11": {
+        "matches_cpu": true,
+        "milliseconds": [
+          108.22740000730846
+        ],
+        "rows": 1048
+      },
+      "q12": {
+        "matches_cpu": true,
+        "milliseconds": [
+          91.0038239962887
+        ],
+        "rows": 2
+      },
+      "q13": {
+        "matches_cpu": true,
+        "milliseconds": [
+          121.96222199418116
+        ],
+        "rows": 42
+      },
+      "q14": {
+        "matches_cpu": true,
+        "milliseconds": [
+          104.36003500944935
+        ],
+        "rows": 1
+      },
+      "q15": {
+        "matches_cpu": true,
+        "milliseconds": [
+          89.11320299375802
+        ],
+        "rows": 1
+      },
+      "q16": {
+        "matches_cpu": true,
+        "milliseconds": [
+          116.94147399975918
+        ],
+        "rows": 18368
+      },
+      "q17": {
+        "matches_cpu": true,
+        "milliseconds": [
+          103.3193460025359
+        ],
+        "rows": 1
+      },
+      "q18": {
+        "matches_cpu": true,
+        "milliseconds": [
+          173.2708229974378
+        ],
+        "rows": 57
+      },
+      "q19": {
+        "matches_cpu": true,
+        "milliseconds": [
+          127.92279799759854
+        ],
+        "rows": 1
+      },
+      "q2": {
+        "matches_cpu": true,
+        "milliseconds": [
+          112.66422599146608
+        ],
+        "rows": 100
+      },
+      "q20": {
+        "matches_cpu": true,
+        "milliseconds": [
+          184.76000399095938
+        ],
+        "rows": 181
+      },
+      "q21": {
+        "matches_cpu": true,
+        "milliseconds": [
+          195.1218010071898
+        ],
+        "rows": 100
+      },
+      "q22": {
+        "matches_cpu": true,
+        "milliseconds": [
+          145.45035900664516
+        ],
+        "rows": 7
+      },
+      "q3": {
+        "matches_cpu": true,
+        "milliseconds": [
+          125.59384199266788
+        ],
+        "rows": 10
+      },
+      "q4": {
+        "matches_cpu": true,
+        "milliseconds": [
+          89.34253800543956
+        ],
+        "rows": 5
+      },
+      "q5": {
+        "matches_cpu": true,
+        "milliseconds": [
+          160.12517099443357
+        ],
+        "rows": 5
+      },
+      "q6": {
+        "matches_cpu": true,
+        "milliseconds": [
+          68.11261300754268
+        ],
+        "rows": 1
+      },
+      "q7": {
+        "matches_cpu": true,
+        "milliseconds": [
+          160.63988300447818
+        ],
+        "rows": 4
+      },
+      "q8": {
+        "matches_cpu": true,
+        "milliseconds": [
+          202.50189299986232
+        ],
+        "rows": 2
+      },
+      "q9": {
+        "matches_cpu": true,
+        "milliseconds": [
+          216.45667000848334
+        ],
+        "rows": 175
+      }
+    },
+    "source": "experiments/fused_join_aggregate/results/sirius/map_validation_on_ordinary_sf1"
+  }
+}

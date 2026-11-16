@@ -1,0 +1,9 @@
+{
+  "all_cpu_comparisons_passed": true,
+  "current_installed_library_sha256": "cc9da8423467af70a3fe29f157c2ab6c48aa443b253eec32c9e6a15e16d856f2",
+  "final_processes": 12,
+  "operator_dispatch_verified": true,
+  "same_library_as_tpch_validation": true,
+  "sanitizer_errors": 0,
+  "timings": 240
+}

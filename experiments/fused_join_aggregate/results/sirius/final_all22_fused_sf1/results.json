@@ -1,0 +1,156 @@
+{
+  "q1": {
+    "matches_cpu": true,
+    "milliseconds": [
+      78.40810499328654
+    ],
+    "rows": 4
+  },
+  "q10": {
+    "matches_cpu": true,
+    "milliseconds": [
+      229.41951899701962
+    ],
+    "rows": 20
+  },
+  "q11": {
+    "matches_cpu": true,
+    "milliseconds": [
+      96.46738699666457
+    ],
+    "rows": 1048
+  },
+  "q12": {
+    "matches_cpu": true,
+    "milliseconds": [
+      91.04975099762669
+    ],
+    "rows": 2
+  },
+  "q13": {
+    "matches_cpu": true,
+    "milliseconds": [
+      124.12592599866912
+    ],
+    "rows": 42
+  },
+  "q14": {
+    "matches_cpu": true,
+    "milliseconds": [
+      91.25683100137394
+    ],
+    "rows": 1
+  },
+  "q15": {
+    "matches_cpu": true,
+    "milliseconds": [
+      90.34777600027155
+    ],
+    "rows": 1
+  },
+  "q16": {
+    "matches_cpu": true,
+    "milliseconds": [
+      118.02669399912702
+    ],
+    "rows": 18368
+  },
+  "q17": {
+    "matches_cpu": true,
+    "milliseconds": [
+      105.97118999430677
+    ],
+    "rows": 1
+  },
+  "q18": {
+    "matches_cpu": true,
+    "milliseconds": [
+      172.31014400022104
+    ],
+    "rows": 57
+  },
+  "q19": {
+    "matches_cpu": true,
+    "milliseconds": [
+      116.99540499830619
+    ],
+    "rows": 1
+  },
+  "q2": {
+    "matches_cpu": true,
+    "milliseconds": [
+      110.46825700032059
+    ],
+    "rows": 100
+  },
+  "q20": {
+    "matches_cpu": true,
+    "milliseconds": [
+      186.17413199535804
+    ],
+    "rows": 181
+  },
+  "q21": {
+    "matches_cpu": true,
+    "milliseconds": [
+      202.62709699454717
+    ],
+    "rows": 100
+  },
+  "q22": {
+    "matches_cpu": true,
+    "milliseconds": [
+      149.65065300202696
+    ],
+    "rows": 7
+  },
+  "q3": {
+    "matches_cpu": true,
+    "milliseconds": [
+      133.79910399817163
+    ],
+    "rows": 10
+  },
+  "q4": {
+    "matches_cpu": true,
+    "milliseconds": [
+      84.59767900058068
+    ],
+    "rows": 5
+  },
+  "q5": {
+    "matches_cpu": true,
+    "milliseconds": [
+      146.45985099923564
+    ],
+    "rows": 5
+  },
+  "q6": {
+    "matches_cpu": true,
+    "milliseconds": [
+      75.40176999464165
+    ],
+    "rows": 1
+  },
+  "q7": {
+    "matches_cpu": true,
+    "milliseconds": [
+      159.52307000407018
+    ],
+    "rows": 4
+  },
+  "q8": {
+    "matches_cpu": true,
+    "milliseconds": [
+      209.38948899856769
+    ],
+    "rows": 2
+  },
+  "q9": {
+    "matches_cpu": true,
+    "milliseconds": [
+      214.34001799934776
+    ],
+    "rows": 175
+  }
+}

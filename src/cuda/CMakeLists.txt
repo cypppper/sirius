@@ -3,6 +3,8 @@ target_sources(
   PRIVATE date_cast.cu
           decimal_integer_cast.cu
           dense_count_join_impl.cu
+          fused_join_aggregate_impl.cu
+          join_map_sum.cu
           sorted_keys.cu
           low_cardinality_groupby.cu
           device_copy_batch.cpp

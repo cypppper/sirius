@@ -1,0 +1,26 @@
+[
+  {
+    "case": "q12_sf10",
+    "kernel_ms": 19.25228,
+    "launches": 285,
+    "mode": "ordinary"
+  },
+  {
+    "case": "q12_sf10",
+    "kernel_ms": 24.868082,
+    "launches": 303,
+    "mode": "fused"
+  },
+  {
+    "case": "q14_sf1",
+    "kernel_ms": 0.754527,
+    "launches": 51,
+    "mode": "ordinary"
+  },
+  {
+    "case": "q14_sf1",
+    "kernel_ms": 0.702816,
+    "launches": 46,
+    "mode": "fused"
+  }
+]

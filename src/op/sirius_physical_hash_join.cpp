@@ -2159,6 +2159,16 @@ std::unique_ptr<operator_data> sirius_physical_hash_join::execute(const operator
                                         batch_telemetry());
   }
 
+  if (matched_pair_consumer) {
+    if (join_type != duckdb::JoinType::INNER || !left_indices || !right_indices)
+      throw std::runtime_error("join-map SUM requires INNER join maps");
+    auto* space = input_batches[0].get_memory_space();
+    auto output = matched_pair_consumer(
+      left_full, right_full, *left_indices, *right_indices, stream, space->get_default_allocator());
+    return std::make_unique<pipelineable_operator_data>(
+      std::vector<std::shared_ptr<cucascade::data_batch>>{
+        make_data_batch(std::move(output), *space, stream, batch_telemetry())});
+  }
   return gather_join_output(join_type,
                             left_full,
                             right_full,

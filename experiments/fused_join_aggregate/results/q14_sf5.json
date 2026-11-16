@@ -1,0 +1,17 @@
+{
+  "build_rows": 1000000,
+  "expected": [
+    113599810131914,
+    22477025861258
+  ],
+  "groups": 2,
+  "integer_scale": 10000,
+  "kind": "tpch",
+  "matches": 374228,
+  "name": "q14_sf5",
+  "probe_rows": 374228,
+  "q14_promo_percent": 16.517892775215497,
+  "query": 14,
+  "reference_sql": "SELECT starts_with(p_type,'PROMO')::INT g,\n        SUM(CAST(l_extendedprice*100 AS BIGINT)*(100-CAST(l_discount*100 AS BIGINT)))::BIGINT v\n        FROM lineitem JOIN part ON l_partkey=p_partkey\n        WHERE l_shipdate>=DATE '1995-09-01' AND l_shipdate<DATE '1995-10-01' GROUP BY 1",
+  "sf": 5
+}

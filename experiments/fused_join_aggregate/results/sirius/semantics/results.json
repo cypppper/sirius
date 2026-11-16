@@ -1,0 +1,121 @@
+{
+  "all_null_values": {
+    "passed": true,
+    "result": [
+      [
+        null,
+        "0.00"
+      ]
+    ],
+    "sql": "SELECT sum(p.v),sum(CASE WHEN b.flag=1 THEN p.v ELSE 0 END) FROM p JOIN b ON p.k=b.k WHERE p.k=2"
+  },
+  "case_false_overflow_skipped": {
+    "passed": true,
+    "result": [
+      [
+        30
+      ]
+    ],
+    "sql": "SELECT sum(CASE WHEN s.flag=1 THEN a.x*a.y ELSE 0 END) FROM arithmetic a JOIN all_selected s ON a.k=s.k"
+  },
+  "duplicates_nulls_negative": {
+    "passed": true,
+    "result": [
+      [
+        "295147905179352808.25",
+        "295147905179352802.00"
+      ]
+    ],
+    "sql": "SELECT sum(p.v),sum(CASE WHEN b.flag=1 THEN p.v ELSE 0 END) FROM p JOIN b ON p.k=b.k"
+  },
+  "groups_with_unmatched_group": {
+    "passed": true,
+    "result": [
+      [
+        "a",
+        "295147905179352802.50",
+        "2.50"
+      ],
+      [
+        "b",
+        "-0.50",
+        "3.75"
+      ]
+    ],
+    "sql": "SELECT p.g,sum(CASE WHEN b.flag=1 THEN p.v ELSE 0 END),sum(CASE WHEN b.flag=0 THEN p.v ELSE 0 END) FROM p JOIN b ON p.k=b.k GROUP BY p.g ORDER BY p.g"
+  },
+  "matched_overflow_reported": {
+    "passed": true,
+    "sql": "SELECT sum(a.x*a.y) FROM arithmetic a JOIN all_selected s ON a.k=s.k"
+  },
+  "no_matches": {
+    "passed": true,
+    "result": [
+      [
+        null,
+        null
+      ]
+    ],
+    "sql": "SELECT sum(p.v),sum(CASE WHEN b.flag=1 THEN p.v ELSE 0 END) FROM p JOIN b ON p.k=b.k WHERE p.k=5"
+  },
+  "probe_side_groups": {
+    "passed": true,
+    "result": [
+      [
+        "a",
+        "295147905179352802.50",
+        "2.50"
+      ],
+      [
+        "b",
+        "-0.50",
+        "3.75"
+      ],
+      [
+        "c",
+        "0.00",
+        "0.00"
+      ]
+    ],
+    "sql": "SELECT p_large.g,sum(CASE WHEN b.flag=1 THEN p_large.v ELSE 0 END),sum(CASE WHEN b.flag=0 THEN p_large.v ELSE 0 END) FROM p_large JOIN b ON p_large.k=b.k GROUP BY p_large.g ORDER BY p_large.g"
+  },
+  "reversed_sql_sides": {
+    "passed": true,
+    "result": [
+      [
+        "295147905179352808.25",
+        "295147905179352802.00"
+      ]
+    ],
+    "sql": "SELECT sum(p.v),sum(CASE WHEN b.flag=1 THEN p.v ELSE 0 END) FROM b JOIN p ON b.k=p.k"
+  },
+  "string_in_three_valued": {
+    "passed": true,
+    "result": [
+      [
+        "9223372036854777.00",
+        "0.00"
+      ]
+    ],
+    "sql": "SELECT sum(CASE WHEN l.s IN ('PROMO','PROMO-LONG',NULL) THEN p.v ELSE 0 END),sum(CASE WHEN l.s NOT IN ('PROMO','PROMO-LONG',NULL) THEN p.v ELSE 0 END) FROM p JOIN labels l ON p.k=l.k"
+  },
+  "string_prefix_and_null": {
+    "passed": true,
+    "result": [
+      [
+        "9223372036854777.00",
+        "9223372036854783.25"
+      ]
+    ],
+    "sql": "SELECT sum(CASE WHEN l.s LIKE 'PROMO%' THEN p.v ELSE 0 END),sum(p.v) FROM p JOIN labels l ON p.k=l.k"
+  },
+  "unmatched_overflow_skipped": {
+    "passed": true,
+    "result": [
+      [
+        51
+      ]
+    ],
+    "sql": "SELECT sum(a.x*a.y) FROM arithmetic a JOIN selected s ON a.k=s.k"
+  }
+}

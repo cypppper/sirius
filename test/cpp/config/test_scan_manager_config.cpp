@@ -898,7 +898,6 @@ TEST_CASE("backend string_to_enum rejects unknown backends", "[scan_manager][con
   CHECK_FALSE(string_to_enum("NATIVE", b));
   CHECK_FALSE(string_to_enum("SIRIUS", b));
   CHECK_FALSE(string_to_enum("uring", b));
-  CHECK_FALSE(string_to_enum("kvikio", b));
   CHECK_FALSE(string_to_enum("true", b));
   CHECK(b == io_backend::native);
 }
@@ -962,18 +961,23 @@ TEST_CASE("sirius_config reads the backend from YAML", "[scan_manager][config][b
   CHECK(omitted.backend == io_backend::native);
 }
 
-TEST_CASE("sirius_config rejects the removed kvikio backend and block",
+TEST_CASE("sirius_config accepts the local KvikIO backend and rejects legacy tuning blocks",
           "[scan_manager][config][backend]")
 {
-  require_load_error("sirius_backend_kvikio_removed.yaml",
-                     single_gpu_scan_manager_yaml("      backend: kvikio\n"),
-                     "'scan_manager.backend': backend: kvikio has been removed; "
-                     "use backend: native instead");
+  auto const cfg = load_scan_manager("sirius_backend_kvikio.yaml",
+                                     single_gpu_scan_manager_yaml("      backend: kvikio\n"));
+  CHECK(cfg.backend == io_backend::kvikio);
+  io_backend parsed{};
+  CHECK(string_to_enum("kvikio", parsed));
+  CHECK(parsed == io_backend::kvikio);
+  std::string name;
+  CHECK(enum_to_string(parsed, name));
+  CHECK(name == "kvikio");
   for (auto const* block : {"{}", "{task_size: 8 MiB}"}) {
     require_load_error("sirius_kvikio_block_removed.yaml",
                        scan_manager_yaml(std::string{"      kvikio: "} + block + "\n"),
-                       "'scan_manager.kvikio': removed; remove this block and use "
-                       "backend: native instead");
+                       "'scan_manager.kvikio': legacy tuning block is unsupported; use "
+                       "KVIKIO_* environment variables instead");
   }
 }
 

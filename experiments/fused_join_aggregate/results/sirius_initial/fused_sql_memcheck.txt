@@ -1,0 +1,7 @@
+========= COMPUTE-SANITIZER
+duplicates_nulls_negative [(Decimal('295147905179352808.25'), Decimal('295147905179352802.00'))] passed
+groups_with_unmatched_group [('a', Decimal('295147905179352802.50'), Decimal('2.50')), ('b', Decimal('-0.50'), Decimal('3.75'))] passed
+all_null_values [(None, Decimal('0.00'))] passed
+no_matches [(None, None)] passed
+reversed_sql_sides [(Decimal('295147905179352808.25'), Decimal('295147905179352802.00'))] passed
+========= ERROR SUMMARY: 0 errors

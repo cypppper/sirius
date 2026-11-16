@@ -1,0 +1,26 @@
+[2026-11-16 01:07:57.214] [info] [sirius_plan_fused_join_aggregate.cpp:280] [planner] Join-map SUM consumer enabled; ordinary join scheduling and cuDF expression evaluator retained
+[2026-11-16 01:07:57.215] [info] [sirius_context.cpp:254] [gpu_pool] GPU:0 QueryBegin instance=0x7b952d40d780 connection=1 window=2 query=8 allocated=0 bytes peak=0 bytes reserved=0 bytes
+[2026-11-16 01:07:57.468] [info] [join_map_sum.cu:113] [JOIN_MAP_SUM] pairs=77041 partial_rows=2408 sums=1 shared_cudf_ast=true
+[2026-11-16 01:07:57.543] [info] [sirius_context.cpp:254] [gpu_pool] GPU:0 QueryEnd instance=0x7b952d40d780 connection=1 window=2 query=8 allocated=0 bytes peak=806538035 bytes reserved=0 bytes
+[2026-11-16 01:07:57.555] [info] [sirius_plan_fused_join_aggregate.cpp:280] [planner] Join-map SUM consumer enabled; ordinary join scheduling and cuDF expression evaluator retained
+[2026-11-16 01:07:57.556] [info] [sirius_context.cpp:254] [gpu_pool] GPU:0 QueryBegin instance=0x7b952d40d780 connection=1 window=4 query=9 allocated=0 bytes peak=806538035 bytes reserved=0 bytes
+[2026-11-16 01:07:57.623] [info] [join_map_sum.cu:113] [JOIN_MAP_SUM] pairs=77041 partial_rows=2408 sums=1 shared_cudf_ast=true
+[2026-11-16 01:07:57.626] [info] [sirius_context.cpp:254] [gpu_pool] GPU:0 QueryEnd instance=0x7b952d40d780 connection=1 window=4 query=9 allocated=0 bytes peak=806538035 bytes reserved=0 bytes
+[2026-11-16 01:07:57.764] [info] [sirius_context.cpp:254] [gpu_pool] GPU:0 QueryBegin instance=0x7b952d40d780 connection=1 window=6 query=10 allocated=0 bytes peak=806538035 bytes reserved=0 bytes
+[2026-11-16 01:07:57.845] [info] [sirius_context.cpp:254] [gpu_pool] GPU:0 QueryEnd instance=0x7b952d40d780 connection=1 window=6 query=10 allocated=0 bytes peak=1196617003 bytes reserved=0 bytes
+[2026-11-16 01:07:57.859] [info] [sirius_context.cpp:254] [gpu_pool] GPU:0 QueryBegin instance=0x7b952d40d780 connection=1 window=8 query=11 allocated=0 bytes peak=1196617003 bytes reserved=0 bytes
+[2026-11-16 01:07:57.932] [info] [sirius_context.cpp:254] [gpu_pool] GPU:0 QueryEnd instance=0x7b952d40d780 connection=1 window=8 query=11 allocated=0 bytes peak=1196617003 bytes reserved=0 bytes
+[2026-11-16 01:07:58.080] [info] [sirius_plan_fused_join_aggregate.cpp:280] [planner] Join-map SUM consumer enabled; ordinary join scheduling and cuDF expression evaluator retained
+[2026-11-16 01:07:58.080] [info] [sirius_context.cpp:254] [gpu_pool] GPU:0 QueryBegin instance=0x7b952d40d780 connection=1 window=10 query=12 allocated=0 bytes peak=1196617003 bytes reserved=0 bytes
+[2026-11-16 01:07:58.152] [info] [join_map_sum.cu:113] [JOIN_MAP_SUM] pairs=77041 partial_rows=2408 sums=2 shared_cudf_ast=true
+[2026-11-16 01:07:58.155] [info] [sirius_context.cpp:254] [gpu_pool] GPU:0 QueryEnd instance=0x7b952d40d780 connection=1 window=10 query=12 allocated=0 bytes peak=1196617003 bytes reserved=0 bytes
+[2026-11-16 01:07:58.167] [info] [sirius_plan_fused_join_aggregate.cpp:280] [planner] Join-map SUM consumer enabled; ordinary join scheduling and cuDF expression evaluator retained
+[2026-11-16 01:07:58.167] [info] [sirius_context.cpp:254] [gpu_pool] GPU:0 QueryBegin instance=0x7b952d40d780 connection=1 window=12 query=13 allocated=0 bytes peak=1196617003 bytes reserved=0 bytes
+[2026-11-16 01:07:58.242] [info] [join_map_sum.cu:113] [JOIN_MAP_SUM] pairs=77041 partial_rows=2408 sums=2 shared_cudf_ast=true
+[2026-11-16 01:07:58.246] [info] [sirius_context.cpp:254] [gpu_pool] GPU:0 QueryEnd instance=0x7b952d40d780 connection=1 window=12 query=13 allocated=0 bytes peak=1196617003 bytes reserved=0 bytes
+[2026-11-16 01:07:58.464] [info] [sirius_plan_fused_join_aggregate.cpp:280] [planner] Join-map SUM consumer enabled; ordinary join scheduling and cuDF expression evaluator retained
+[2026-11-16 01:07:58.464] [info] [sirius_context.cpp:254] [gpu_pool] GPU:0 QueryBegin instance=0x7b952d40d780 connection=1 window=14 query=14 allocated=0 bytes peak=1196617003 bytes reserved=0 bytes
+[2026-11-16 01:07:58.533] [info] [join_map_sum.cu:113] [JOIN_MAP_SUM] pairs=308164 partial_rows=9632 sums=1 shared_cudf_ast=true
+[2026-11-16 01:07:58.536] [info] [sirius_context.cpp:254] [gpu_pool] GPU:0 QueryEnd instance=0x7b952d40d780 connection=1 window=14 query=14 allocated=0 bytes peak=1196617003 bytes reserved=0 bytes
+[2026-11-16 01:07:58.548] [info] [sirius_plan_fused_join_aggregate.cpp:280] [planner] Join-map SUM consumer enabled; ordinary join scheduling and cuDF expression evaluator retained
+[2026-11-16 01:07:58.549] [info] [sirius_context.cpp:254] [gpu_pool] GPU:0 QueryBegin instance=0x7b952d40d780 connection=1 window=16 query=15 allocated=0 bytes peak=1196617003 bytes reserved=0 bytes

@@ -1,0 +1,16 @@
+{
+  "execution": "full Sirius SQL, serial fresh-process trials",
+  "fallback_disabled": true,
+  "library_sha256": "72fe2826f1c6e62e324ecb058a4bd100a094ea17abe03d19cdcce477fcf79308",
+  "measured_queries": 360,
+  "ordinary_fused_same_binary": true,
+  "process_count": 36,
+  "repetitions": 5,
+  "scales": [
+    1,
+    5,
+    10
+  ],
+  "trials": 3,
+  "warmups": 2
+}

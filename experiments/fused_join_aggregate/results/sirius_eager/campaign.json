@@ -1,0 +1,21 @@
+{
+  "build_orientation": "original HASH_JOIN child 1 preserved",
+  "execution": "full Sirius SQL, serial fresh-process trials",
+  "fallback_disabled": true,
+  "library_sha256": "c41655b6a89397114f24393887658539d312a547c4b089df8d67afa50efa06f4",
+  "measured_queries": 360,
+  "ordinary_fused_same_binary": true,
+  "process_count": 36,
+  "queries": [
+    12,
+    14
+  ],
+  "repetitions": 5,
+  "scales": [
+    1,
+    5,
+    10
+  ],
+  "trials": 3,
+  "warmups": 2
+}

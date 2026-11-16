@@ -1,0 +1,1 @@
+KvikIO CompatMode::ON: host and stream-ordered GPU reads match reference

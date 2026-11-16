@@ -235,7 +235,7 @@ class sirius_physical_dense_count_join : public sirius_physical_partition_consum
    * @param in What the sizing partition measured, including both siblings' byte totals
    * @return The partition count to apply to both input PARTITIONs
    */
-  [[nodiscard]] partition_strategy get_partition_strategy(const partition_sizing_input& in);
+  [[nodiscard]] virtual partition_strategy get_partition_strategy(const partition_sizing_input& in);
 
   /**
    * @brief Estimate a conservative first-run peak across all execution strategies

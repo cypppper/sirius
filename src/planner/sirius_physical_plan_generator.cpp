@@ -42,6 +42,7 @@
 #include "io/s3/duckdb_secret_config.hpp"
 #include "log/logging.hpp"
 #include "op/aggregate/aggregate_op_util.hpp"
+#include "op/aggregate/join_map_sum.hpp"
 #include "op/dynamic_filter/sirius_physical_build_filter.hpp"
 #include "op/partition/consumer_partition_policy.hpp"
 #include "op/scan/duckdb_native_gpu_ingestible.hpp"
@@ -56,6 +57,7 @@
 #include "op/sirius_physical_dense_count_join.hpp"
 #include "op/sirius_physical_dummy_scan.hpp"
 #include "op/sirius_physical_filter.hpp"
+#include "op/sirius_physical_fused_join_aggregate.hpp"
 #include "op/sirius_physical_gpu_values.hpp"
 #include "op/sirius_physical_grouped_aggregate.hpp"
 #include "op/sirius_physical_grouped_aggregate_merge.hpp"
@@ -1677,9 +1679,10 @@ void wrap_join_child(sirius::op::sirius_physical_operator& join_op,
 void wrap_dense_count_join(sirius::op::sirius_physical_operator& dense_count_op,
                            duckdb::SiriusContext* compressed_materialization_observer)
 {
-  D_ASSERT(dense_count_op.type == sirius::op::SiriusPhysicalOperatorType::DENSE_COUNT_JOIN);
+  D_ASSERT(dense_count_op.type == sirius::op::SiriusPhysicalOperatorType::DENSE_COUNT_JOIN ||
+           dense_count_op.type == sirius::op::SiriusPhysicalOperatorType::FUSED_JOIN_AGGREGATE);
   D_ASSERT(dense_count_op.children.size() == 2);
-  auto& dense_count = dense_count_op.Cast<sirius::op::sirius_physical_dense_count_join>();
+  auto& dense_count = static_cast<sirius::op::sirius_physical_dense_count_join&>(dense_count_op);
 
   // children[0] is the preserved side, children[1] the counted side (stamped by
   // try_plan_dense_count_join).
@@ -1947,6 +1950,7 @@ void insert_gpu_pipeline_operators_recursive(
     case sirius::op::SiriusPhysicalOperatorType::NESTED_LOOP_JOIN:
       wrap_join(*slot, op_params, compressed_materialization_observer);
       break;
+    case sirius::op::SiriusPhysicalOperatorType::FUSED_JOIN_AGGREGATE:
     case sirius::op::SiriusPhysicalOperatorType::DENSE_COUNT_JOIN:
       wrap_dense_count_join(*slot, compressed_materialization_observer);
       break;
@@ -2247,6 +2251,7 @@ bool terminal_sink_supports_fusion(const sirius::op::sirius_physical_operator& s
     case T::CTE:
     case T::LEFT_DELIM_JOIN:
     case T::RIGHT_DELIM_JOIN:
+    case T::FUSED_JOIN_AGGREGATE:
     case T::DENSE_COUNT_JOIN:
     case T::HASH_JOIN:
     case T::NESTED_LOOP_JOIN: return false;
@@ -2428,6 +2433,7 @@ sirius_physical_plan_generator::create_plan(duckdb::unique_ptr<duckdb::LogicalOp
   }
 
   plan = fold_adjacent_projections(std::move(plan));
+  sirius::op::fuse_join_aggregates(plan);
   if (compressed_materialization_active(context)) {
     auto const retracted = apply_compressed_schema_passes(plan);
     if (retracted > 0) {
@@ -2441,6 +2447,7 @@ sirius_physical_plan_generator::create_plan(duckdb::unique_ptr<duckdb::LogicalOp
       }
     }
   }
+  sirius::op::fuse_join_map_sums(plan);
   plan->verify();
 
   // Rewrite the plan tree to contain the GPU pipeline operators so the converter becomes a

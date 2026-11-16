@@ -1,0 +1,106 @@
+[
+  {
+    "maps_ms": 88.09087399276905,
+    "median_paired_ratio": 0.9969602689104349,
+    "ordinary_ms": 83.56867400289048,
+    "paired_ratios": [
+      0.9752063912453242,
+      0.9969602689104349,
+      1.0769950214900097
+    ],
+    "query": "sum_price",
+    "ratio_of_medians": 1.054113578369356,
+    "scenario": "parquet_sf1"
+  },
+  {
+    "maps_ms": 85.59745899401605,
+    "median_paired_ratio": 0.9638982802226526,
+    "ordinary_ms": 88.80341499752831,
+    "paired_ratios": [
+      0.9638982802226526,
+      0.9158660030500664,
+      1.0710186749818378
+    ],
+    "query": "two_sums",
+    "ratio_of_medians": 0.9638982802226526,
+    "scenario": "parquet_sf1"
+  },
+  {
+    "maps_ms": 81.55563799664378,
+    "median_paired_ratio": 0.9924280359243756,
+    "ordinary_ms": 87.62071200180799,
+    "paired_ratios": [
+      1.0063267004840994,
+      0.9924280359243756,
+      0.9030654473131047
+    ],
+    "query": "duplicates",
+    "ratio_of_medians": 0.930780361553795,
+    "scenario": "parquet_sf1"
+  },
+  {
+    "maps_ms": 91.03296000103,
+    "median_paired_ratio": 1.0168558706515654,
+    "ordinary_ms": 84.51328499359079,
+    "paired_ratios": [
+      0.9894976549800185,
+      1.0168558706515654,
+      1.15463975485389
+    ],
+    "query": "sum_product",
+    "ratio_of_medians": 1.0771437887893442,
+    "scenario": "parquet_sf1"
+  },
+  {
+    "maps_ms": 48.33834001328796,
+    "median_paired_ratio": 1.0925734911962368,
+    "ordinary_ms": 45.48080499807838,
+    "paired_ratios": [
+      1.0925734911962368,
+      1.024491211264469,
+      1.1380727383249893
+    ],
+    "query": "sum_price",
+    "ratio_of_medians": 1.0628294731223493,
+    "scenario": "resident_sf10"
+  },
+  {
+    "maps_ms": 38.45285599527415,
+    "median_paired_ratio": 1.004529766171686,
+    "ordinary_ms": 38.27945899683982,
+    "paired_ratios": [
+      1.004529766171686,
+      1.0419515168167568,
+      0.9606273221869973
+    ],
+    "query": "two_sums",
+    "ratio_of_medians": 1.004529766171686,
+    "scenario": "resident_sf10"
+  },
+  {
+    "maps_ms": 41.78732499713078,
+    "median_paired_ratio": 1.0107525657050203,
+    "ordinary_ms": 41.34278399578761,
+    "paired_ratios": [
+      1.0107525657050203,
+      1.032601368278527,
+      0.9914652970073528
+    ],
+    "query": "duplicates",
+    "ratio_of_medians": 1.0107525657050203,
+    "scenario": "resident_sf10"
+  },
+  {
+    "maps_ms": 38.11269698780961,
+    "median_paired_ratio": 0.9948999255575266,
+    "ordinary_ms": 38.30807100166567,
+    "paired_ratios": [
+      0.9315742286489048,
+      1.0130656535779374,
+      0.9948999255575266
+    ],
+    "query": "sum_product",
+    "ratio_of_medians": 0.9948999255575266,
+    "scenario": "resident_sf10"
+  }
+]

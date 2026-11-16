@@ -573,19 +573,14 @@ static void from_yaml(const YAML::Node& node, scan_manager::scan_manager_config&
   std::optional<std::string> backend;
   r.optional("backend", backend);
   if (backend) {
-    if (*backend == "kvikio") {
-      throw std::runtime_error(
-        "'scan_manager.backend': backend: kvikio has been removed; "
-        "use backend: native instead");
-    }
     if (!scan_manager::string_to_enum(*backend, opt.backend)) {
       throw std::runtime_error("'scan_manager.backend': invalid enum value '" + *backend + "'");
     }
   }
   if (r.has("kvikio")) {
     throw std::runtime_error(
-      "'scan_manager.kvikio': removed; remove this block and use "
-      "backend: native instead");
+      "'scan_manager.kvikio': legacy tuning block is unsupported; use "
+      "KVIKIO_* environment variables instead");
   }
   r.optional("uring_n_reactors", opt.uring_n_reactors, yaml::greater_than<std::size_t>{0});
   // Per routed REST context, shared by all GPUs; 0 sizes each pool from the egress NIC's IRQs.

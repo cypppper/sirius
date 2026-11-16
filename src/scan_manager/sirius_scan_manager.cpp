@@ -57,6 +57,7 @@
 #include <cucascade/cudf/gpu_data_representation.hpp>
 #include <cucascade/io/cache/fs_cache.hpp>
 #include <cucascade/io/io_context.hpp>
+#include <cucascade/io/kvikio/kvikio_context.hpp>
 #include <cucascade/io/rest/rest_ioctx.hpp>
 #include <cucascade/io/uring/uring_ioctx.hpp>
 #include <cucascade/memory/column_metadata.hpp>
@@ -93,6 +94,7 @@ char const* to_string(cucascade::io::io_context_type type) noexcept
 {
   switch (type) {
     case cucascade::io::io_context_type::uring: return "uring";
+    case cucascade::io::io_context_type::kvikio: return "kvikio";
     case cucascade::io::io_context_type::restful: return "restful";
     case cucascade::io::io_context_type::s3rdma: return "s3rdma";
   }
@@ -135,6 +137,7 @@ prefetch_strategy backend_prefetch_strategy(cucascade::io::io_context_type type)
     // s3rdma is an object store too (a placeholder in cuCascade today, never built).
     case cucascade::io::io_context_type::restful:
     case cucascade::io::io_context_type::s3rdma: return prefetch_strategy::eager;
+    case cucascade::io::io_context_type::kvikio:
     case cucascade::io::io_context_type::uring: return prefetch_strategy::opportunistic;
   }
   return prefetch_strategy::eager;
@@ -1388,6 +1391,10 @@ sirius_scan_manager::sirius_scan_manager(
     return io_ctx;
   };
   switch (_config.backend) {
+    case scan_manager::io_backend::kvikio:
+      _io_ctx = std::make_shared<cucascade::io::kvikio_context>();
+      SIRIUS_LOG_INFO("[scan_manager] local I/O backend: kvikio");
+      break;
     case scan_manager::io_backend::native:
       _io_ctx = make_default_ioctx(cucascade::io::io_context_type::uring);
       SIRIUS_LOG_DEBUG(
@@ -2303,6 +2310,9 @@ std::shared_ptr<cucascade::io::ioctx> sirius_scan_manager::ioctx_for_path(std::s
       "[sirius_scan_manager] unsupported URL scheme: raw HTTP(S) paths are not supported; "
       "use s3://bucket/key with an object_store endpoint");
   }
+  if (_config.backend == io_backend::kvikio && file_path.find("://") == std::string::npos) {
+    return _io_ctx;
+  }
   auto type = _ioctx_registry.lookup_path(file_path);
   if (!type) { return nullptr; }
   return ioctx_for_type(*type, file_path);
@@ -2315,7 +2325,11 @@ std::optional<cucascade::io::io_context_type> sirius_scan_manager::planning_io_b
   // particular, do not call ioctx_for_path(): that starts reactors, allocates
   // cache state, and may construct an authorizer. This method is used by the
   // Iceberg planner before it chooses the eager/deferred Puffin route.
-  return _ioctx_registry.lookup_path(normalize_path(std::string(path)));
+  auto normalized = normalize_path(std::string(path));
+  if (_config.backend == io_backend::kvikio && normalized.find("://") == std::string::npos) {
+    return cucascade::io::io_context_type::kvikio;
+  }
+  return _ioctx_registry.lookup_path(normalized);
 }
 
 std::shared_ptr<cucascade::io::ioctx> sirius_scan_manager::ioctx_for_type(
@@ -2429,6 +2443,8 @@ sirius_scan_manager::ioctx_failure sirius_scan_manager::explain_ioctx_failure(
       }
       return {.cause = "invalid uring configuration (check uring.n_max_concurrent_scans)",
               .by_configuration = false};
+    case cucascade::io::io_context_type::kvikio:
+      return {.cause = "KvikIO local context unavailable", .by_configuration = false};
     case cucascade::io::io_context_type::s3rdma: break;
   }
   return {.cause = "the io registry has no factory for this backend", .by_configuration = false};

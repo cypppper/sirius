@@ -1,0 +1,13 @@
+__pycache__/
+results/*/logs/
+data/
+
+# Reference fixtures are deduplicated in results/reference_fixtures.json.gz.
+results/**/*.sql
+results/**/*_reference.json*
+results/**/stdout.txt
+results/**/stderr.txt
+results/pilot_*/
+results/resident_pilot_*/
+results/smoke_*/
+results/trial0_*/

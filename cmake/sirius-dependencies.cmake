@@ -120,6 +120,8 @@ set(CUCASCADE_WARNINGS_AS_ERRORS OFF)
 # absl::AnyInvocable (Sirius's type) and moodycamel is duckdb's vendored fork
 # (namespace duckdb_moodycamel, target from sirius-duckdb-provider.cmake).
 set(CUCASCADE_BUILD_IO ON)
+set(CUCASCADE_BUILD_KVIKIO ON)
+find_package(kvikio REQUIRED CONFIG)
 set(CUCASCADE_USE_ABSEIL_INVOCABLE ON)
 set(CUCASCADE_MOODYCAMEL_TARGET duckdb::moodycamel)
 set(CUCASCADE_MOODYCAMEL_NAMESPACE duckdb_moodycamel)

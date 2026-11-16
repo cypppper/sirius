@@ -1,0 +1,17 @@
+{
+  "build_orientation": "original HASH_JOIN child 1 preserved",
+  "duckdb_version": "2.0.0",
+  "enable_duckdb_fallback": false,
+  "expression_audit": false,
+  "extension_sha256": "2e94556c8d845ad04d641246d6002704abc063867e6e4d36a4068ef8ea95d72b",
+  "gpu_execution": true,
+  "gpu_snapshot": "name, driver_version, temperature.gpu, clocks.current.sm [MHz]\nNVIDIA GeForce RTX 5060 Ti, 595.99.02, 54, 2325 MHz",
+  "kvikio_compat_mode": "ON",
+  "lazy_aggregation": false,
+  "library_sha256": "9bd1279582d68671dc8d608b98d31b164b29637e39a6158c3648984bba6bf851",
+  "log_level": "info",
+  "mode": "eager",
+  "pin": true,
+  "pin_seconds": 0.28404426199995214,
+  "sf": 1
+}

@@ -1,0 +1,5 @@
+==PROF== Connected to process 6463 (/workspace/sirius/experiments/fused_join_aggregate/bin/bench)
+==ERROR== ERR_NVGPUCTRPERM - The user does not have permission to access NVIDIA GPU Performance Counters on the target device 0. For instructions on enabling permissions and to get more information see https://developer.nvidia.com/ERR_NVGPUCTRPERM
+method,iteration,build_gpu_ms,probe_gpu_ms,build_wall_ms,probe_wall_ms,matches,logical_intermediate_bytes
+fused,0,0.34,0.412256,0.381411,0.435031,75983,0
+==PROF== Disconnected from process 6463

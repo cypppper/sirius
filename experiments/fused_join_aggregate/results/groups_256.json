@@ -1,0 +1,13 @@
+{
+  "build_rows": 262144,
+  "duplicate_factor": 1,
+  "expected_sha256": "8e5846dff95c5df3e324bab6473d56a8e0ad6f14a02f19cc8de3d034a65c7662",
+  "groups": 256,
+  "hit": 1.0,
+  "kind": "synthetic",
+  "matches": 4000000,
+  "name": "groups_256",
+  "probe_rows": 4000000,
+  "seed": 42,
+  "skew": false
+}

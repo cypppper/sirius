@@ -783,7 +783,8 @@ class sirius_physical_operator {
            (_parent_op->type == SiriusPhysicalOperatorType::PARTITION ||
             _parent_op->type == SiriusPhysicalOperatorType::BUILD_FILTER ||
             _parent_op->type == SiriusPhysicalOperatorType::RIGHT_DELIM_JOIN ||
-            _parent_op->type == SiriusPhysicalOperatorType::DENSE_COUNT_JOIN);
+            _parent_op->type == SiriusPhysicalOperatorType::DENSE_COUNT_JOIN ||
+            _parent_op->type == SiriusPhysicalOperatorType::FUSED_JOIN_AGGREGATE);
   }
 
  public:

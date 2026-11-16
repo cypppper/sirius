@@ -42,3 +42,5 @@ target_sources(
           sirius_plan_set_operation.cpp
           sirius_plan_top_n.cpp
           sirius_plan_window.cpp)
+
+target_sources(sirius_objects PRIVATE sirius_plan_fused_join_aggregate.cpp)

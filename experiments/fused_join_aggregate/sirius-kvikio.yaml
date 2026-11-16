@@ -1,0 +1,31 @@
+sirius:
+  topology:
+    num_gpus: 1
+  memory:
+    gpu:
+      usage_limit_fraction: 0.75
+      reservation_limit_fraction: 1.0
+    host:
+      capacity_bytes: 4000000000
+      initial_number_pools: 2
+      pool_size: 256
+      block_size: 1048576
+  executor:
+    scan_manager:
+      backend: kvikio
+      num_threads: 4
+      cache:
+        mode: none
+      max_readahead_scans: 0
+    pipeline:
+      num_threads: 4
+    task_creator:
+      num_threads: 1
+    downgrade:
+      num_threads: 1
+  operator_params:
+    enable_dynamic_filter: false
+    scan_task_batch_size: 268435456
+    hash_partition_bytes: 268435456
+    concat_batch_bytes: 268435456
+    max_build_hash_table_bytes: 536870912

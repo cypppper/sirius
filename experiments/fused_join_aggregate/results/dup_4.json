@@ -1,0 +1,16 @@
+{
+  "build_rows": 1048576,
+  "duplicate_factor": 4,
+  "expected": [
+    -2751209,
+    531825
+  ],
+  "groups": 2,
+  "hit": 1.0,
+  "kind": "synthetic",
+  "matches": 16000000,
+  "name": "dup_4",
+  "probe_rows": 4000000,
+  "seed": 42,
+  "skew": false
+}

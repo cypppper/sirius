@@ -1,0 +1,14 @@
+{
+  "q12": {
+    "eager_predicates": 30000000,
+    "eager_values": 622052,
+    "lazy_predicates": 622052,
+    "lazy_values": 311026
+  },
+  "q14": {
+    "eager_predicates": 2000000,
+    "eager_values": 1547864,
+    "lazy_predicates": 773932,
+    "lazy_values": 902964
+  }
+}

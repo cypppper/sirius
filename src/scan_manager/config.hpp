@@ -125,6 +125,8 @@ inline bool enum_to_string(prefetch_strategy s, std::string& out)
 enum class io_backend {
   /// cuCascade's native IO stack: uring for local paths, REST for @c s3:// URLs.
   native,
+  /// Local-file KvikIO compatibility path for restricted environments.
+  kvikio,
 };
 
 /// Parse a @ref io_backend from its lowercase YAML spelling.  @c "sirius" is the
@@ -132,7 +134,9 @@ enum class io_backend {
 inline bool string_to_enum(std::string_view sv, io_backend& out)
 {
   static const std::unordered_map<std::string_view, io_backend> map = {
-    {"native", io_backend::native}, {"sirius", io_backend::native},  // deprecated alias
+    {"native", io_backend::native},
+    {"kvikio", io_backend::kvikio},
+    {"sirius", io_backend::native},  // deprecated alias
   };
   auto it = map.find(sv);
   if (it != map.end()) {
@@ -147,6 +151,7 @@ inline bool enum_to_string(io_backend b, std::string& s)
 {
   switch (b) {
     case io_backend::native: s = "native"; return true;
+    case io_backend::kvikio: s = "kvikio"; return true;
   }
   return false;
 }
@@ -331,7 +336,8 @@ struct scan_manager_config {
   {
     cucascade::io::io_config out{};
     switch (backend) {
-      case io_backend::native: out.backend = cucascade::io::io_backend::native; break;
+      case io_backend::native:
+      case io_backend::kvikio: out.backend = cucascade::io::io_backend::native; break;
     }
     out.uring_n_reactors = uring_n_reactors;
     out.rest_n_reactors  = rest_n_reactors;

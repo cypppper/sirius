@@ -1,0 +1,38 @@
+[
+  {
+    "case": "q12_sf10",
+    "kernel_ms": 18.985216,
+    "launches": 285,
+    "mode": "ordinary"
+  },
+  {
+    "case": "q12_sf10",
+    "kernel_ms": 24.172215,
+    "launches": 303,
+    "mode": "eager"
+  },
+  {
+    "case": "q12_sf10",
+    "kernel_ms": 32.190758,
+    "launches": 298,
+    "mode": "fused"
+  },
+  {
+    "case": "q14_sf1",
+    "kernel_ms": 0.75523,
+    "launches": 51,
+    "mode": "ordinary"
+  },
+  {
+    "case": "q14_sf1",
+    "kernel_ms": 0.704255,
+    "launches": 46,
+    "mode": "eager"
+  },
+  {
+    "case": "q14_sf1",
+    "kernel_ms": 1.155711,
+    "launches": 40,
+    "mode": "fused"
+  }
+]

@@ -1,0 +1,14 @@
+{
+  "duckdb_version": "2.0.0",
+  "elapsed_seconds": 0.3034465849996195,
+  "enable_duckdb_fallback": false,
+  "gpu_execution": true,
+  "kvikio_compat_mode": "ON",
+  "query": "SELECT count(*), sum(l_quantity) FROM read_parquet('/workspace/sirius/experiments/fused_join_aggregate/data/tpch_sf1_parquet/lineitem.parquet')",
+  "result": [
+    [
+      "6001215",
+      "153078795.00"
+    ]
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "dup_16.bin": {
+    "bytes": 97554476,
+    "sha256": "74999cd9649cc6451eca2d7e986e57b502286c94a8f1f5e7e05b752a3aba5230"
+  },
+  "dup_4.bin": {
+    "bytes": 72388652,
+    "sha256": "81f03cd2b068f6411c25af9e61b94794649184e79a2921e89b7a98229c3b1a30"
+  },
+  "groups_128.bin": {
+    "bytes": 66098204,
+    "sha256": "942086e967366b04d33e13287216c674dcaa927a0181fa563bef63fa67e15f0f"
+  },
+  "groups_2.bin": {
+    "bytes": 66097196,
+    "sha256": "f013061cc0a28a83a44e595847aa9658d9425a957c9303fdf540f9099817971d"
+  },
+  "groups_256.bin": {
+    "bytes": 66099228,
+    "sha256": "64226dae0652120fb240363585888735aa9b87a71a0fc6c746868171c43e801a"
+  },
+  "groups_32.bin": {
+    "bytes": 66097436,
+    "sha256": "d947c7fc677a32ca15f566122399406df89af43f57645963871c30c8c901edc4"
+  },
+  "groups_4096.bin": {
+    "bytes": 66129948,
+    "sha256": "7c835e2cb775d6cf35fce0fd336e2422f71225102c9390ddd7b131503f2550dc"
+  },
+  "groups_65536.bin": {
+    "bytes": 66621468,
+    "sha256": "b43090bd0460ea857d2d24d2d2eb67f5fff7f8d934286ef53c773a3c701e87d7"
+  },
+  "hit_0.01.bin": {
+    "bytes": 66097196,
+    "sha256": "59ed3c1105d234c796a3fb98a854273568211f35491c2f0a4d800f3941791eed"
+  },
+  "hit_0.1.bin": {
+    "bytes": 66097196,
+    "sha256": "f716a2e51d676b6a9eac6b4385a467859606df423d6eeabae3fb1fb83d9a4771"
+  },
+  "hit_0.5.bin": {
+    "bytes": 66097196,
+    "sha256": "70b3cedf01479babbe0e82d9c4a500e68ec00d4a04bf2a6b85ffb6e8a6afb1d1"
+  },
+  "q12_sf1.bin": {
+    "bytes": 12495868,
+    "sha256": "ded3c38129005b33721c25be2c3d6c9d55adaa974f4fbca3fd5feb370e14a7da"
+  },
+  "q12_sf10.bin": {
+    "bytes": 124972908,
+    "sha256": "33ae1899033a4f28a6b7fbc83796ad8138a53df880399f2b8ba7b7f38104b954"
+  },
+  "q12_sf5.bin": {
+    "bytes": 62485996,
+    "sha256": "bcab1964a9aef16b8c68f811b093fe903cccc275ab935af5884b3e7b46720d60"
+  },
+  "q14_sf1.bin": {
+    "bytes": 2815772,
+    "sha256": "5d96afa7d65c908c32eedd272c8a4e8feb6da083cc6217b7649a3bcf0186e0d2"
+  },
+  "q14_sf10.bin": {
+    "bytes": 27987612,
+    "sha256": "7e3b0a55c556145fa9a56e02978bb6ed807201268b5446db3234714f6f94be93"
+  },
+  "q14_sf5.bin": {
+    "bytes": 13987692,
+    "sha256": "0f071a1b5e2645558137737896a5b3392a991314bd4a581285229bec2a298973"
+  },
+  "skew_4096.bin": {
+    "bytes": 66129948,
+    "sha256": "0c1052c74d5de6ee87eebec31760ed8ddd8879bfb9a8fcd404ef133dd5ec3045"
+  },
+  "small_correctness.bin": {
+    "bytes": 2252,
+    "sha256": "5a258f28c3aab52ec9a917c8eabdef5a51193ec6e8fa53edcbd7626eda317a29"
+  }
+}
