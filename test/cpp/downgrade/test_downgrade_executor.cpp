@@ -22,6 +22,7 @@
 #include "downgrade/downgrade_executor.hpp"
 #include "memory/multiple_blocks_allocation_accessor.hpp"
 #include "memory/sirius_memory_reservation_manager.hpp"
+#include "pipeline/batch_lock_utils.hpp"
 // data utilities
 #include <data/data_batch_utils.hpp>
 #include <data/sirius_converter_registry.hpp>
@@ -45,9 +46,11 @@
 #include <cuda_runtime_api.h>
 
 #include <algorithm>
+#include <array>
 #include <atomic>
 #include <chrono>
 #include <cstdint>
+#include <iostream>
 #include <memory>
 #include <thread>
 #include <vector>
@@ -78,7 +81,7 @@ const auto GPU_SPACE_ID = cucascade::memory::memory_space_id(cucascade::memory::
 const sirius::query_id_t kTestQueryId = sirius::make_query_id(1);
 
 std::unique_ptr<sirius::memory::sirius_memory_reservation_manager> make_test_memory_manager(
-  size_t gpu_capacity = 2ull << 30)
+  size_t gpu_capacity = 2ull << 30, double gpu_reservation_fraction = 0.75)
 {
   sirius::converter_registry::reset_for_testing();
 
@@ -88,7 +91,7 @@ std::unique_ptr<sirius::memory::sirius_memory_reservation_manager> make_test_mem
 
   builder.set_number_of_gpus(1)
     .set_gpu_usage_limit(gpu_capacity)
-    .set_reservation_fraction_per_gpu(limit_ratio)
+    .set_reservation_fraction_per_gpu(gpu_reservation_fraction)
     .set_per_numa_region_capacity(host_capacity)
     .use_gpu_id_as_host_id()
     .set_reservation_fraction_per_numa_region(limit_ratio);
@@ -822,5 +825,81 @@ TEST_CASE("request_free_memory partial fulfillment returns actual bytes freed",
   REQUIRE(freed == batch_size);
   REQUIRE(get_batch_tier(*batch) == cucascade::memory::Tier::HOST);
 
+  executor.stop();
+}
+
+TEST_CASE("Measure downgrade under GPU reservation pressure", "[.][spill_experiment]")
+{
+  constexpr std::size_t mib = 1 << 20;
+  auto mem_mgr              = make_test_memory_manager(4ull << 30, 1.0);
+  auto* gpu_space           = get_gpu_space(*mem_mgr);
+  REQUIRE(gpu_space != nullptr);
+
+  sirius::exec::query_lifecycle_registry lifecycle;
+  lifecycle.open_query(kTestQueryId);
+  sirius::data::data_repository_manager_registry repo_registry;
+  auto& repo_mgr = *repo_registry.create_for_query(kTestQueryId);
+  auto repo      = std::make_unique<cucascade::shared_data_repository>();
+  auto stream    = cudf::get_default_stream();
+
+  // Repository traversal visits partitions back-to-front.
+  constexpr std::array<std::size_t, 4> partition_mib{256, 384, 1024, 1536};
+  std::vector<std::shared_ptr<cucascade::data_batch>> batches;
+  for (std::size_t i = 0; i < partition_mib.size(); ++i) {
+    auto size  = partition_mib[i] * mib;
+    auto table = make_int32_table(
+      *gpu_space, static_cast<cudf::size_type>(size / sizeof(int32_t)), i + 1, stream);
+    auto batch = sirius::make_data_batch(
+      std::move(table), *gpu_space, stream, sirius::telemetry::batch_telemetry_info{});
+    REQUIRE(get_batch_size(*batch) == size);
+    repo->add_data_batch(batch, i);
+    batches.push_back(std::move(batch));
+  }
+  repo_mgr.add_new_repository(1, "out", std::move(repo));
+
+  auto executor = make_test_executor(lifecycle, repo_registry, gpu_space, *mem_mgr);
+  executor.start();
+
+  constexpr std::array<std::size_t, 4> deficits{384, 385, 640, 1600};
+  constexpr std::array<std::size_t, 4> expected_spill{384, 1024, 1024, 1792};
+  std::cout << "spill_experiment,deficit_mib,trial,batches,evicted_mib,downgrade_ms,restore_ms\n";
+  for (int trial = 0; trial < 6; ++trial) {
+    for (std::size_t i = 0; i < deficits.size(); ++i) {
+      auto request_bytes = gpu_space->get_available_memory() + deficits[i] * mib;
+      REQUIRE_FALSE(gpu_space->make_reservation_or_null(request_bytes));
+
+      auto start      = std::chrono::steady_clock::now();
+      auto freed      = executor.request_free_memory_and_wait(deficits[i] * mib);
+      auto downgraded = std::chrono::steady_clock::now();
+      REQUIRE(freed == expected_spill[i] * mib);
+
+      auto reservation = gpu_space->make_reservation_or_null(request_bytes);
+      REQUIRE(reservation);
+      reservation.reset();
+
+      std::vector<std::shared_ptr<cucascade::data_batch>> evicted;
+      for (auto const& batch : batches) {
+        if (get_batch_tier(*batch) == cucascade::memory::Tier::HOST) { evicted.push_back(batch); }
+      }
+      auto restore_start = std::chrono::steady_clock::now();
+      for (auto const& batch : evicted) {
+        auto restored = sirius::pipeline::lock_and_prepare_batch(batch, gpu_space, stream);
+        REQUIRE(restored.has_value());
+      }
+      stream.sync();
+      auto restored = std::chrono::steady_clock::now();
+      for (auto const& batch : batches) {
+        REQUIRE(get_batch_tier(*batch) == cucascade::memory::Tier::GPU);
+      }
+
+      if (trial > 0) {
+        std::cout << "spill_experiment," << deficits[i] << ',' << trial << ',' << evicted.size()
+                  << ',' << freed / mib << ','
+                  << std::chrono::duration<double, std::milli>(downgraded - start).count() << ','
+                  << std::chrono::duration<double, std::milli>(restored - restore_start).count()
+                  << '\n';
+      }
+    }
+  }
   executor.stop();
 }
